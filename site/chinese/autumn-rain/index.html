@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%81%3C/text%3E%3C/svg%3E">
+<title>秋天的雨 · 精品动画课件（配音版）</title>
+<script>
+/* 首屏自检（极早执行，体积可忽略）
+   ① 主逻辑 7 秒内没启动 → 文件被截断，页面能显示但按钮全失效，提示刷新；
+   ② 主逻辑已启动但配音数据没到 → 只是没声音，提示可继续使用（不阻断上课）。 */
+function __bootWarn(msg, bg){
+  if (document.getElementById('bootWarn')) return;
+  var d = document.createElement('div');
+  d.id = 'bootWarn';
+  d.setAttribute('style', 'position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:99999;'
+    + 'background:' + bg + ';color:#fff;padding:13px 24px;border-radius:14px;max-width:90vw;'
+    + 'font:14px/1.75 system-ui,"Microsoft YaHei",sans-serif;text-align:center;'
+    + 'box-shadow:0 12px 34px rgba(0,0,0,.28)');
+  d.innerHTML = msg;
+  (document.body || document.documentElement).appendChild(d);
+}
+setTimeout(function(){
+  if (!window.__booted){
+    __bootWarn('⚠️ 课件资源未能完整加载（网络传输被中断）<br>'
+      + '<b>请刷新页面重试</b>，或换一个更稳定的网络后再打开。', '#B4483D');
+  } else if (!window.__audioReady){
+    __bootWarn('🔇 配音数据未能完整加载 —— 课件可正常翻页使用，但暂时没有声音。<br>'
+      + '建议刷新页面重试。', '#C07C2E');
+  }
+}, 7000);
+</script>
+<style>
+/* ============================================================
+   设计令牌
+   ============================================================ */
+:root{
+  --cream:#FFFBF2;
+  --paper:#FFFFFF;
+  --ink:#3A3A38;
+  --ink-soft:#6B6B66;
+  --orange:#E2883E;
+  --orange-deep:#C25E1C;
+  --gold:#F2C14E;
+  --gold-deep:#B4871C;
+  --blue:#3D547A;
+  --sky:#6BBFEA;
+  --maple:#C0453A;
+  --leaf:#D9A441;
+  --line:rgba(226,136,62,.22);
+  --shadow:0 10px 34px rgba(120,80,20,.10);
+  --shadow-lg:0 20px 60px rgba(120,80,20,.16);
+  --r:20px;
+  --font-title:"KaiTi","STKaiti","Kaiti SC","楷体","Microsoft YaHei",serif;
+  --font-body:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%}
+body{
+  font-family:var(--font-body);color:var(--ink);
+  background:var(--cream);overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ============================================================
+   主容器
+   ============================================================ */
+.app{
+  position:relative;width:100%;height:100%;
+  display:flex;flex-direction:column;
+  background:
+    radial-gradient(1200px 620px at 82% -8%,rgba(242,193,78,.20),transparent 60%),
+    radial-gradient(900px 540px at 6% 104%,rgba(107,191,234,.16),transparent 62%),
+    linear-gradient(180deg,#FFF7E7 0%,#FFFBF2 42%,#F4F8FC 100%);
+  overflow:hidden;
+}
+
+/* 全屏装饰层（不干扰内容交互） */
+.ambient{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.ambient .glow{
+  position:absolute;border-radius:50%;filter:blur(38px);opacity:.5;
+  animation:glowFloat 16s ease-in-out infinite;
+}
+.ambient .g1{width:260px;height:260px;left:-60px;top:8%;background:rgba(242,193,78,.55)}
+.ambient .g2{width:220px;height:220px;right:-40px;top:52%;background:rgba(107,191,234,.45);animation-delay:-6s}
+.ambient .g3{width:200px;height:200px;left:38%;bottom:-70px;background:rgba(226,136,62,.35);animation-delay:-11s}
+@keyframes glowFloat{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(24px,-30px,0) scale(1.12)}}
+
+.ambient .leaf{
+  position:absolute;top:-8%;font-size:22px;opacity:0;
+  animation:fall linear infinite;
+  will-change:transform,opacity;
+}
+@keyframes fall{
+  0%{transform:translate3d(0,-10vh,0) rotate(0deg);opacity:0}
+  8%{opacity:.85}
+  88%{opacity:.85}
+  100%{transform:translate3d(64px,112vh,0) rotate(420deg);opacity:0}
+}
+.ambient .rainline{
+  position:absolute;top:-20%;width:1.6px;border-radius:2px;
+  background:linear-gradient(180deg,transparent,rgba(107,191,234,.75));
+  animation:rainFall linear infinite;opacity:0;
+}
+@keyframes rainFall{
+  0%{transform:translateY(-20vh);opacity:0}
+  12%{opacity:.7}
+  100%{transform:translateY(128vh);opacity:0}
+}
+
+/* ============================================================
+   顶栏
+   ============================================================ */
+.topbar{
+  position:relative;z-index:6;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:14px clamp(16px,3vw,40px) 8px;
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .logo{
+  width:34px;height:34px;border-radius:11px;flex:0 0 auto;
+  background:linear-gradient(145deg,var(--orange),var(--gold));
+  display:grid;place-items:center;font-size:18px;
+  box-shadow:0 6px 16px rgba(226,136,62,.35);
+}
+.brand .txt{display:flex;flex-direction:column;min-width:0}
+.brand .t{font-family:var(--font-title);font-size:17px;font-weight:700;color:var(--blue);letter-spacing:1px}
+.brand .s{font-size:11px;color:var(--ink-soft);letter-spacing:.5px;white-space:nowrap}
+.tools{display:flex;align-items:center;gap:8px}
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 13px;border-radius:999px;font-size:13px;
+  background:rgba(255,255,255,.78);border:1px solid var(--line);
+  color:var(--ink-soft);transition:.2s;backdrop-filter:blur(6px);
+}
+.chip:hover{background:#fff;color:var(--orange-deep);border-color:rgba(226,136,62,.5);transform:translateY(-1px)}
+.chip.on{background:linear-gradient(135deg,var(--orange),#F0A85A);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(226,136,62,.32)}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:#C9C9C4;transition:.2s}
+.chip.on .dot{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.35)}
+
+/* 进度条 */
+.progress{position:relative;z-index:6;height:3px;flex:0 0 auto;margin:0 clamp(16px,3vw,40px);background:rgba(61,84,122,.09);border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--orange));transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+/* ============================================================
+   舞台
+   ============================================================ */
+.stage{position:relative;z-index:4;flex:1 1 auto;min-height:0}
+.slide{
+  position:absolute;inset:0;display:none;
+  flex-direction:column;padding:clamp(10px,1.6vh,22px) clamp(18px,3.4vw,54px);
+  overflow-y:auto;overflow-x:hidden;
+}
+.slide.active{display:flex;animation:slideIn .5s cubic-bezier(.22,.9,.3,1) both}
+@keyframes slideIn{from{opacity:0;transform:translateY(16px) scale(.995)}to{opacity:1;transform:none}}
+.slide::-webkit-scrollbar{width:8px}
+.slide::-webkit-scrollbar-thumb{background:rgba(226,136,62,.28);border-radius:8px}
+
+/* 通用页头 */
+.head{flex:0 0 auto;margin-bottom:clamp(10px,1.6vh,20px)}
+.head .ttl{
+  font-family:var(--font-title);font-weight:700;
+  font-size:clamp(22px,3.1vw,34px);color:var(--orange-deep);letter-spacing:1px;
+  display:flex;align-items:center;gap:12px;
+  animation:upIn .6s cubic-bezier(.22,.9,.3,1) both;
+}
+.head .ttl .ico{font-size:.92em}
+.head .bar{
+  width:0;height:4px;border-radius:4px;margin-top:9px;
+  background:linear-gradient(90deg,var(--gold),var(--orange));
+  animation:barGrow .7s .18s cubic-bezier(.22,.9,.3,1) both;
+}
+@keyframes barGrow{to{width:96px}}
+@keyframes upIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* 出场动画工具类 */
+.anim{animation:upIn .62s cubic-bezier(.22,.9,.3,1) both}
+.d1{animation-delay:.10s}.d2{animation-delay:.20s}.d3{animation-delay:.30s}
+.d4{animation-delay:.40s}.d5{animation-delay:.50s}.d6{animation-delay:.60s}
+.pop{animation:popIn .6s cubic-bezier(.34,1.42,.5,1) both}
+@keyframes popIn{from{opacity:0;transform:scale(.82) translateY(14px)}to{opacity:1;transform:none}}
+.left{animation:leftIn .62s cubic-bezier(.22,.9,.3,1) both}
+@keyframes leftIn{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+
+/* ============================================================
+   幻灯片 1 · 封面
+   ============================================================ */
+#s1{align-items:center;justify-content:center;text-align:center}
+#s1 .cover{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+}
+.cover .eyebrow{
+  font-size:clamp(12px,1.5vw,15px);letter-spacing:6px;color:var(--gold-deep);
+  padding:7px 20px;border-radius:999px;background:rgba(242,193,78,.22);
+  animation:upIn .7s .1s both;
+}
+.cover h1{
+  font-family:var(--font-title);font-weight:700;
+  font-size:clamp(48px,9.6vw,116px);color:var(--orange-deep);
+  letter-spacing:.06em;line-height:1.06;margin:16px 0 6px;
+  text-shadow:0 6px 0 rgba(242,193,78,.35),0 18px 40px rgba(194,94,28,.18);
+  animation:titleIn 1s .22s cubic-bezier(.22,.9,.3,1) both;
+}
+@keyframes titleIn{from{opacity:0;transform:translateY(30px) scale(.96);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.cover .sub{
+  font-size:clamp(13px,1.7vw,18px);color:var(--blue);letter-spacing:3px;
+  animation:upIn .8s .42s both;
+}
+.cover .rule{
+  width:clamp(120px,20vw,240px);height:2px;margin:18px 0;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:upIn .8s .5s both;
+}
+.cover .tags{
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:760px;
+  animation:upIn .8s .6s both;
+}
+.cover .tags span{
+  font-size:clamp(12px,1.35vw,15px);color:#7A6A4E;
+  padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.78);
+  border:1px solid var(--line);box-shadow:0 4px 12px rgba(120,80,20,.06);
+}
+.cover .cta{
+  margin-top:clamp(20px,3.4vh,40px);display:flex;gap:14px;flex-wrap:wrap;justify-content:center;
+  animation:upIn .8s .78s both;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:14px 34px;border-radius:999px;font-size:clamp(15px,1.6vw,18px);font-weight:700;
+  color:#fff;background:linear-gradient(135deg,var(--orange),#F0A85A);
+  box-shadow:0 12px 30px rgba(226,136,62,.4);
+  transition:transform .2s,box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.btn-primary::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  box-shadow:0 0 0 0 rgba(226,136,62,.5);animation:pulse 2.4s ease-out infinite;
+}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(226,136,62,.45)}70%{box-shadow:0 0 0 22px rgba(226,136,62,0)}100%{box-shadow:0 0 0 0 rgba(226,136,62,0)}}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(226,136,62,.5)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 26px;border-radius:999px;font-size:clamp(14px,1.5vw,16px);
+  color:var(--blue);background:rgba(255,255,255,.8);border:1px solid var(--line);
+  transition:.2s;
+}
+.btn-ghost:hover{background:#fff;transform:translateY(-2px);box-shadow:var(--shadow)}
+
+/* ============================================================
+   通用卡片
+   ============================================================ */
+.card{
+  background:rgba(255,255,255,.86);border-radius:var(--r);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:var(--shadow);backdrop-filter:blur(8px);
+}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,22px)}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,1.6vw,22px)}
+
+/* 目标卡 */
+.obj{display:flex;flex-direction:column;gap:clamp(12px,1.6vh,18px);flex:1 1 auto;justify-content:center}
+.obj-card{
+  display:flex;gap:18px;align-items:flex-start;
+  padding:clamp(16px,2.2vh,26px) clamp(18px,2vw,30px);
+  border-radius:18px;border:1px solid rgba(255,255,255,.9);
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.obj-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;border-radius:18px}
+.obj-card.o1{background:linear-gradient(100deg,rgba(107,191,234,.16),rgba(255,255,255,.9))}
+.obj-card.o1::before{background:var(--sky)}
+.obj-card.o2{background:linear-gradient(100deg,rgba(226,136,62,.15),rgba(255,255,255,.9))}
+.obj-card.o2::before{background:var(--orange)}
+.obj-card.o3{background:linear-gradient(100deg,rgba(242,193,78,.22),rgba(255,255,255,.9))}
+.obj-card.o3::before{background:var(--gold)}
+.obj-card .no{
+  flex:0 0 auto;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  font-family:var(--font-title);font-size:22px;font-weight:700;color:#fff;
+  box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
+.o1 .no{background:linear-gradient(140deg,var(--sky),#4EA5D6)}
+.o2 .no{background:linear-gradient(140deg,var(--orange),#F0A85A)}
+.o3 .no{background:linear-gradient(140deg,var(--gold),#E0A93A)}
+.obj-card h3{font-size:clamp(16px,1.7vw,20px);margin-bottom:5px}
+.o1 h3{color:var(--blue)}.o2 h3{color:var(--orange-deep)}.o3 h3{color:var(--gold-deep)}
+.obj-card p{font-size:clamp(13px,1.35vw,16px);line-height:1.85;color:var(--ink-soft)}
+
+/* ============================================================
+   课文朗读块
+   ============================================================ */
+.recite{
+  position:relative;border-radius:var(--r);
+  padding:clamp(16px,2.4vh,30px) clamp(18px,2.2vw,34px);
+  background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(255,250,240,.9));
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);
+}
+.recite .q{
+  font-family:var(--font-title);
+  font-size:clamp(16px,1.95vw,24px);line-height:2.05;color:#4A4A45;letter-spacing:.02em;
+}
+.recite.playing{border-color:rgba(226,136,62,.6);box-shadow:0 0 0 3px rgba(226,136,62,.14),var(--shadow-lg)}
+.recite.playing .q{color:#2F2F2B}
+.hl{color:var(--orange-deep);font-weight:700}
+.hl-y{color:#B4871C;font-weight:700}
+.hl-r{color:var(--maple);font-weight:700}
+.hl-b{color:var(--blue);font-weight:700}
+
+.btn-read{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:16px;padding:10px 22px;border-radius:999px;
+  font-size:clamp(13px,1.4vw,15px);font-weight:700;color:#fff;
+  background:linear-gradient(135deg,var(--blue),#54709B);
+  box-shadow:0 8px 20px rgba(61,84,122,.3);transition:.2s;
+}
+.btn-read:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(61,84,122,.4)}
+.btn-read.playing{background:linear-gradient(135deg,var(--orange),#F0A85A);box-shadow:0 8px 20px rgba(226,136,62,.35)}
+.btn-read .wv{display:inline-flex;gap:2px;align-items:flex-end;height:12px}
+.btn-read .wv i{width:2.5px;background:currentColor;border-radius:2px;height:4px;opacity:.6}
+.btn-read.playing .wv i{animation:wv .8s ease-in-out infinite}
+.btn-read .wv i:nth-child(2){animation-delay:.15s}
+.btn-read .wv i:nth-child(3){animation-delay:.3s}
+.btn-read .wv i:nth-child(4){animation-delay:.45s}
+@keyframes wv{0%,100%{height:4px}50%{height:12px}}
+
+/* ============================================================
+   幻灯片 4 · 生字词
+   ============================================================ */
+.word-card{
+  position:relative;border-radius:18px;padding:clamp(16px,2.4vh,26px) 16px;text-align:center;
+  background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(255,248,236,.88));
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);
+  cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s;
+}
+.word-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:rgba(226,136,62,.5)}
+.word-card:active{transform:translateY(-1px)}
+.word-card .zi{font-family:var(--font-title);font-size:clamp(26px,3.6vw,44px);font-weight:700;color:var(--orange-deep);letter-spacing:2px}
+.word-card:nth-child(2) .zi{color:var(--blue)}
+.word-card:nth-child(3) .zi{color:var(--gold-deep)}
+.word-card .py{font-size:clamp(11px,1.3vw,15px);color:#B0AAA0;letter-spacing:2px;margin:6px 0 8px}
+.word-card .mn{font-size:clamp(11px,1.25vw,14px);color:var(--ink-soft)}
+.word-card .spk{
+  position:absolute;top:10px;right:12px;width:24px;height:24px;border-radius:50%;
+  background:rgba(226,136,62,.14);color:var(--orange-deep);display:grid;place-items:center;font-size:12px;
+}
+.word-card.speaking{border-color:var(--orange);box-shadow:0 0 0 3px rgba(226,136,62,.2),var(--shadow-lg)}
+.follow{
+  border-radius:16px;padding:clamp(12px,1.8vh,20px) clamp(16px,2vw,28px);
+  background:linear-gradient(120deg,rgba(61,84,122,.07),rgba(255,255,255,.9));
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);
+}
+.follow .lb{font-size:clamp(12px,1.35vw,15px);color:var(--blue);font-weight:700;margin-bottom:10px}
+.follow .ws{display:flex;flex-wrap:wrap;gap:9px}
+.wchip{
+  padding:8px 16px;border-radius:999px;font-size:clamp(13px,1.4vw,16px);color:#5A5A52;
+  background:rgba(255,255,255,.9);border:1px solid var(--line);transition:.2s;
+  font-family:var(--font-title);letter-spacing:1px;
+}
+.wchip:hover{background:var(--orange);color:#fff;border-color:transparent;transform:translateY(-2px);box-shadow:0 8px 18px rgba(226,136,62,.3)}
+.wchip.speaking{background:var(--orange);color:#fff;border-color:transparent}
+
+/* ============================================================
+   幻灯片 5 · 初读感知
+   ============================================================ */
+.entry{
+  position:relative;border-radius:20px;padding:clamp(18px,3vh,34px) 18px;text-align:center;
+  background:linear-gradient(165deg,rgba(255,255,255,.95),rgba(255,248,236,.9));
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);
+  cursor:pointer;transition:transform .26s,box-shadow .26s;
+}
+.entry:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg)}
+.entry .em{font-size:clamp(38px,5.4vw,60px);line-height:1;display:block;animation:floaty 3.4s ease-in-out infinite}
+.entry:nth-child(2) .em{animation-delay:-1.1s}
+.entry:nth-child(3) .em{animation-delay:-2.2s}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.entry h3{font-family:var(--font-title);font-size:clamp(19px,2.4vw,28px);margin:14px 0 8px;color:var(--orange-deep)}
+.entry:nth-child(2) h3{color:var(--blue)}
+.entry:nth-child(3) h3{color:var(--gold-deep)}
+.entry p{font-size:clamp(12px,1.35vw,15px);color:var(--ink-soft);line-height:1.95}
+.entry .go{
+  margin-top:14px;font-size:12px;color:#B0AAA0;display:inline-flex;align-items:center;gap:5px;
+  opacity:0;transition:.25s;
+}
+.entry:hover .go{opacity:1}
+
+/* ============================================================
+   幻灯片 6/7/8 · 分述（图文两栏）
+   ============================================================ */
+.two{display:grid;grid-template-columns:1.06fr .94fr;gap:clamp(16px,2.4vw,40px);flex:1 1 auto;align-items:center}
+.scene{
+  position:relative;border-radius:22px;overflow:hidden;min-height:clamp(200px,38vh,340px);
+  background:radial-gradient(120% 100% at 50% 0%,#FFF6E2,#EAF3FB);
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);
+}
+.scene .sky{position:absolute;inset:0;background:linear-gradient(180deg,rgba(107,191,234,.18),transparent 55%)}
+.scene .ground{position:absolute;left:0;right:0;bottom:0;height:26%;background:linear-gradient(180deg,rgba(217,164,65,.16),rgba(217,164,65,.32))}
+.scene .art{position:absolute;font-size:clamp(38px,5.6vw,64px);filter:drop-shadow(0 8px 14px rgba(120,80,20,.14))}
+.fl-y{position:absolute;font-size:clamp(16px,2vw,24px);animation:leafDrop 4.2s linear infinite;top:-6%}
+.fl-r{position:absolute;font-size:clamp(16px,2vw,24px);animation:leafDropR 4.8s linear infinite;top:-6%}
+@keyframes leafDrop{0%{transform:translate(0,-20px) rotate(0);opacity:0}12%{opacity:1}100%{transform:translate(46px,300px) rotate(380deg);opacity:0}}
+@keyframes leafDropR{0%{transform:translate(0,-20px) rotate(0);opacity:0}12%{opacity:1}100%{transform:translate(-46px,300px) rotate(-380deg);opacity:0}}
+.smell{position:absolute;font-family:var(--font-title);font-size:clamp(13px,1.5vw,18px);color:var(--orange);animation:smellUp 2.6s ease-in-out infinite}
+@keyframes smellUp{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:.95;transform:translateY(-14px)}}
+.animal{
+  position:absolute;font-size:clamp(30px,4vw,48px);animation:hop 1.9s ease-in-out infinite;
+}
+@keyframes hop{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-13px) rotate(3deg)}}
+
+.tips{
+  display:flex;gap:12px;align-items:flex-start;
+  margin-top:clamp(10px,1.6vh,18px);padding:clamp(12px,1.7vh,18px) clamp(16px,2vw,26px);
+  border-radius:16px;background:linear-gradient(120deg,rgba(242,193,78,.2),rgba(255,255,255,.9));
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);
+  font-size:clamp(13px,1.4vw,16px);line-height:1.85;color:#7A5A1E;
+}
+.tips .k{flex:0 0 auto}
+
+/* ============================================================
+   幻灯片 9 · 中心句
+   ============================================================ */
+#s9{justify-content:center;align-items:center;text-align:center}
+.big-quote{
+  max-width:min(1000px,92%);border-radius:26px;padding:clamp(26px,4.4vh,54px) clamp(24px,4vw,64px);
+  background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,244,224,.9));
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow-lg);position:relative;
+}
+.big-quote .mark{position:absolute;font-family:var(--font-title);font-size:clamp(60px,9vw,110px);color:rgba(226,136,62,.16);line-height:1;top:-8px;left:18px}
+.big-quote .mark.end{left:auto;right:18px;top:auto;bottom:-34px}
+.big-quote p{
+  font-family:var(--font-title);font-size:clamp(20px,3vw,38px);line-height:1.95;color:#4A4038;letter-spacing:.02em;
+}
+.big-quote .em{color:var(--orange-deep);font-weight:700;position:relative}
+.big-quote .em::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:9px;background:rgba(242,193,78,.42);border-radius:6px;z-index:-1}
+.duo{display:flex;gap:clamp(14px,2vw,30px);margin-top:clamp(20px,3.4vh,38px);justify-content:center;flex-wrap:wrap}
+.duo .d{
+  padding:clamp(14px,2vh,22px) clamp(22px,3vw,42px);border-radius:18px;text-align:center;
+  background:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.95);box-shadow:var(--shadow);
+  transition:transform .25s,box-shadow .25s;
+}
+.duo .d:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.duo .d .h{font-family:var(--font-title);font-size:clamp(18px,2.3vw,26px);font-weight:700;color:var(--orange-deep)}
+.duo .d:nth-child(2) .h{color:var(--blue)}
+.duo .d .s{font-size:clamp(11px,1.3vw,14px);color:var(--ink-soft);margin-top:6px}
+
+/* ============================================================
+   幻灯片 10 · 修辞
+   ============================================================ */
+.rhet{display:flex;flex-direction:column;gap:clamp(12px,1.8vh,20px);flex:1 1 auto;justify-content:center}
+.rhet-card{
+  border-radius:18px;padding:clamp(15px,2.2vh,26px) clamp(18px,2.2vw,32px);
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);position:relative;overflow:hidden;
+}
+.rhet-card.a{background:linear-gradient(100deg,rgba(226,136,62,.14),rgba(255,255,255,.92))}
+.rhet-card.b{background:linear-gradient(100deg,rgba(107,191,234,.16),rgba(255,255,255,.92))}
+.rhet-card .tag{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;
+  padding:4px 12px;border-radius:999px;margin-bottom:10px;color:#fff;
+}
+.rhet-card.a .tag{background:linear-gradient(135deg,var(--orange),#F0A85A)}
+.rhet-card.b .tag{background:linear-gradient(135deg,var(--sky),#4EA5D6)}
+.rhet-card p{font-family:var(--font-title);font-size:clamp(16px,2vw,25px);line-height:1.8;color:#46423C}
+.rhet-def{
+  border-radius:18px;padding:clamp(14px,2vh,22px) clamp(18px,2.2vw,30px);text-align:center;
+  background:linear-gradient(120deg,rgba(242,193,78,.24),rgba(255,255,255,.92));
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);
+  font-size:clamp(13px,1.5vw,17px);line-height:1.9;color:#7A5A1E;
+}
+.rhet-def b{color:var(--orange-deep)}
+
+/* ============================================================
+   幻灯片 11 · 练习（互动）
+   ============================================================ */
+.ex-wrap{display:flex;flex-direction:column;gap:clamp(12px,1.8vh,20px);flex:1 1 auto}
+.ex{position:relative;border-radius:18px;padding:clamp(14px,2vh,24px) clamp(16px,2vw,30px);background:rgba(255,255,255,.9);border:1px solid rgba(255,255,255,.95);box-shadow:var(--shadow)}
+.ex h4{font-size:clamp(14px,1.6vw,18px);color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ex h4 .n{width:24px;height:24px;border-radius:8px;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:13px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vw,26px)}
+.col{display:flex;flex-direction:column;gap:9px}
+.mi{
+  padding:11px 16px;border-radius:12px;font-size:clamp(13px,1.5vw,17px);
+  background:linear-gradient(120deg,rgba(242,193,78,.16),rgba(255,255,255,.9));
+  border:2px solid transparent;box-shadow:0 3px 10px rgba(120,80,20,.06);
+  transition:.2s;color:#5A5044;font-family:var(--font-title);letter-spacing:1px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;
+}
+.mi:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(120,80,20,.12)}
+.mi.sel{border-color:var(--orange);background:linear-gradient(120deg,rgba(226,136,62,.22),rgba(255,255,255,.95))}
+.mi.done{border-color:rgba(76,163,110,.7);background:linear-gradient(120deg,rgba(76,163,110,.16),rgba(255,255,255,.95));color:#3D7A55;cursor:default;opacity:.96}
+.mi.bad{animation:shake .42s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.mi .lk{font-size:11px;color:#fff;background:#4CA36E;border-radius:999px;padding:2px 9px;font-family:var(--font-body)}
+
+.opt{
+  padding:13px 18px;border-radius:13px;font-size:clamp(13px,1.5vw,17px);text-align:left;
+  background:rgba(255,255,255,.92);border:2px solid rgba(107,191,234,.35);
+  transition:.2s;color:#4A4A45;width:100%;display:flex;gap:10px;align-items:flex-start;
+}
+.opt:hover{border-color:var(--sky);transform:translateY(-2px);box-shadow:0 8px 18px rgba(107,191,234,.2)}
+.opt .k{flex:0 0 auto;width:24px;height:24px;border-radius:8px;background:var(--sky);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+.opt.right{border-color:#4CA36E;background:linear-gradient(120deg,rgba(76,163,110,.16),#fff)}
+.opt.right .k{background:#4CA36E}
+.opt.wrong{border-color:#D4675C;background:linear-gradient(120deg,rgba(212,103,92,.14),#fff)}
+.opt.wrong .k{background:#D4675C}
+.ex .fb{margin-top:10px;font-size:clamp(12px,1.4vw,15px);color:#3D7A55;display:none}
+.ex .fb.show{display:block;animation:upIn .4s both}
+.ex .fb.err{color:#B4483D}
+
+/* 姓名 / 数据回收提示 */
+.stu-row{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  margin-bottom:clamp(8px,1.4vh,14px);
+  font-size:clamp(12px,1.35vw,15px);color:var(--ink-soft);
+}
+.stu-row label{display:inline-flex;align-items:center;gap:8px}
+.stu-input{
+  padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:#fff;
+  font-family:inherit;font-size:inherit;color:var(--ink);outline:none;min-width:170px;transition:.2s;
+}
+.stu-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(226,136,62,.14)}
+.stu-tip{font-size:11px;color:#B0AAA0;display:inline-flex;align-items:center;gap:5px}
+.stu-tip b{color:var(--orange-deep)}
+.stu-saved{color:#3D7A55}
+
+/* ============================================================
+   幻灯片 12 · 仿写
+   ============================================================ */
+.write-box{border-radius:18px;padding:clamp(16px,2.2vh,26px) clamp(18px,2.2vw,32px);box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.9)}
+.write-box.eg{background:linear-gradient(120deg,rgba(107,191,234,.14),rgba(255,255,255,.92))}
+.write-box.mine{background:linear-gradient(120deg,rgba(242,193,78,.22),rgba(255,255,255,.92))}
+.write-box h4{font-size:clamp(14px,1.6vw,19px);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.write-box.eg h4{color:var(--blue)}
+.write-box.mine h4{color:var(--gold-deep)}
+.write-box p{font-family:var(--font-title);font-size:clamp(15px,1.8vw,22px);line-height:2.05;color:#4A4A45}
+.blank{display:inline-block;min-width:64px;border-bottom:2px dashed rgba(180,135,28,.65);color:var(--gold-deep);font-weight:700;padding:0 6px}
+.hint{margin-top:12px;font-size:clamp(11px,1.3vw,14px);color:#A79A80;font-family:var(--font-body)}
+
+/* ============================================================
+   幻灯片 13 · 小结（思维导图）
+   ============================================================ */
+.mind{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vh,20px);flex:1 1 auto;justify-content:center}
+.mind .core{
+  font-family:var(--font-title);font-size:clamp(19px,2.6vw,30px);font-weight:700;color:#fff;
+  padding:14px 46px;border-radius:999px;background:linear-gradient(135deg,var(--orange),#F0A85A);
+  box-shadow:0 14px 32px rgba(226,136,62,.4);
+}
+.mind .stem{width:3px;height:clamp(16px,3vh,32px);background:linear-gradient(180deg,var(--gold),transparent);border-radius:3px}
+.mind .row{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,30px);width:100%;max-width:1000px}
+.mnode{
+  border-radius:18px;padding:clamp(16px,2.4vh,28px) 16px;text-align:center;
+  border:1px solid rgba(255,255,255,.95);box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;
+}
+.mnode:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.mnode.m1{background:linear-gradient(160deg,rgba(226,136,62,.16),rgba(255,255,255,.92))}
+.mnode.m2{background:linear-gradient(160deg,rgba(107,191,234,.18),rgba(255,255,255,.92))}
+.mnode.m3{background:linear-gradient(160deg,rgba(242,193,78,.26),rgba(255,255,255,.92))}
+.mnode .em{font-size:clamp(28px,3.6vw,40px)}
+.mnode h4{font-family:var(--font-title);font-size:clamp(15px,1.8vw,21px);margin:10px 0 5px}
+.mnode.m1 h4{color:var(--orange-deep)}.mnode.m2 h4{color:var(--blue)}.mnode.m3 h4{color:var(--gold-deep)}
+.mnode p{font-size:clamp(11px,1.3vw,14px);color:var(--ink-soft)}
+.concl{
+  margin-top:clamp(6px,1.4vh,16px);padding:clamp(13px,1.9vh,20px) clamp(18px,3vw,46px);border-radius:18px;text-align:center;
+  background:linear-gradient(120deg,rgba(61,84,122,.1),rgba(255,255,255,.92));
+  border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);
+  font-family:var(--font-title);font-size:clamp(14px,1.7vw,21px);color:var(--blue);
+}
+
+/* ============================================================
+   幻灯片 14 · 板书
+   ============================================================ */
+.board{
+  margin:0 auto;width:100%;max-width:1080px;flex:0 1 auto;
+  border-radius:20px;padding:clamp(20px,3.2vh,40px) clamp(22px,3vw,52px);
+  background:
+    repeating-linear-gradient(180deg,transparent 0 38px,rgba(107,191,234,.14) 38px 39px),
+    linear-gradient(160deg,#FFFDF7,#FFF7E9);
+  border:1px solid rgba(226,136,62,.28);box-shadow:var(--shadow-lg);
+  position:relative;
+}
+.board::before,.board::after{content:"";position:absolute;width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#F5D08A,#C99A3E);box-shadow:0 2px 5px rgba(0,0,0,.2)}
+.board::before{top:12px;left:12px}
+.board::after{top:12px;right:12px}
+.board h2{font-family:var(--font-title);text-align:center;font-size:clamp(20px,2.6vw,32px);color:var(--blue);letter-spacing:3px}
+.board .ul{width:clamp(120px,18vw,220px);height:3px;margin:12px auto 22px;background:linear-gradient(90deg,transparent,var(--orange),transparent)}
+.board .cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,3vw,50px)}
+.board .cols .h{font-family:var(--font-title);font-size:clamp(14px,1.6vw,19px);color:var(--orange-deep);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.board .cols .h::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--gold)}
+.board li{list-style:none;font-family:var(--font-title);font-size:clamp(13px,1.55vw,19px);line-height:2.25;color:#4A4A45}
+.board li b{color:var(--orange-deep)}
+.board li .bt{color:var(--blue);font-weight:700}
+
+/* ============================================================
+   幻灯片 15 · 作业
+   ============================================================ */
+.hw{display:flex;flex-direction:column;gap:clamp(12px,1.9vh,20px);flex:1 1 auto;justify-content:center}
+.hw-item{
+  display:flex;gap:16px;align-items:flex-start;border-radius:18px;
+  padding:clamp(15px,2.2vh,26px) clamp(18px,2.2vw,32px);
+  border:1px solid rgba(255,255,255,.95);box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;
+}
+.hw-item:hover{transform:translateX(6px);box-shadow:var(--shadow-lg)}
+.hw-item.h1{background:linear-gradient(100deg,rgba(226,136,62,.14),rgba(255,255,255,.92))}
+.hw-item.h2{background:linear-gradient(100deg,rgba(107,191,234,.16),rgba(255,255,255,.92))}
+.hw-item.h3{background:linear-gradient(100deg,rgba(242,193,78,.24),rgba(255,255,255,.92))}
+.hw-item .em{font-size:clamp(26px,3.2vw,38px);flex:0 0 auto}
+.hw-item h4{font-size:clamp(14px,1.65vw,19px);margin-bottom:5px}
+.hw-item.h1 h4{color:var(--orange-deep)}.hw-item.h2 h4{color:var(--blue)}.hw-item.h3 h4{color:var(--gold-deep)}
+.hw-item p{font-size:clamp(12px,1.42vw,16px);line-height:1.85;color:var(--ink-soft)}
+
+/* ============================================================
+   字幕条
+   ============================================================ */
+.subtitle{
+  position:absolute;left:50%;bottom:clamp(68px,10vh,96px);transform:translate(-50%,14px);
+  z-index:8;max-width:min(880px,88%);opacity:0;pointer-events:none;transition:.35s;
+  padding:11px 22px;border-radius:14px;text-align:center;
+  background:rgba(45,42,36,.82);color:#FFF6E6;
+  font-size:clamp(12px,1.42vw,16px);line-height:1.7;backdrop-filter:blur(6px);
+  box-shadow:0 12px 30px rgba(0,0,0,.22);
+}
+.subtitle.show{opacity:1;transform:translate(-50%,0)}
+.subtitle .sp{display:inline-flex;gap:2px;align-items:flex-end;height:11px;margin-right:7px;vertical-align:middle}
+.subtitle .sp i{width:2.5px;height:4px;background:#F2C14E;border-radius:2px;animation:wv .8s ease-in-out infinite}
+.subtitle .sp i:nth-child(2){animation-delay:.15s}
+.subtitle .sp i:nth-child(3){animation-delay:.3s}
+
+/* ============================================================
+   底部控制条
+   ============================================================ */
+.hud{
+  position:relative;z-index:6;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  padding:8px clamp(16px,3vw,40px) 16px;
+}
+.jump{
+  padding:9px 14px;border-radius:999px;font-size:13px;font-family:inherit;
+  background:rgba(255,255,255,.86);border:1px solid var(--line);color:var(--blue);
+  outline:none;cursor:pointer;backdrop-filter:blur(6px);transition:.2s;
+  max-width:min(240px,40vw);
+}
+.jump:hover{border-color:rgba(226,136,62,.55);color:var(--orange-deep)}
+.jump:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(226,136,62,.15)}
+.nav-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:10px 20px;border-radius:999px;font-size:13px;font-weight:700;
+  background:rgba(255,255,255,.86);border:1px solid var(--line);color:var(--blue);
+  transition:.2s;backdrop-filter:blur(6px);
+}
+.nav-btn:hover:not(:disabled){background:var(--blue);color:#fff;border-color:transparent;transform:translateY(-2px);box-shadow:0 10px 22px rgba(61,84,122,.3)}
+.nav-btn:disabled{opacity:.35;cursor:not-allowed}
+.dots{display:flex;gap:6px;align-items:center;padding:0 8px}
+.dots .dt{width:8px;height:8px;border-radius:50%;background:rgba(61,84,122,.2);transition:.25s;cursor:pointer}
+.dots .dt:hover{background:rgba(226,136,62,.6)}
+.dots .dt.on{width:24px;border-radius:5px;background:linear-gradient(90deg,var(--gold),var(--orange))}
+.page-ind{font-size:12px;color:var(--ink-soft);padding:0 6px;font-variant-numeric:tabular-nums;min-width:56px;text-align:center}
+
+/* 首屏遮罩（音频解锁） */
+.gate{
+  position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:18px;
+  background:radial-gradient(circle at 50% 44%,rgba(255,252,245,.985),rgba(255,243,221,.996));
+  backdrop-filter:blur(7px);transition:opacity .5s;
+}
+.gate.hide{opacity:0;pointer-events:none}
+.gate .gi{font-size:clamp(46px,7vw,76px);animation:floaty 3s ease-in-out infinite}
+.gate .gt{font-family:var(--font-title);font-size:clamp(20px,3vw,34px);color:var(--orange-deep);font-weight:700}
+.gate .gs{font-size:clamp(12px,1.4vw,15px);color:var(--ink-soft);text-align:center;line-height:1.8;max-width:420px}
+.gate .gb{
+  margin-top:6px;display:inline-flex;align-items:center;gap:10px;
+  padding:16px 42px;border-radius:999px;font-size:clamp(15px,1.7vw,19px);font-weight:700;color:#fff;
+  background:linear-gradient(135deg,var(--orange),#F0A85A);
+  box-shadow:0 14px 34px rgba(226,136,62,.45);transition:.22s;
+}
+.gate .gb:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 20px 44px rgba(226,136,62,.55)}
+
+/* ============================================================
+   响应式
+   ============================================================ */
+@media (max-width:900px){
+  .two{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr}
+  .board .cols{grid-template-columns:1fr}
+  .mind .row{grid-template-columns:1fr;max-width:520px}
+  .match{grid-template-columns:1fr}
+  .scene{min-height:190px}
+}
+@media (max-width:640px){
+  .brand .s{display:none}
+  .tools .chip .lb{display:none}
+  .dots{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- 装饰层 -->
+  <div class="ambient" id="ambient" aria-hidden="true">
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+  </div>
+  <div class="ambient" id="rainLayer" aria-hidden="true" style="z-index:2"></div>
+
+  <!-- 顶栏 -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🍁</div>
+      <div class="txt">
+        <div class="t">秋天的雨</div>
+        <div class="s">部编版三年级上册 · 精读课 · 配音版</div>
+      </div>
+    </div>
+    <div class="tools">
+      <button class="chip on" id="btnNarr" title="旁白语音开关"><span class="dot"></span><span class="lb">旁白</span></button>
+      <button class="chip on" id="btnSfx" title="音效开关"><span class="dot"></span><span class="lb">音效</span></button>
+      <button class="chip" id="btnRain" title="雨声环境音"><span class="dot"></span><span class="lb">雨声</span></button>
+      <button class="chip" id="btnFull" title="全屏"><span class="lb">⛶ 全屏</span></button>
+    </div>
+  </header>
+  <div class="progress"><i id="progBar"></i></div>
+
+  <!-- 舞台 -->
+  <main class="stage" id="stage">
+
+    <!-- ===== 1 封面 ===== -->
+    <section class="slide active" id="s1" data-narr="n01">
+      <div class="cover">
+        <div class="eyebrow">部 编 版 · 三 年 级 上 册</div>
+        <h1>秋天的雨</h1>
+        <div class="sub">精 读 课 文 · 配 音 动 画 课 件</div>
+        <div class="rule"></div>
+        <div class="tags">
+          <span>🎨 一盒五彩缤纷的颜料</span>
+          <span>🍎 藏着非常好闻的气味</span>
+          <span>📯 吹起金色的小喇叭</span>
+        </div>
+        <div class="cta">
+          <button class="btn-primary" id="btnStart">▶ 开始上课</button>
+          <button class="btn-ghost" onclick="go(1)">跳到学习目标 →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2 学习目标 ===== -->
+    <section class="slide" id="s2" data-narr="n02">
+      <div class="head"><div class="ttl"><span class="ico">🎯</span>本节课学习目标</div><div class="bar"></div></div>
+      <div class="obj">
+        <div class="obj-card o1 left d1"><div class="no">1</div><div><h3>会认生字词</h3><p>认识"钥、匙、缤"等生字，会读"五彩缤纷、喇叭、丰收"等词语。</p></div></div>
+        <div class="obj-card o2 left d2"><div class="no">2</div><div><h3>品读重点段落</h3><p>感受秋雨带来的色彩、气味和声音，体会比喻、拟人手法的妙处。</p></div></div>
+        <div class="obj-card o3 left d3"><div class="no">3</div><div><h3>朗读 + 仿写</h3><p>能正确、流利、有感情地朗读课文；学习抓住景物特点写几句话。</p></div></div>
+      </div>
+    </section>
+
+    <!-- ===== 3 导入 ===== -->
+    <section class="slide" id="s3" data-narr="n03">
+      <div class="head"><div class="ttl"><span class="ico">🔑</span>听，秋雨来了</div><div class="bar"></div></div>
+      <div class="recite anim d1" id="recite-r1">
+        <div class="q">秋天的雨，是一把<b class="hl">钥匙</b>。<br>它带着清凉和温柔，轻轻地，轻轻地，<br>趁你没留意，把秋天的大门<b class="hl">打开了</b>。</div>
+        <button class="btn-read" data-clip="r1"><span class="wv"><i></i><i></i><i></i><i></i></span>朗读这一段</button>
+      </div>
+      <div class="tips anim d3"><span class="k">💡</span><span>思考：为什么说"秋天的雨，是一把钥匙"？这把钥匙打开了什么？</span></div>
+    </section>
+
+    <!-- ===== 4 生字词 ===== -->
+    <section class="slide" id="s4" data-narr="n04">
+      <div class="head"><div class="ttl"><span class="ico">📖</span>生字词闯关 · 点一点就发音</div><div class="bar"></div></div>
+      <div class="grid3" style="margin-bottom:clamp(12px,2vh,20px)">
+        <div class="word-card pop d1" data-clip="w1"><span class="spk">🔊</span><div class="zi">钥匙</div><div class="py">yào shi</div><div class="mn">开锁的用具</div></div>
+        <div class="word-card pop d2" data-clip="w2"><span class="spk">🔊</span><div class="zi">五彩缤纷</div><div class="py">wǔ cǎi bīn fēn</div><div class="mn">颜色繁多，非常好看</div></div>
+        <div class="word-card pop d3" data-clip="w3"><span class="spk">🔊</span><div class="zi">喇叭</div><div class="py">lǎ ba</div><div class="mn">一种管乐器</div></div>
+      </div>
+      <div class="follow anim d4">
+        <div class="lb">🔊 其他词语跟读（点击听读音）</div>
+        <div class="ws">
+          <button class="wchip" data-clip="w4">颜料</button>
+          <button class="wchip" data-clip="w5">凉爽</button>
+          <button class="wchip" data-clip="w6">蔷薇</button>
+          <button class="wchip" data-clip="w7">菠萝</button>
+          <button class="wchip" data-clip="w8">邮票</button>
+          <button class="wchip" data-clip="w9">仙子</button>
+          <button class="wchip" data-clip="w10">丰收</button>
+          <button class="wchip" data-clip="w11">加紧</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5 初读感知 ===== -->
+    <section class="slide" id="s5" data-narr="n05">
+      <div class="head"><div class="ttl"><span class="ico">🔍</span>初读感知 · 秋雨藏着什么</div><div class="bar"></div></div>
+      <div style="font-size:clamp(13px,1.5vw,17px);color:var(--ink-soft);margin-bottom:clamp(12px,2vh,22px)" class="anim d1">自由朗读课文，找一找：秋雨分别给大地带来了什么？<b style="color:var(--orange-deep)">（点击卡片可跳到对应段落）</b></div>
+      <div class="grid3">
+        <div class="entry pop d2" onclick="go(5)"><span class="em">🎨</span><h3>一盒颜料</h3><p>秋天的雨<br>有一盒五彩缤纷的颜料</p><span class="go">查看第 2 自然段 →</span></div>
+        <div class="entry pop d3" onclick="go(6)"><span class="em">🍎</span><h3>好闻的气味</h3><p>秋天的雨<br>藏着非常好闻的气味</p><span class="go">查看第 3 自然段 →</span></div>
+        <div class="entry pop d4" onclick="go(7)"><span class="em">📯</span><h3>金色小喇叭</h3><p>秋天的雨<br>吹起了金色的小喇叭</p><span class="go">查看第 4 自然段 →</span></div>
+      </div>
+    </section>
+
+    <!-- ===== 6 第二段 ===== -->
+    <section class="slide" id="s6" data-narr="n06">
+      <div class="head"><div class="ttl"><span class="ico">🎨</span>品读第二段 · 五彩缤纷的颜料</div><div class="bar"></div></div>
+      <div class="two">
+        <div class="recite anim d1" id="recite-r2">
+          <div class="q">
+            秋天的雨，有一盒<b class="hl">五彩缤纷</b>的颜料。<br>
+            它把<b class="hl-y">黄色</b>给了银杏树，黄黄的叶子像一把把小扇子，扇哪扇哪，扇走了夏天的炎热。<br>
+            它把<b class="hl-r">红色</b>给了枫树，红红的枫叶像一枚枚邮票，飘哇飘哇，邮来了秋天的凉爽。<br>
+            <b class="hl-y">金黄色</b>是给田野的，看，田野像金色的海洋。<br>
+            <b class="hl">橙红色</b>是给果树的，橘子、柿子你挤我碰，争着要人们去摘呢！<br>
+            菊花仙子得到的颜色就更多了，紫红的、淡黄的、雪白的……美丽的菊花在秋雨里频频点头。
+          </div>
+          <button class="btn-read" data-clip="r2"><span class="wv"><i></i><i></i><i></i><i></i></span>朗读本段</button>
+        </div>
+        <div class="scene anim d2">
+          <div class="sky"></div><div class="ground"></div>
+          <span class="art" style="left:8%;bottom:22%">🌳</span>
+          <span class="art" style="right:10%;bottom:22%">🌲</span>
+          <span class="art" style="left:46%;bottom:20%">🌾</span>
+          <span class="art" style="right:40%;bottom:24%;font-size:clamp(26px,3.4vw,40px)">🌼</span>
+          <span class="fl-y" style="left:12%;animation-delay:0s">🍂</span>
+          <span class="fl-y" style="left:18%;animation-delay:1.4s">🍂</span>
+          <span class="fl-y" style="left:14%;animation-delay:2.8s">🍂</span>
+          <span class="fl-r" style="right:14%;animation-delay:.7s">🍁</span>
+          <span class="fl-r" style="right:20%;animation-delay:2.1s">🍁</span>
+          <span class="fl-r" style="right:16%;animation-delay:3.5s">🍁</span>
+        </div>
+      </div>
+      <div class="tips anim d4"><span class="k">💡</span><span>思考：这段话写了哪些景物？秋雨分别给它们涂上了什么颜色？试着用"秋雨把___色给了___"说一句话。</span></div>
+    </section>
+
+    <!-- ===== 7 第三段 ===== -->
+    <section class="slide" id="s7" data-narr="n07">
+      <div class="head"><div class="ttl"><span class="ico">🍎</span>品读第三段 · 好闻的气味</div><div class="bar"></div></div>
+      <div class="two">
+        <div class="scene anim d1">
+          <div class="sky"></div><div class="ground"></div>
+          <span class="art" style="left:10%;bottom:26%">🍎</span>
+          <span class="art" style="left:36%;bottom:30%;font-size:clamp(28px,3.6vw,44px)">🍐</span>
+          <span class="art" style="left:62%;bottom:26%">🍍</span>
+          <span class="art" style="left:82%;bottom:30%;font-size:clamp(26px,3.4vw,40px)">🍇</span>
+          <span class="smell" style="left:16%;top:30%">～香～</span>
+          <span class="smell" style="left:42%;top:22%;animation-delay:.8s">～甜～</span>
+          <span class="smell" style="left:68%;top:32%;animation-delay:1.6s">～香～</span>
+        </div>
+        <div class="recite anim d2" id="recite-r3">
+          <div class="q">
+            秋天的雨，藏着非常好闻的气味。<br>
+            梨<b class="hl">香香的</b>，菠萝<b class="hl">甜甜的</b>，<br>
+            还有苹果、橘子，好多好多香甜的气味，<br>
+            都<b class="hl-b">躲</b>在小雨滴里呢！<br>
+            小朋友的脚，常被那香味<b class="hl-b">勾住</b>。
+          </div>
+          <button class="btn-read" data-clip="r3"><span class="wv"><i></i><i></i><i></i><i></i></span>朗读本段</button>
+        </div>
+      </div>
+      <div class="tips anim d4"><span class="k">💡</span><span>思考："躲"字用得好不好？"勾住"是什么意思？</span></div>
+    </section>
+
+    <!-- ===== 8 第四段 ===== -->
+    <section class="slide" id="s8" data-narr="n08">
+      <div class="head"><div class="ttl"><span class="ico">📯</span>品读第四段 · 金色的小喇叭</div><div class="bar"></div></div>
+      <div class="two">
+        <div class="recite anim d1" id="recite-r4">
+          <div class="q">
+            秋天的雨，吹起了金色的小喇叭。<br>
+            它告诉大家，冬天快要来了。<br>
+            小喜鹊<b class="hl">衔来树枝</b>造房子，<br>
+            小松鼠<b class="hl">找来松果</b>当粮食，<br>
+            小青蛙在<b class="hl">加紧挖洞</b>，准备舒舒服服地睡大觉。<br>
+            松柏穿上厚厚的、油亮亮的衣裳，<br>
+            杨树、柳树的叶子飘到树妈妈的脚下。<br>
+            它们都在<b class="hl-b">准备过冬</b>了。
+          </div>
+          <button class="btn-read" data-clip="r4"><span class="wv"><i></i><i></i><i></i><i></i></span>朗读本段</button>
+        </div>
+        <div class="scene anim d2">
+          <div class="sky"></div><div class="ground"></div>
+          <span class="animal" style="left:10%;top:22%">🐦</span>
+          <span class="animal" style="left:44%;top:12%;animation-delay:-.6s">🐿️</span>
+          <span class="animal" style="left:74%;top:26%;animation-delay:-1.2s">🐸</span>
+          <span class="art" style="left:16%;bottom:20%;font-size:clamp(30px,4vw,46px)">🌲</span>
+          <span class="art" style="left:52%;bottom:20%;font-size:clamp(30px,4vw,46px)">🌳</span>
+          <span class="art" style="right:12%;bottom:20%;font-size:clamp(30px,4vw,46px)">🌲</span>
+          <span class="fl-y" style="left:60%;animation-delay:1s">🍂</span>
+          <span class="fl-y" style="left:66%;animation-delay:2.6s">🍂</span>
+          <span style="position:absolute;right:16%;top:16%;font-size:clamp(26px,3.4vw,40px);animation:hop 1.6s ease-in-out infinite">📯</span>
+        </div>
+      </div>
+      <div class="tips anim d4"><span class="k">💡</span><span>思考：秋雨吹起小喇叭，通知大家做什么？圈出文中提到的动物和植物。</span></div>
+    </section>
+
+    <!-- ===== 9 第五段 ===== -->
+    <section class="slide" id="s9" data-narr="n09">
+      <div class="head" style="width:100%"><div class="ttl"><span class="ico">🎵</span>品读第五段 · 丰收的歌，欢乐的歌</div><div class="bar"></div></div>
+      <div class="big-quote anim d1">
+        <span class="mark">“</span><span class="mark end">”</span>
+        <p>秋天的雨，带给大地的是一曲<span class="em">丰收的歌</span>，<br>带给小朋友的是一首<span class="em">欢乐的歌</span>。</p>
+        <button class="btn-read" data-clip="r5" style="margin-top:22px"><span class="wv"><i></i><i></i><i></i><i></i></span>朗读这段</button>
+      </div>
+      <div class="duo anim d3">
+        <div class="d"><div class="h">🌾 丰收的歌</div><div class="s">粮食成熟 · 果实飘香</div></div>
+        <div class="d"><div class="h">😄 欢乐的歌</div><div class="s">小朋友喜爱秋天的雨</div></div>
+      </div>
+    </section>
+
+    <!-- ===== 10 修辞 ===== -->
+    <section class="slide" id="s10" data-narr="n10">
+      <div class="head"><div class="ttl"><span class="ico">✨</span>语言赏析 · 拟人手法</div><div class="bar"></div></div>
+      <div class="rhet">
+        <div class="rhet-card a left d1"><span class="tag">例句一</span><p>"秋天的雨，吹起了金色的小喇叭。"</p></div>
+        <div class="rhet-card b left d2"><span class="tag">例句二</span><p>"美丽的菊花在秋雨里频频点头。"</p></div>
+        <div class="rhet-def pop d3">✨ <b>拟人</b> = 把事物当成人来写，给它人的动作、语言、感情。<br>这样写，句子更生动、更有趣！</div>
+      </div>
+    </section>
+
+    <!-- ===== 11 练习 ===== -->
+    <section class="slide" id="s11" data-narr="n11">
+      <div class="head"><div class="ttl"><span class="ico">✏️</span>课堂小练习 · 动手做一做</div><div class="bar"></div></div>
+      <div class="stu-row anim d1">
+        <label>👤 姓名（选填）：<input id="stuName" class="stu-input" type="text" placeholder="写上名字，方便老师统计" maxlength="20"></label>
+        <span class="stu-tip" id="stuTip">作答会自动记录，老师可回收统计</span>
+      </div>
+      <div class="ex-wrap">
+        <div class="ex anim d1">
+          <h4><span class="n">1</span>连一连：秋雨把颜色给了谁？（先点左边颜色，再点右边景物）</h4>
+          <div class="match">
+            <div class="col" id="colColor">
+              <button class="mi" data-side="c" data-key="yellow">黄色</button>
+              <button class="mi" data-side="c" data-key="red">红色</button>
+              <button class="mi" data-side="c" data-key="gold">金黄色</button>
+              <button class="mi" data-side="c" data-key="orange">橙红色</button>
+            </div>
+            <div class="col" id="colThing">
+              <button class="mi" data-side="t" data-key="maple">枫树</button>
+              <button class="mi" data-side="t" data-key="ginkgo">银杏树</button>
+              <button class="mi" data-side="t" data-key="fruit">果树</button>
+              <button class="mi" data-side="t" data-key="field">田野</button>
+            </div>
+          </div>
+          <div class="fb" id="fb1"></div>
+        </div>
+        <div class="ex anim d2">
+          <h4><span class="n">2</span>选一选：下面哪个句子用了拟人手法？</h4>
+          <div style="display:flex;flex-direction:column;gap:9px">
+            <button class="opt" data-q="2" data-k="A"><span class="k">A</span><span>秋天的雨，有一盒五彩缤纷的颜料。</span></button>
+            <button class="opt" data-q="2" data-k="B"><span class="k">B</span><span>美丽的菊花在秋雨里频频点头。</span></button>
+          </div>
+          <div class="fb" id="fb2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 12 仿写 ===== -->
+    <section class="slide" id="s12" data-narr="n12">
+      <div class="head"><div class="ttl"><span class="ico">📝</span>仿写小练笔</div><div class="bar"></div></div>
+      <div class="ex-wrap">
+        <div class="write-box eg anim d1">
+          <h4>📝 例句</h4>
+          <p>秋天的雨，把<b class="hl-y">黄色</b>给了<b class="hl-y">银杏树</b>，<br>黄黄的叶子像<b class="hl">一把把小扇子</b>，扇哪扇哪，扇走了夏天的炎热。</p>
+        </div>
+        <div class="write-box mine anim d2">
+          <h4>✏️ 你来试一试</h4>
+          <p>秋天的雨，把<span class="blank">　</span>色给了<span class="blank">　</span>，<br><span class="blank">　</span>像<span class="blank">　</span>，<span class="blank">　</span>哪<span class="blank">　</span>哪，<span class="blank">　</span>。</p>
+          <div class="hint">提示：可以写稻田、果树、菊花、小朋友…… 用上"像……"的比喻，再加上动作，句子会更生动。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 13 小结 ===== -->
+    <section class="slide" id="s13" data-narr="n13">
+      <div class="head"><div class="ttl"><span class="ico">🧭</span>课堂小结</div><div class="bar"></div></div>
+      <div class="mind">
+        <div class="core pop d1">秋天的雨</div>
+        <div class="stem"></div>
+        <div class="row">
+          <div class="mnode m1 pop d2"><div class="em">🎨</div><h4>一盒颜料</h4><p>五彩缤纷</p></div>
+          <div class="mnode m2 pop d3"><div class="em">🍎</div><h4>好闻的气味</h4><p>香香甜甜</p></div>
+          <div class="mnode m3 pop d4"><div class="em">📯</div><h4>金色小喇叭</h4><p>通知过冬</p></div>
+        </div>
+        <div class="concl pop d5">丰收的歌 · 欢乐的歌 —— 表达了作者对秋天的喜爱和赞美之情</div>
+      </div>
+    </section>
+
+    <!-- ===== 14 板书 ===== -->
+    <section class="slide" id="s14" data-narr="n14">
+      <div class="head"><div class="ttl"><span class="ico">🖊️</span>板书设计</div><div class="bar"></div></div>
+      <div class="board anim d1">
+        <h2>秋 天 的 雨</h2>
+        <div class="ul"></div>
+        <div class="cols">
+          <div>
+            <div class="h">结构 · 一条主线</div>
+            <ul>
+              <li>一把<b>钥匙</b> — 打开秋天</li>
+              <li>一盒<b>颜料</b> — 五彩缤纷</li>
+              <li>好闻的<b>气味</b> — 勾住小脚</li>
+              <li>金色<b>小喇叭</b> — 通知过冬</li>
+            </ul>
+          </div>
+          <div>
+            <div class="h">色彩 · 一段妙笔</div>
+            <ul>
+              <li><span class="bt">银杏树</span> — 黄色</li>
+              <li><span class="bt">枫　树</span> — 红色</li>
+              <li><span class="bt">田　野</span> — 金黄</li>
+              <li><span class="bt">果　树</span> — 橙红</li>
+              <li style="margin-top:6px">—— <b>丰收、欢乐</b></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 15 作业 ===== -->
+    <section class="slide" id="s15" data-narr="n15">
+      <div class="head"><div class="ttl"><span class="ico">🌰</span>课后作业</div><div class="bar"></div></div>
+      <div class="hw">
+        <div class="hw-item h1 left d1"><span class="em">⭐</span><div><h4>基础题（必做）</h4><p>有感情地朗读课文，背诵第二自然段。</p></div></div>
+        <div class="hw-item h2 left d2"><span class="em">📚</span><div><h4>提高题（选做）</h4><p>仿照课文句式，写一写你眼中的秋天（3—5句话）。</p></div></div>
+        <div class="hw-item h3 left d3"><span class="em">🍂</span><div><h4>拓展题（亲子任务）</h4><p>和爸爸妈妈一起到公园找找秋天，捡几片落叶做一幅贴画。</p></div></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 字幕 -->
+  <div class="subtitle" id="subtitle"><span class="sp"><i></i><i></i><i></i></span><span id="subText"></span></div>
+
+  <!-- 控制条 -->
+  <footer class="hud">
+    <button class="nav-btn" id="btnFirst" title="回到首页（Home）">⏮ 首页</button>
+    <button class="nav-btn" id="btnPrev">◀ 上一页</button>
+    <div class="dots" id="dots"></div>
+    <span class="page-ind" id="pageInd">1 / 15</span>
+    <button class="nav-btn" id="btnNext">下一页 ▶</button>
+    <button class="nav-btn" id="btnLast" title="跳到尾页（End）">尾页 ⏭</button>
+    <select class="jump" id="jumpSel" title="跳转到任意一页"></select>
+  </footer>
+
+  <!-- 音频解锁遮罩 -->
+  <div class="gate" id="gate">
+    <div class="gi">🌧️</div>
+    <div class="gt">秋天的雨 · 精品动画课件</div>
+    <div class="gs">本课件含课文范读、每页旁白讲解、生字点读与音效。<br>点击下方按钮开始，浏览器将允许播放声音。</div>
+    <button class="gb" id="gateBtn">🔊 点击开始上课</button>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   0. 数据容器
+   ------------------------------------------------------------
+   真实的音频/字幕数据由「本文件末尾的独立数据脚本」注入。
+   之所以拆开：音频数据 base64 后有 2.8MB，若与本段逻辑同处一个
+   script 块，一旦网络传输在中途被截断，整块 JS 解析失败，
+   会导致页面能显示但所有交互（含「开始上课」）全部失效。
+   拆开后：逻辑先跑，数据后到；数据缺失只影响声音，不影响操作。
+   ============================================================ */
+var AUDIO = {}, TEXT = {}, REMOTE_AUDIO = false;
+var VOICE = "diana";
+
+/* ============================================================
+   1. 音效合成（Web Audio，无需文件、离线可用）
+   ============================================================ */
+let AC = null, rainNodes = null;
+let sfxOn = true, narrOn = true, rainOn = false;
+
+function ac(){
+  try{
+    if (!AC){
+      const C = window.AudioContext || window.webkitAudioContext;
+      if (C) AC = new C();
+    }
+    if (AC && AC.state === 'suspended') AC.resume();
+  }catch(e){ AC = null; }           // 音频不可用绝不能影响课件本体
+  return AC;
+}
+function env(g, t, a, d, peak){
+  g.gain.cancelScheduledValues(t);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak, t + a);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + a + d);
+}
+function tone(freq, t, dur, type, peak){
+  const c = ac(); if (!c) return;
+  const o = c.createOscillator(), g = c.createGain();
+  o.type = type || 'sine'; o.frequency.value = freq;
+  o.connect(g); g.connect(c.destination);
+  env(g, t, 0.012, dur, peak || 0.16);
+  o.start(t); o.stop(t + dur + 0.06);
+}
+function noiseBurst(dur, f0, f1, peak){
+  const c = ac(); if (!c) return;
+  const n = Math.floor(c.sampleRate * dur);
+  const buf = c.createBuffer(1, n, c.sampleRate);
+  const d = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+  const src = c.createBufferSource(); src.buffer = buf;
+  const flt = c.createBiquadFilter(); flt.type = 'bandpass'; flt.Q.value = 0.9;
+  flt.frequency.setValueAtTime(f0, c.currentTime);
+  flt.frequency.exponentialRampToValueAtTime(f1, c.currentTime + dur);
+  const g = c.createGain(); g.gain.value = peak || 0.14;
+  src.connect(flt); flt.connect(g); g.connect(c.destination);
+  src.start();
+}
+function sfx(kind){
+  if (!sfxOn) return;
+  const c = ac(); if (!c) return;
+  const t = c.currentTime;
+  if (kind === 'page')      noiseBurst(0.26, 1500, 380, 0.10);
+  else if (kind === 'click'){ tone(880, t, 0.07, 'triangle', 0.10); }
+  else if (kind === 'correct'){
+    tone(659.25, t, 0.14, 'sine', 0.16);
+    tone(987.77, t + 0.11, 0.22, 'sine', 0.15);
+  }
+  else if (kind === 'wrong'){
+    tone(220, t, 0.20, 'sawtooth', 0.12);
+    tone(174.61, t + 0.13, 0.26, 'sawtooth', 0.11);
+  }
+  else if (kind === 'pop') tone(1046.5, t, 0.09, 'sine', 0.12);
+}
+/* 雨声环境音 */
+function toggleRain(on){
+  const c = ac(); if (!c) return;
+  if (on && !rainNodes){
+    const len = Math.floor(c.sampleRate * 2);
+    const buf = c.createBuffer(1, len, c.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    const src = c.createBufferSource(); src.buffer = buf; src.loop = true;
+    const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1100; lp.Q.value = 0.6;
+    const hp = c.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 320;
+    const g = c.createGain(); g.gain.value = 0.0001;
+    g.gain.exponentialRampToValueAtTime(0.05, c.currentTime + 1.2);
+    src.connect(hp); hp.connect(lp); lp.connect(g); g.connect(c.destination);
+    src.start();
+    rainNodes = { src, g };
+  } else if (!on && rainNodes){
+    const { src, g } = rainNodes; const now = c.currentTime;
+    g.gain.cancelScheduledValues(now);
+    g.gain.setValueAtTime(g.gain.value, now);
+    g.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+    setTimeout(() => { try { src.stop(); } catch (e) {} }, 700);
+    rainNodes = null;
+  }
+}
+
+/* ============================================================
+   2. 配音播放引擎
+   ============================================================ */
+let curAudio = null, curClipId = null, subTimer = null;
+
+function showSub(text){
+  const el = document.getElementById('subtitle');
+  document.getElementById('subText').textContent = text || '';
+  el.classList.add('show');
+  clearTimeout(subTimer);
+}
+function hideSub(){
+  clearTimeout(subTimer);
+  subTimer = setTimeout(() => document.getElementById('subtitle').classList.remove('show'), 2600);
+}
+function stopClip(){
+  if (curAudio){ try { curAudio.pause(); } catch (e) {} curAudio = null; }
+  document.querySelectorAll('.playing').forEach(n => n.classList.remove('playing'));
+  document.querySelectorAll('.speaking').forEach(n => n.classList.remove('speaking'));
+  curClipId = null;
+}
+function playClip(id, opt){
+  opt = opt || {};
+  // 音源二选一：① 单文件版 = 内嵌 base64；② Web 版 = 同目录 audio/<id>.mp3 按需拉取
+  const src = REMOTE_AUDIO ? ('audio/' + id + '.mp3') : AUDIO[id];
+  if (!src){ if (!opt.silent) console.warn('missing clip', id); return; }
+  stopClip();
+  curClipId = id;
+  const a = new Audio();
+  curAudio = a;
+  a.preload = 'auto';
+  a.volume = (opt.volume != null) ? opt.volume : 1;
+  // 高亮（先亮，避免网络慢时点了没反馈）
+  const marks = document.querySelectorAll('[data-clip="' + id + '"]');
+  marks.forEach(b => {
+    if (b.classList.contains('btn-read')) b.classList.add('playing');
+    else b.classList.add('speaking');
+  });
+  if (opt.reciteWrap) opt.reciteWrap.classList.add('playing');
+  if (TEXT[id]) showSub(TEXT[id]);
+  const clear = () => {
+    marks.forEach(b => b.classList.remove('playing', 'speaking'));
+    if (opt.reciteWrap) opt.reciteWrap.classList.remove('playing');
+    curAudio = null; curClipId = null;
+    hideSub();
+  };
+  a.onended = () => { clear(); if (opt.then) opt.then(); };
+  // 音频缺失/加载失败 → 安静降级，课件照常可用
+  a.onerror = () => { clear(); if (!opt.silent) console.warn('clip load failed:', src.slice(0, 60)); };
+  a.src = src;
+  a.play().catch(e => { clear(); });
+  return a;
+}
+
+/* ============================================================
+   3. 幻灯片导航
+   ============================================================ */
+const slides = Array.from(document.querySelectorAll('.slide'));
+let cur = 0;
+const TOTAL = slides.length;
+
+/* 各页标题（用于快速跳转下拉） */
+const TITLES = ['封面', '学习目标', '导入 · 秋雨来了', '生字词闯关', '初读感知',
+                '第二段 · 五彩缤纷的颜料', '第三段 · 好闻的气味', '第四段 · 金色的小喇叭',
+                '第五段 · 丰收的歌', '语言赏析 · 拟人', '课堂小练习', '仿写小练笔',
+                '课堂小结', '板书设计', '课后作业'];
+
+function buildDots(){
+  const box = document.getElementById('dots');
+  slides.forEach((s, i) => {
+    const d = document.createElement('span');
+    d.className = 'dt' + (i === 0 ? ' on' : '');
+    d.title = '第 ' + (i + 1) + ' 页 · ' + (TITLES[i] || '');
+    d.onclick = () => go(i);
+    box.appendChild(d);
+  });
+}
+function buildJump(){
+  const sel = document.getElementById('jumpSel');
+  sel.innerHTML = '';
+  slides.forEach((s, i) => {
+    const o = document.createElement('option');
+    o.value = i;
+    o.textContent = (i + 1) + '. ' + (TITLES[i] || ('第 ' + (i + 1) + ' 页'));
+    sel.appendChild(o);
+  });
+  sel.value = cur;
+  sel.onchange = () => go(parseInt(sel.value, 10));
+}
+function syncUI(){
+  document.getElementById('pageInd').textContent = (cur + 1) + ' / ' + TOTAL;
+  document.getElementById('progBar').style.width = ((cur + 1) / TOTAL * 100) + '%';
+  document.querySelectorAll('#dots .dt').forEach((d, i) => d.classList.toggle('on', i === cur));
+  document.getElementById('btnPrev').disabled = (cur === 0);
+  document.getElementById('btnNext').disabled = (cur === TOTAL - 1);
+  document.getElementById('btnFirst').disabled = (cur === 0);
+  document.getElementById('btnLast').disabled = (cur === TOTAL - 1);
+  const sel = document.getElementById('jumpSel');
+  if (sel) sel.value = cur;
+}
+function go(i, silentSfx){
+  if (i < 0 || i >= TOTAL) return;
+  stopClip();
+  if (!silentSfx) sfx('page');
+  slides[cur].classList.remove('active');
+  cur = i;
+  const el = slides[cur];
+  el.classList.add('active');
+  el.scrollTop = 0;
+  // 重放本页出场动画
+  el.querySelectorAll('.anim,.pop,.left').forEach(n => {
+    n.style.animation = 'none'; void n.offsetWidth; n.style.animation = '';
+  });
+  syncUI();
+  // 自动旁白
+  const nid = el.dataset.narr;
+  if (narrOn && nid && started) setTimeout(() => { if (cur === slides.indexOf(el)) playClip(nid); }, 420);
+}
+function next(){ go(cur + 1); }
+function prev(){ go(cur - 1); }
+
+document.getElementById('btnNext').onclick = next;
+document.getElementById('btnPrev').onclick = prev;
+document.getElementById('btnFirst').onclick = () => go(0);
+document.getElementById('btnLast').onclick = () => go(TOTAL - 1);
+document.addEventListener('keydown', e => {
+  if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(e.key)){ e.preventDefault(); next(); }
+  else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)){ e.preventDefault(); prev(); }
+  else if (e.key === 'Home'){ go(0); }
+  else if (e.key === 'End'){ go(TOTAL - 1); }
+});
+
+/* ============================================================
+   4. 工具栏按钮
+   ============================================================ */
+function chip(el, on){ el.classList.toggle('on', on); }
+document.getElementById('btnNarr').onclick = function(){
+  narrOn = !narrOn; chip(this, narrOn); sfx('click');
+  if (!narrOn) stopClip();
+  else { const nid = slides[cur].dataset.narr; if (nid) playClip(nid); }
+};
+document.getElementById('btnSfx').onclick = function(){
+  sfxOn = !sfxOn; chip(this, sfxOn);
+  if (sfxOn) sfx('click');
+};
+document.getElementById('btnRain').onclick = function(){
+  rainOn = !rainOn; chip(this, rainOn); toggleRain(rainOn); sfx('click');
+};
+document.getElementById('btnFull').onclick = function(){
+  sfx('click');
+  const d = document.documentElement;
+  if (!document.fullscreenElement){ (d.requestFullscreen || d.webkitRequestFullscreen || function(){}).call(d); }
+  else { (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document); }
+};
+
+/* ============================================================
+   5. 朗读 / 点读绑定
+   ============================================================ */
+document.querySelectorAll('[data-clip]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.clip;
+    if (curClipId === id){ stopClip(); sfx('click'); return; }
+    sfx('click');
+    const wrap = btn.closest('.recite');
+    playClip(id, { reciteWrap: wrap });
+  });
+});
+
+/* ============================================================
+   6. 互动练习 + 作答数据回收
+   ============================================================ */
+/* 6.0 数据持久化：已发布环境写平台服务器；本地 / 预览自动降级到 localStorage */
+async function saveRecords(key, value){
+  try{
+    if (window.coursewareData && window.coursewareData.enabled){
+      const ok = await window.coursewareData.save(key, value);
+      if (ok) return true;
+    }
+  }catch(e){}
+  try{ localStorage.setItem('cw:' + key, JSON.stringify(value)); return true; }catch(e){ return false; }
+}
+async function loadRecords(key, fallback){
+  try{
+    if (window.coursewareData && window.coursewareData.enabled){
+      const v = await window.coursewareData.load(key, undefined);
+      if (v !== undefined && v !== null) return v;
+    }
+  }catch(e){}
+  try{ const raw = localStorage.getItem('cw:' + key); if (raw) return JSON.parse(raw); }catch(e){}
+  return fallback;
+}
+function stuName(){
+  const el = document.getElementById('stuName');
+  const v = el ? el.value.trim() : '';
+  return v || '未填写';
+}
+async function recordAnswer(questionId, selected, correct){
+  const list = (await loadRecords('quiz-records', [])) || [];
+  list.push({
+    studentName: stuName(), questionId: questionId, selected: selected,
+    correct: !!correct, answeredAt: Date.now()
+  });
+  const ok = await saveRecords('quiz-records', list);
+  const tip = document.getElementById('stuTip');
+  if (tip && ok){
+    tip.classList.add('stu-saved');
+    tip.innerHTML = '✅ 已记录 ' + list.length + ' 条作答';
+  }
+  return ok;
+}
+/* 姓名记忆：中途填写也生效，刷新后不丢 */
+(function(){
+  const el = document.getElementById('stuName');
+  if (!el) return;
+  try{ const n = localStorage.getItem('cw:stu-name'); if (n) el.value = n; }catch(e){}
+  el.addEventListener('change', () => { try{ localStorage.setItem('cw:stu-name', el.value.trim()); }catch(e){} });
+})();
+
+/* 6.1 连线 */
+const MATCH = { yellow: 'ginkgo', red: 'maple', gold: 'field', orange: 'fruit' };
+const NAME  = { yellow: '黄色', red: '红色', gold: '金黄色', orange: '橙红色',
+                ginkgo: '银杏树', maple: '枫树', field: '田野', fruit: '果树' };
+let selColor = null, matched = 0;
+document.querySelectorAll('.mi').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('done')) return;
+    if (btn.dataset.side === 'c'){
+      document.querySelectorAll('.mi[data-side="c"]').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel'); selColor = btn; sfx('click');
+    } else {
+      if (!selColor){ sfx('wrong'); return; }
+      if (MATCH[selColor.dataset.key] === btn.dataset.key){
+        const ckey = selColor.dataset.key;
+        selColor.classList.remove('sel'); selColor.classList.add('done');
+        btn.classList.add('done');
+        selColor.insertAdjacentHTML('beforeend', '<span class="lk">✓</span>');
+        btn.insertAdjacentHTML('beforeend', '<span class="lk">✓</span>');
+        selColor = null; matched++; sfx('correct');
+        recordAnswer('match-' + ckey, btn.dataset.key, true);
+        const fb = document.getElementById('fb1');
+        if (matched === 4){ fb.textContent = '🎉 全部连对！黄色—银杏树，红色—枫树，金黄色—田野，橙红色—果树。'; fb.classList.remove('err'); fb.classList.add('show'); }
+        else { fb.textContent = '✅ 连对一组，继续！'; fb.classList.remove('err'); fb.classList.add('show'); }
+      } else {
+        btn.classList.add('bad'); sfx('wrong');
+        recordAnswer('match-' + selColor.dataset.key, btn.dataset.key, false);
+        const s = selColor; s.classList.add('bad');
+        setTimeout(() => { btn.classList.remove('bad'); if (s) s.classList.remove('bad'); }, 440);
+        const fb = document.getElementById('fb1');
+        fb.textContent = '再想一想：' + NAME[selColor.dataset.key] + '应该送给谁呢？'; fb.classList.add('err', 'show');
+      }
+    }
+  });
+});
+/* 6.2 单选 */
+let q2done = false;
+document.querySelectorAll('.opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (q2done) return;
+    const k = btn.dataset.k, fb = document.getElementById('fb2');
+    if (k === 'B'){
+      btn.classList.add('right'); q2done = true; sfx('correct');
+      recordAnswer('q2', k, true);
+      fb.textContent = '✅ 答对了！"频频点头"把菊花当成人来写，是拟人。'; fb.classList.remove('err'); fb.classList.add('show');
+    } else {
+      btn.classList.add('wrong'); sfx('wrong');
+      recordAnswer('q2', k, false);
+      fb.textContent = '❌ 再想想：A 句是比喻（把秋雨比作颜料盒），B 句把菊花当成人，才是拟人。'; fb.classList.add('err', 'show');
+    }
+  });
+});
+
+/* ============================================================
+   7. 装饰层生成
+   ============================================================ */
+(function decorate(){
+  const amb = document.getElementById('ambient');
+  const leaves = ['🍂', '🍁', '🍃', '🌾'];
+  for (let i = 0; i < 12; i++){
+    const l = document.createElement('div');
+    l.className = 'leaf';
+    l.textContent = leaves[i % leaves.length];
+    l.style.left = (Math.random() * 96) + '%';
+    l.style.fontSize = (16 + Math.random() * 16) + 'px';
+    l.style.animationDuration = (13 + Math.random() * 12) + 's';
+    l.style.animationDelay = (-Math.random() * 20) + 's';
+    l.style.opacity = (0.35 + Math.random() * 0.4);
+    amb.appendChild(l);
+  }
+  const rain = document.getElementById('rainLayer');
+  for (let i = 0; i < 26; i++){
+    const r = document.createElement('div');
+    r.className = 'rainline';
+    r.style.left = (Math.random() * 100) + '%';
+    r.style.height = (18 + Math.random() * 26) + 'px';
+    r.style.animationDuration = (1.1 + Math.random() * 1.6) + 's';
+    r.style.animationDelay = (-Math.random() * 2) + 's';
+    rain.appendChild(r);
+  }
+})();
+
+/* ============================================================
+   8. 启动
+   ============================================================ */
+let started = false;
+function start(){
+  if (started) return;
+  started = true;
+  // 顺序很重要：先无条件关闭遮罩，再解锁音频。
+  // 从前 ac() 在前，一旦音频初始化抛错，遮罩永远关不掉 —— 表现就是「按钮点了没反应」。
+  const gate = document.getElementById('gate');
+  if (gate) gate.classList.add('hide');
+  try { ac(); } catch(e){}
+  try { sfx('pop'); } catch(e){}
+  setTimeout(function(){ try { playClip(slides[cur].dataset.narr); } catch(e){} }, 520);
+}
+window.__booted = true;            // 供首屏自检判断逻辑是否已启动
+document.getElementById('gateBtn').onclick = start;
+document.getElementById('btnStart').onclick = start;
+
+buildDots();
+buildJump();
+syncUI();
+</script>
+
+<!-- ============================================================
+     数据块（构建时注入）—— 必须留在文件最末尾。
+     与上方逻辑分属两个 script 块：网络传输若在此处被截断，
+     只损失音频，页面交互完全不受影响。
+     ============================================================ -->
+<script>
+AUDIO = null || {};
+TEXT  = {"n01": "同学们好，欢迎来到《秋天的雨》。这是一篇部编版三年级上册的精读课文。让我们一起走进秋天，听一听秋雨的声音吧。", "n02": "先来看本节课的三个学习目标。第一，会认钥匙、缤纷等生字词。第二，品读重点段落，感受秋雨带来的色彩、气味和声音，体会比喻和拟人的妙处。第三，能有感情地朗读课文，并完成仿写练习。", "n03": "作者把秋雨比作一把钥匙，多有意思呀！这把钥匙打开了什么呢？请同学们带着这个问题，自由朗读课文。", "n04": "这些词语要读准字音。跟老师一起读：钥匙、五彩缤纷、喇叭。点击卡片上的词语，还可以再听一遍。", "n05": "请自由朗读课文，找一找，秋雨分别给大地带来了什么？", "n06": "这段话写了哪些景物？秋雨分别给它们涂上了什么颜色？试着用秋雨把什么颜色给了什么的句式，说一句话。", "n07": "躲字用得好不好？勾住又是什么意思呢？", "n08": "秋雨吹起了金色的小喇叭，小动物们都在忙着准备过冬。请你圈出文中都提到了哪些动物和植物。", "n09": "这是课文的中心句，请你有感情地朗读一遍，体会作者对秋天的喜爱和赞美。", "n10": "这两个句子都用了拟人的手法。吹起小喇叭、频频点头，都是把事物当成人来写，给它人的动作、语言和感情。这样写，句子就更生动、更有趣了。", "n11": "我们来做两道小练习。第一题，连一连，秋雨把颜色给了谁？第二题，选一选，下面哪个句子用了拟人手法？做完可以点击按钮核对答案。", "n12": "先看例句：秋天的雨，把黄色给了银杏树，黄黄的叶子像一把把小扇子，扇哪扇哪，扇走了夏天的炎热。请你学着这个样子，也来写一写你眼中的秋天。", "n13": "这节课，我们跟着秋雨，欣赏了一盒五彩缤纷的颜料，闻到了好闻的气味，还听见了金色的小喇叭。秋雨带给大地的是一曲丰收的歌，带给小朋友的是一首欢乐的歌。", "n14": "这是我们今天的板书。一把钥匙打开秋天，一盒颜料五彩缤纷，好闻的气味勾住小脚，金色小喇叭通知过冬。", "n15": "课后作业有三个。第一，有感情地朗读课文，背诵第二自然段。第二，仿照课文句式，写一写你眼中的秋天，三到五句话。第三，和爸爸妈妈一起到公园找找秋天，捡几片落叶做一幅贴画。", "r1": "秋天的雨，是一把钥匙。它带着清凉和温柔，轻轻地，轻轻地，趁你没留意，把秋天的大门打开了。", "r2": "秋天的雨，有一盒五彩缤纷的颜料。你看，它把黄色给了银杏树，黄黄的叶子像一把把小扇子，扇哪扇哪，扇走了夏天的炎热。它把红色给了枫树，红红的枫叶像一枚枚邮票，飘哇飘哇，邮来了秋天的凉爽。金黄色是给田野的，看，田野像金色的海洋。橙红色是给果树的，橘子、柿子你挤我碰，争着要人们去摘呢！菊花仙子得到的颜色就更多了，紫红的、淡黄的、雪白的。美丽的菊花在秋雨里频频点头。", "r3": "秋天的雨，藏着非常好闻的气味。梨香香的，菠萝甜甜的，还有苹果、橘子，好多好多香甜的气味，都躲在小雨滴里呢！小朋友的脚，常被那香味勾住。", "r4": "秋天的雨，吹起了金色的小喇叭。它告诉大家，冬天快要来了。小喜鹊衔来树枝造房子，小松鼠找来松果当粮食，小青蛙在加紧挖洞，准备舒舒服服地睡大觉。松柏穿上厚厚的、油亮亮的衣裳，杨树、柳树的叶子飘到树妈妈的脚下。它们都在准备过冬了。", "r5": "秋天的雨，带给大地的是一曲丰收的歌，带给小朋友的是一首欢乐的歌。", "w1": "钥匙", "w2": "五彩缤纷", "w3": "喇叭", "w4": "颜料", "w5": "凉爽", "w6": "蔷薇", "w7": "菠萝", "w8": "邮票", "w9": "仙子", "w10": "丰收", "w11": "加紧"} || {};
+REMOTE_AUDIO = true;
+window.__audioReady = true;
+</script>
+</body>
+</html>
