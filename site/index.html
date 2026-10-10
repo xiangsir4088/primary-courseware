@@ -102,6 +102,19 @@ header{
   letter-spacing:4px;text-shadow:0 2px 0 rgba(255,255,255,.85),0 6px 16px rgba(194,94,28,.18);
   z-index:3;
 }
+/* 用课件自带插画做封面 */
+.cover.img{background:#EFE6D6}
+.cover.img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .55s}
+.card:hover .cover.img img{transform:scale(1.06)}
+.cover.img .shade{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(0deg,rgba(24,16,6,.8) 0%,rgba(24,16,6,.34) 36%,rgba(24,16,6,0) 64%);
+}
+.cover.img .ttl{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.62),0 1px 3px rgba(0,0,0,.75)}
+/* 四宫格合集封面 */
+.cover.quad{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.cover.quad img{position:static;width:100%;height:100%;object-fit:cover}
+.card:hover .cover.quad img{transform:scale(1.08)}
 .card .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:11px;flex:1}
 .card .meta{display:flex;gap:8px;flex-wrap:wrap}
 .tag{font-size:11px;padding:4px 11px;border-radius:999px;background:rgba(226,136,62,.12);color:var(--orange-deep)}
@@ -203,15 +216,9 @@ footer a:hover{color:var(--orange-deep)}
     <div class="grid">
 
       <article class="card">
-        <div class="cover">
-          <div class="band"></div><div class="soil"></div>
-          <span class="em" style="left:12%;bottom:26%">🌳</span>
-          <span class="em" style="right:12%;bottom:26%">🌲</span>
-          <span class="em" style="left:45%;bottom:22%;font-size:34px">🌾</span>
-          <span class="fl" style="left:20%;animation-delay:0s">🍂</span>
-          <span class="fl" style="left:34%;animation-delay:1.6s">🍂</span>
-          <span class="fl" style="right:24%;animation-delay:.8s">🍁</span>
-          <span class="fl" style="right:36%;animation-delay:2.6s">🍁</span>
+        <div class="cover img">
+          <img src="./assets/covers/chinese-autumn-rain.jpg" alt="《秋天的雨》插画：秋雨中飘落的银杏叶与池塘涟漪" width="800" height="450" loading="lazy" decoding="async">
+          <span class="shade"></span>
           <div class="ttl">秋天的雨</div>
         </div>
         <div class="body">
@@ -227,13 +234,12 @@ footer a:hover{color:var(--orange-deep)}
       </article>
 
       <article class="card">
-        <div class="cover">
-          <div class="band"></div><div class="soil"></div>
-          <span class="em" style="left:14%;bottom:26%">📖</span>
-          <span class="em" style="right:14%;bottom:26%">🖌️</span>
-          <span class="em" style="left:45%;bottom:20%;font-size:30px">🌙</span>
-          <span class="fl" style="left:26%;animation-delay:.4s">🍂</span>
-          <span class="fl" style="right:30%;animation-delay:1.8s">🍁</span>
+        <div class="cover img quad">
+          <img src="./chinese/picture-book/covers/mu-jiang-yin.jpg" alt="《暮江吟》插画" width="800" height="450" loading="lazy">
+          <img src="./chinese/picture-book/covers/wang-lu-shan-pu-bu.jpg" alt="《望庐山瀑布》插画" width="800" height="450" loading="lazy">
+          <img src="./chinese/picture-book/covers/xue-mei.jpg" alt="《雪梅》插画" width="800" height="450" loading="lazy">
+          <img src="./chinese/picture-book/covers/pa-shan-hu-de-jiao.jpg" alt="《爬山虎的脚》插画" width="800" height="450" loading="lazy">
+          <span class="shade"></span>
           <div class="ttl">古诗绘本课件</div>
         </div>
         <div class="body">
@@ -257,11 +263,9 @@ footer a:hover{color:var(--orange-deep)}
     <div class="grid">
 
       <article class="card">
-        <div class="cover">
-          <div class="band"></div><div class="soil"></div>
-          <span class="em" style="left:15%;bottom:26%">🐔</span>
-          <span class="em" style="right:15%;bottom:26%">🐰</span>
-          <span class="em" style="left:44%;bottom:18%;font-size:30px">🦶</span>
+        <div class="cover img">
+          <img src="./assets/covers/math-chicken-rabbit.jpg" alt="《鸡兔同笼》插画：竹笼里的小鸡与白兔" width="800" height="450" loading="lazy" decoding="async">
+          <span class="shade"></span>
           <div class="ttl">鸡兔同笼</div>
         </div>
         <div class="body">
