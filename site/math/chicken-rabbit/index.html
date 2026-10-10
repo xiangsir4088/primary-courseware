@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>鸡兔同笼 · 完整动画讲解</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%94%3C/text%3E%3C/svg%3E">
+<meta name="description" content="小学四年级数学广角《鸡兔同笼》互动演示课件：一步一步把鸡换成兔，看着腿数从 16 条涨到 26 条，把假设法讲透。浏览器直接打开，无需安装。">
+<!-- ECharts 本地化：不依赖外部 CDN，离线/弱网也能正常显示图表 -->
+<script src="vendor/echarts.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    background: linear-gradient(180deg, #FFF8E7 0%, #FFFDF5 40%, #F0F7FF 100%);
+    color: #2B2B2B; min-height: 100vh; padding: 20px;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+
+  /* 顶部 */
+  .header { text-align: center; margin-bottom: 16px; }
+  .header h1 { font-size: 28px; color: #2B6CB0; margin-bottom: 4px; }
+  .header .sub { font-size: 14px; color: #888; }
+
+  /* 题目条 */
+  .problem {
+    background: #fff; border-radius: 12px; padding: 14px 22px;
+    border-left: 5px solid #ED8936; box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    margin-bottom: 16px; font-size: 16px; line-height: 1.7;
+  }
+  .problem b { color: #ED8936; font-size: 18px; }
+
+  /* 主区 */
+  .main {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; margin-bottom: 16px;
+  }
+  @media (max-width: 960px) { .main { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: #fff; border-radius: 16px; padding: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .panel h2 {
+    font-size: 16px; color: #2B6CB0; margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 2px solid #F0F4FA;
+  }
+  .panel h2 .hint { font-size: 12px; color: #aaa; font-weight: normal; margin-left: 6px; }
+
+  /* 笼子 */
+  .cage-wrap {
+    background: linear-gradient(180deg, #E8F4DC 0%, #F5E6C8 100%);
+    border: 4px solid #8B6B3D; border-radius: 14px;
+    padding: 16px 14px 6px 14px; position: relative;
+  }
+  /* 栅栏顶 */
+  .cage-wrap::before {
+    content: ''; position: absolute; top: -14px; left: 0; right: 0; height: 14px;
+    background: repeating-linear-gradient(90deg,
+      #8B6B3D 0 10px, transparent 10px 22px);
+    border-radius: 4px 4px 0 0;
+  }
+  .cage {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  }
+  .cell {
+    background: rgba(255,255,255,0.75); border-radius: 12px;
+    padding: 6px 4px 4px 4px; text-align: center;
+    transition: all 0.4s ease; position: relative;
+    border: 2px solid transparent;
+  }
+  .cell.chicken { background: #FFF3C4; border-color: #F0C040; }
+  .cell.rabbit  { background: #E3F2FD; border-color: #4A90D9; transform: translateY(-3px); }
+
+  .animal { width: 90px; height: 100px; margin: 0 auto; }
+  .animal svg { width: 100%; height: 100%; display: block; }
+
+  .cell.tag {
+    font-size: 11px; font-weight: bold; margin-top: 2px;
+    display: inline-block; padding: 1px 8px; border-radius: 8px;
+    background: rgba(255,255,255,0.8);
+  }
+  .cell.chicken .tag { color: #B7791F; }
+  .cell.rabbit .tag { color: #2B6CB0; }
+
+  /* 变身动画 */
+  @keyframes morphIn {
+    0%   { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+    60%  { transform: scale(1.15) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0); opacity: 1; }
+  }
+  .animal.morph { animation: morphIn 0.6s cubic-bezier(.34,1.56,.64,1); }
+
+  /* 地面 */
+  .ground {
+    height: 8px; background: #6B4423; border-radius: 4px; margin-top: 10px;
+    position: relative;
+  }
+  .ground::before, .ground::after {
+    content: ''; position: absolute; top: -5px; width: 10px; height: 18px;
+    background: #8B6B3D; border-radius: 3px;
+  }
+  .ground::before { left: 6%; }
+  .ground::after { right: 6%; }
+
+  /* 统计 */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px;
+  }
+  .stat {
+    background: #F8FAFC; border-radius: 10px; padding: 10px; text-align: center;
+  }
+  .stat .num { font-size: 30px; font-weight: bold; color: #2B6CB0; transition: all 0.3s; }
+  .stat .num.orange { color: #ED8936; }
+  .stat .num.green { color: #38A169; }
+  .stat .lbl { font-size: 12px; color: #888; margin-top: 2px; }
+
+  /* 步骤讲解卡 */
+  .step-card {
+    background: linear-gradient(135deg, #EBF0F7 0%, #FFF7E6 100%);
+    border-radius: 12px; padding: 16px 18px; margin-bottom: 14px;
+    min-height: 110px; font-size: 15px; line-height: 1.75;
+    border-left: 4px solid #2B6CB0;
+  }
+  .step-card.win { background: linear-gradient(135deg, #E6F7EE 0%, #D4EDDA); border-left-color: #38A169; }
+  .step-card.warn { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2); border-left-color: #ED8936; }
+  .step-card .step-no {
+    display: inline-block; background: #2B6CB0; color: #fff;
+    padding: 2px 10px; border-radius: 10px; font-size: 12px; margin-bottom: 6px;
+  }
+  .step-card.win .step-no { background: #38A169; }
+  .step-card.warn .step-no { background: #ED8936; }
+
+  /* 公式行 */
+  .formula {
+    background: #fff; border-radius: 8px; padding: 8px 14px; margin-top: 8px;
+    font-family: "Courier New", monospace; font-size: 15px; color: #2B6CB0;
+    display: inline-block; box-shadow: inset 0 0 0 1px #E0E8F0;
+  }
+
+  #chart { width: 100%; height: 260px; }
+
+  /* 控制 */
+  .controls {
+    background: #fff; border-radius: 16px; padding: 14px 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  }
+  button {
+    padding: 10px 20px; border: none; border-radius: 24px;
+    font-size: 14px; cursor: pointer; font-weight: bold;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  button:hover { transform: translateY(-2px); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-primary { background: #2B6CB0; color: #fff; }
+  .btn-orange { background: #ED8936; color: #fff; }
+  .btn-green { background: #38A169; color: #fff; }
+  .btn-ghost { background: #EBF0F7; color: #2B6CB0; }
+
+  .slider-wrap { flex: 1; min-width: 220px; display: flex; align-items: center; gap: 8px; }
+  .slider-wrap label { font-size: 13px; color: #666; white-space: nowrap; }
+  input[type=range] { flex: 1; accent-color: #2B6CB0; }
+
+  .legend { display: flex; gap: 16px; justify-content: center; margin-top: 4px; font-size: 12px; color: #888; }
+  .legend span::before {
+    content: ''; display: inline-block; width: 10px; height: 10px;
+    border-radius: 50%; margin-right: 4px; vertical-align: middle;
+  }
+  .legend .c1::before { background: #4A90D9; }
+  .legend .c2::before { background: #ED8936; }
+
+  /* ===== 作品集 Web 版补充样式 ===== */
+  .back-home{
+    position:fixed; left:14px; top:14px; z-index:99;
+    display:inline-flex; align-items:center; gap:6px;
+    padding:8px 16px; border-radius:999px; font-size:13px; font-weight:bold;
+    color:#2B6CB0; background:rgba(255,255,255,.92); border:1px solid #DCE6F2;
+    box-shadow:0 4px 14px rgba(43,108,176,.14); text-decoration:none;
+    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); transition:.2s;
+  }
+  .back-home:hover{transform:translateX(-2px); box-shadow:0 8px 20px rgba(43,108,176,.26); color:#1A5FA8}
+  #chartFallback{
+    height:100%; display:flex; align-items:center; justify-content:center; text-align:center;
+    font-size:13px; line-height:1.9; color:#9AA7B5; padding:20px;
+  }
+  @media (max-width:560px){
+    body{padding:12px; padding-top:56px}
+    .header h1{font-size:21px}
+    .animal{width:62px; height:72px}
+    .cell.tag{font-size:10px}
+    #chart{height:200px}
+    .back-home{left:8px; top:8px; padding:6px 12px; font-size:12px}
+  }
+</style>
+</head>
+<body>
+<a class="back-home" href="../../">← 作品集</a>
+<div class="container">
+  <div class="header">
+    <h1>🐔 鸡兔同笼 · 一步一步数腿 🐰</h1>
+    <div class="sub">点"下一步"，看一只鸡怎么多长出 2 条腿变成兔</div>
+  </div>
+
+  <div class="problem">
+    <b>题目：</b>笼子里有鸡和兔，从上面数有 <b>8 个头</b>，从下面数有 <b>26 条腿</b>。问：鸡有几只？兔有几只？
+  </div>
+
+  <div class="main">
+    <!-- 左：笼子 -->
+    <div class="panel">
+      <h2>🐾 笼子里现在是这样<span class="hint">（每只动物脚下都长着腿，数数看）</span></h2>
+      <div class="cage-wrap">
+        <div class="cage" id="cage"></div>
+        <div class="ground"></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num" id="statChicken">8</div><div class="lbl">鸡（只）×2腿</div></div>
+        <div class="stat"><div class="num orange" id="statRabbit">0</div><div class="lbl">兔（只）×4腿</div></div>
+        <div class="stat"><div class="num green" id="statLegs">16</div><div class="lbl">总腿数（条）</div></div>
+      </div>
+    </div>
+
+    <!-- 右：讲解+图表 -->
+    <div>
+      <div class="step-card" id="stepCard"></div>
+      <div class="panel">
+        <h2>🦶 腿数对比<span class="hint">（一个脚丫 = 一条腿）</span></h2>
+        <div id="chart"></div>
+        <div class="legend">
+          <span class="c1">现在假设的腿数</span>
+          <span class="c2">题目实际 26 条</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn-ghost" onclick="prevStep()" id="btnPrev">◀ 上一步</button>
+    <button class="btn-primary" onclick="nextStep()" id="btnNext">下一步：换一只兔 ▶</button>
+    <button class="btn-orange" onclick="autoPlay()">🎬 自动播放</button>
+    <button class="btn-ghost" onclick="reset()">↺ 重置</button>
+    <div class="slider-wrap">
+      <label>兔 =</label>
+      <input type="range" id="slider" min="0" max="8" value="0" oninput="setRabbit(this.value)">
+      <label id="sliderVal">0</label>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ====== SVG 模板：纯矢量绘制，不依赖外部图片 ======
+  const CHICKEN_SVG = `
+    <svg viewBox="0 0 100 115" xmlns="http://www.w3.org/2000/svg">
+      <!-- 腿 -->
+      <line x1="40" y1="88" x2="40" y2="105" stroke="#F39C12" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="60" y1="88" x2="60" y2="105" stroke="#F39C12" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- 鸡爪 -->
+      <line x1="34" y1="108" x2="46" y2="108" stroke="#F39C12" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="54" y1="108" x2="66" y2="108" stroke="#F39C12" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- 身体 -->
+      <ellipse cx="50" cy="62" rx="28" ry="30" fill="#FFD93D"/>
+      <!-- 翅膀 -->
+      <ellipse cx="26" cy="64" rx="7" ry="13" fill="#F4C430" transform="rotate(-12 26 64)"/>
+      <ellipse cx="74" cy="64" rx="7" ry="13" fill="#F4C430" transform="rotate(12 74 64)"/>
+      <!-- 鸡冠 -->
+      <ellipse cx="42" cy="20" rx="4.5" ry="7" fill="#E74C3C"/>
+      <ellipse cx="50" cy="16" rx="5" ry="8" fill="#E74C3C"/>
+      <ellipse cx="58" cy="20" rx="4.5" ry="7" fill="#E74C3C"/>
+      <!-- 眼睛 -->
+      <circle cx="40" cy="52" r="5" fill="#2C3E50"/>
+      <circle cx="60" cy="52" r="5" fill="#2C3E50"/>
+      <circle cx="41.5" cy="50.5" r="1.8" fill="white"/>
+      <circle cx="61.5" cy="50.5" r="1.8" fill="white"/>
+      <!-- 嘴 -->
+      <polygon points="50,60 42,66 58,66" fill="#F39C12"/>
+      <!-- 腮红 -->
+      <circle cx="32" cy="60" r="4" fill="#FFB6C1" opacity="0.7"/>
+      <circle cx="68" cy="60" r="4" fill="#FFB6C1" opacity="0.7"/>
+    </svg>`;
+
+  const RABBIT_SVG = `
+    <svg viewBox="0 0 100 115" xmlns="http://www.w3.org/2000/svg">
+      <!-- 4 条腿 -->
+      <line x1="28" y1="92" x2="28" y2="106" stroke="#95A5A6" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="42" y1="92" x2="42" y2="106" stroke="#95A5A6" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="58" y1="92" x2="58" y2="106" stroke="#95A5A6" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="72" y1="92" x2="72" y2="106" stroke="#95A5A6" stroke-width="4.5" stroke-linecap="round"/>
+      <!-- 身体 -->
+      <ellipse cx="50" cy="68" rx="30" ry="26" fill="#FDFEFE" stroke="#E5E8E8" stroke-width="1"/>
+      <!-- 尾巴 -->
+      <circle cx="80" cy="72" r="6" fill="#FDFEFE" stroke="#E5E8E8" stroke-width="1"/>
+      <!-- 耳朵 -->
+      <ellipse cx="38" cy="22" rx="7" ry="18" fill="#FDFEFE" stroke="#D5DBDB" stroke-width="1"/>
+      <ellipse cx="62" cy="22" rx="7" ry="18" fill="#FDFEFE" stroke="#D5DBDB" stroke-width="1"/>
+      <ellipse cx="38" cy="24" rx="3.5" ry="13" fill="#F5B7B1"/>
+      <ellipse cx="62" cy="24" rx="3.5" ry="13" fill="#F5B7B1"/>
+      <!-- 眼睛 -->
+      <circle cx="40" cy="60" r="5" fill="#2C3E50"/>
+      <circle cx="60" cy="60" r="5" fill="#2C3E50"/>
+      <circle cx="41.5" cy="58.5" r="1.8" fill="white"/>
+      <circle cx="61.5" cy="58.5" r="1.8" fill="white"/>
+      <!-- 鼻子 -->
+      <polygon points="50,66 47,70 53,70" fill="#F1948A"/>
+      <path d="M 47 72 Q 50 75 53 72" stroke="#E74C3C" stroke-width="1.5" fill="none"/>
+      <!-- 腮红 -->
+      <circle cx="30" cy="67" r="4" fill="#F5B7B1" opacity="0.7"/>
+      <circle cx="70" cy="67" r="4" fill="#F5B7B1" opacity="0.7"/>
+    </svg>`;
+
+  // ====== 状态 ======
+  const TOTAL_HEADS = 8;
+  const TARGET_LEGS = 26;
+  let rabbit = 0;
+  let lastMorphed = -1;  // 记录刚变身的格子，触发动画
+  // 图表初始化加保护：ECharts 未加载/初始化失败时，讲解与数字照常可用
+  let chart = null;
+  try {
+    if (window.echarts) chart = echarts.init(document.getElementById('chart'));
+  } catch (err) { chart = null; console.warn('echarts init failed', err); }
+  if (!chart) {
+    const box = document.getElementById('chart');
+    if (box) box.innerHTML = '<div id="chartFallback">图表组件未能加载<br>（讲解与腿数变化不受影响）</div>';
+  }
+
+  // 脚丫图元
+  function foot(color) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 30">
+      <ellipse cx="10" cy="22" rx="6" ry="7" fill="${color}"/>
+      <circle cx="5" cy="11" r="2.4" fill="${color}"/>
+      <circle cx="10" cy="8"  r="2.6" fill="${color}"/>
+      <circle cx="15" cy="11" r="2.2" fill="${color}"/>
+    </svg>`;
+    return 'image://data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+  }
+
+  // ====== 渲染 ======
+  function render(morphIndex) {
+    const chicken = TOTAL_HEADS - rabbit;
+    const legs = chicken * 2 + rabbit * 4;
+
+    // --- 笼子 ---
+    const cage = document.getElementById('cage');
+    cage.innerHTML = '';
+    for (let i = 0; i < TOTAL_HEADS; i++) {
+      const isR = i < rabbit;
+      const cell = document.createElement('div');
+      cell.className = 'cell ' + (isR ? 'rabbit' : 'chicken');
+      cell.innerHTML = `
+        <div class="animal ${i === morphIndex ? 'morph' : ''}">${isR ? RABBIT_SVG : CHICKEN_SVG}</div>
+        <div class="tag">${isR ? '🐰 兔 · 4腿' : '🐔 鸡 · 2腿'}</div>`;
+      cage.appendChild(cell);
+    }
+
+    // --- 数字 ---
+    document.getElementById('statChicken').textContent = chicken;
+    document.getElementById('statRabbit').textContent = rabbit;
+    const legsEl = document.getElementById('statLegs');
+    legsEl.textContent = legs;
+    legsEl.style.color = legs === TARGET_LEGS ? '#38A169' : (legs > TARGET_LEGS ? '#ED8936' : '#2B6CB0');
+
+    document.getElementById('slider').value = rabbit;
+    document.getElementById('sliderVal').textContent = rabbit;
+
+    // --- 步骤讲解卡 ---
+    const card = document.getElementById('stepCard');
+    let cls = '', no = '', title = '', body = '';
+    if (rabbit === 0) {
+      cls = ''; no = '第 0 步';
+      title = '🤔 大胆假设：全是鸡';
+      body = `既然看不见笼子里，我们就先猜——<b>8 只全是鸡</b>。
+        每只鸡 2 条腿（看脚下：1、2），
+        <div class="formula">8 × 2 = 16 条腿</div>
+        可是题目说有 26 条腿……<b>少了 10 条！</b>`;
+    } else if (legs === TARGET_LEGS) {
+      cls = 'win'; no = '✅ 答案';
+      title = '🎉 正好对上了！';
+      body = `现在 <b>${rabbit} 只兔</b> + <b>${chicken} 只鸡</b>，
+        <div class="formula">${rabbit}×4 + ${chicken}×2 = ${legs} 条腿</div>
+        正好等于题目说的 26 条！<b>答：兔 ${rabbit} 只，鸡 ${chicken} 只。</b>`;
+    } else if (legs > TARGET_LEGS) {
+      cls = 'warn'; no = '⚠️ 换多了';
+      title = '腿数超了';
+      body = `现在有 ${legs} 条腿，比 26 多了 ${legs - TARGET_LEGS} 条。
+        往回拖滑块——每换回一只鸡，就少 2 条腿。`;
+    } else {
+      const need = (TARGET_LEGS - legs) / 2;
+      cls = ''; no = `第 ${rabbit} 步`;
+      title = `🐣 第 ${rabbit} 只鸡变身成兔`;
+      body = `把第 ${rabbit} 只鸡换成兔：它本来 2 条腿，现在多长出 <b>2 条</b>变成 4 条。
+        总腿数 <div class="formula">${legs - 2} → ${legs} 条（+2）</div>
+        离 26 还差 <b>${TARGET_LEGS - legs}</b> 条，再换 <b>${need}</b> 只就到了。`;
+    }
+    card.className = 'step-card ' + cls;
+    card.innerHTML = `<span class="step-no">${no}</span><div style="font-size:16px;font-weight:bold;margin-bottom:6px;">${title}</div>${body}`;
+
+    // --- ECharts 脚丫柱 ---
+    if (!chart) { syncButtons(); return; }   // 图表不可用也不能卡住按钮
+    const curColor = legs === TARGET_LEGS ? '#38A169' : '#4A90D9';
+    chart.setOption({
+      grid: { left: 60, right: 30, top: 36, bottom: 40 },
+      xAxis: {
+        type: 'category',
+        data: ['现在假设', '题目实际'],
+        axisLabel: { fontSize: 13, color: '#555' }
+      },
+      yAxis: {
+        type: 'value', max: 30, name: '条',
+        nameTextStyle: { color: '#999' },
+        splitLine: { lineStyle: { color: '#F0F0F0', type: 'dashed' } }
+      },
+      series: [
+        {
+          type: 'pictorialBar', symbol: foot(curColor),
+          symbolSize: [15, 22], symbolRepeat: true, symbolMargin: 3, symbolClip: true,
+          data: [legs, null],
+          label: { show: true, position: 'top', fontSize: 18, fontWeight: 'bold',
+                   color: '#333', formatter: p => p.value == null ? '' : p.value + '条' },
+          animationDuration: 400
+        },
+        {
+          type: 'pictorialBar', symbol: foot('#ED8936'),
+          symbolSize: [15, 22], symbolRepeat: true, symbolMargin: 3, symbolClip: true,
+          data: [null, TARGET_LEGS],
+          label: { show: true, position: 'top', fontSize: 18, fontWeight: 'bold',
+                   color: '#ED8936', formatter: p => p.value == null ? '' : p.value + '条' },
+          animationDuration: 400
+        },
+        {
+          type: 'line', data: [],
+          markLine: {
+            silent: true, symbol: 'none',
+            lineStyle: { color: '#ED8936', type: 'dashed', width: 2 },
+            data: [{ yAxis: TARGET_LEGS, label: { formatter: '目标 26', position: 'end', color: '#ED8936' } }]
+          }
+        }
+      ]
+    });
+
+    syncButtons();
+  }
+
+  function syncButtons() {
+    document.getElementById('btnPrev').disabled = (rabbit === 0);
+    document.getElementById('btnNext').disabled = (rabbit >= TOTAL_HEADS);
+  }
+
+  // ====== 控制 ======
+  function nextStep() {
+    if (rabbit < TOTAL_HEADS) { rabbit++; render(rabbit - 1); }
+  }
+  function prevStep() {
+    if (rabbit > 0) { rabbit--; render(rabbit); }
+  }
+  function setRabbit(v) {
+    const old = rabbit;
+    rabbit = parseInt(v);
+    render(rabbit > old ? rabbit - 1 : rabbit);
+  }
+  function reset() { rabbit = 0; render(); }
+
+  function autoPlay() {
+    reset();
+    const timer = setInterval(() => {
+      if (rabbit >= 5) { clearInterval(timer); return; }
+      rabbit++;
+      render(rabbit - 1);
+    }, 1200);
+  }
+
+  window.addEventListener('resize', function(){ if (chart) chart.resize(); });
+  render();
+</script>
+</body>
+</html>
