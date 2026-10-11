@@ -1,0 +1,2306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%F0%9F%94%8A%3C/text%3E%3C/svg%3E">
+<title>声音是怎样产生的 · 教科版四年级科学（配音动画课件）</title>
+<meta name="description" content="教科版四年级科学《声音是怎样产生的》互动动画课件，含教师配音、实验演示动画与可回收的课堂练习作答。">
+<script>
+/* 首屏自检 —— 极早执行，体积可忽略
+   ① 主逻辑 8 秒内没启动 → 资源被截断（大文件在弱网下最常见的故障），提示刷新；
+   ② 主逻辑已启动但配音数据没到 → 只是没声音，不阻断上课。 */
+function __bootWarn(msg, bg){
+  if (document.getElementById('bootWarn')) return;
+  var d = document.createElement('div');
+  d.id = 'bootWarn';
+  d.setAttribute('style', 'position:fixed;left:50%;top:14px;transform:translateX(-50%);z-index:99999;'
+    + 'background:' + bg + ';color:#fff;padding:13px 24px;border-radius:14px;max-width:90vw;'
+    + 'font:14px/1.75 system-ui,"Microsoft YaHei",sans-serif;text-align:center;'
+    + 'box-shadow:0 12px 34px rgba(0,0,0,.28)');
+  d.innerHTML = msg;
+  (document.body || document.documentElement).appendChild(d);
+}
+setTimeout(function(){
+  if (!window.__booted){
+    __bootWarn('⚠️ 课件资源未能完整加载（网络传输被中断）<br>'
+      + '<b>请刷新页面重试</b>，或换一个更稳定的网络后再打开。', '#B4483D');
+  } else if (!window.__audioReady){
+    __bootWarn('🔇 配音数据未能完整加载 —— 课件可正常翻页使用，但暂时没有声音。<br>'
+      + '建议刷新页面重试。', '#C07C2E');
+  }
+}, 8000);
+</script>
+<style>
+/* ============================================================
+   设计令牌
+   ============================================================ */
+:root{
+  --paper:#F4F8F5;
+  --card:#FFFFFF;
+  --ink:#2C3A32;
+  --ink-soft:#6B7B72;
+  --ink-faint:#9AA8A0;
+  --green:#4E9E63;
+  --green-deep:#357149;
+  --green-lite:#E7F3EA;
+  --blue:#3F7FBE;
+  --blue-lite:#E6F0F9;
+  --yellow:#F2CE4A;
+  --yellow-lite:#FCF4D8;
+  --orange:#E4892F;
+  --orange-lite:#FCEEDF;
+  --red:#C8503F;
+  --line:rgba(44,58,50,.10);
+  --line-2:rgba(44,58,50,.18);
+  --shadow:0 4px 16px rgba(44,58,50,.07);
+  --shadow-md:0 10px 30px rgba(44,58,50,.10);
+  --shadow-lg:0 22px 60px rgba(44,58,50,.16);
+  --r:18px;
+  --font-title:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,sans-serif;
+  --font-body:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.8,.32,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%}
+body{
+  font-family:var(--font-body);color:var(--ink);
+  background:var(--paper);overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input{font-family:inherit}
+
+/* ============================================================
+   主容器
+   ============================================================ */
+.app{position:relative;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.bgwash{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(58vw 46vh at 12% 6%, rgba(78,158,99,.10), transparent 62%),
+    radial-gradient(52vw 42vh at 92% 96%, rgba(63,127,190,.10), transparent 62%),
+    radial-gradient(40vw 34vh at 78% 4%, rgba(242,206,74,.12), transparent 60%);
+}
+
+/* ============================================================
+   顶栏
+   ============================================================ */
+.topbar{
+  position:relative;z-index:6;flex:0 0 auto;
+  height:58px;display:flex;align-items:center;gap:16px;
+  padding:0 22px;
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .bdot{
+  width:26px;height:26px;border-radius:9px;flex:0 0 auto;
+  background:linear-gradient(135deg,var(--green),var(--blue));
+  display:grid;place-items:center;color:#fff;font-size:14px;
+  box-shadow:0 4px 12px rgba(78,158,99,.35);
+}
+.brand .btxt{font-size:15px;font-weight:700;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand .btxt small{font-weight:500;color:var(--ink-faint);font-size:12px;margin-left:8px}
+.spacer{flex:1 1 auto}
+.tools{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.tbtn{
+  display:inline-flex;align-items:center;gap:6px;
+  height:34px;padding:0 13px;border-radius:11px;
+  font-size:13.5px;font-weight:600;color:var(--ink-soft);
+  background:rgba(44,58,50,.045);
+  border:1px solid transparent;
+  transition:background .25s,color .25s,border-color .25s,transform .2s var(--ease);
+}
+.tbtn:hover{background:rgba(44,58,50,.09);color:var(--ink);transform:translateY(-1px)}
+.tbtn:active{transform:translateY(0) scale(.97)}
+.tbtn.on{background:var(--green-lite);color:var(--green-deep);border-color:rgba(78,158,99,.28)}
+.tbtn.off{opacity:.5}
+.tbtn .dot{width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.45;transition:opacity .25s,box-shadow .25s}
+.tbtn.on .dot{opacity:1;box-shadow:0 0 0 3px rgba(78,158,99,.18)}
+
+/* ============================================================
+   舞台与页面切换
+   —— 旧版用 display:none 硬切，观感生硬；
+      这里改为「方向感知」的位移+淡入淡出，并叠加一道掠光。
+   ============================================================ */
+.stage{position:relative;z-index:4;flex:1 1 auto;overflow:hidden}
+.stage::after{
+  content:'';position:absolute;inset:0;z-index:20;pointer-events:none;opacity:0;
+  background:linear-gradient(102deg,transparent 32%,rgba(255,255,255,.62) 50%,transparent 68%);
+}
+.stage.sweep::after{animation:sweep .68s ease-out}
+@keyframes sweep{
+  0%{opacity:0;transform:translateX(-26%)}
+  30%{opacity:.85}
+  100%{opacity:0;transform:translateX(26%)}
+}
+
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  padding:26px 46px 20px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateX(0) scale(.982);
+  transition:opacity .42s var(--ease),
+             transform .5s var(--ease),
+             visibility 0s linear .5s;
+}
+.slide.active{
+  opacity:1;visibility:visible;pointer-events:auto;transform:none;
+  transition:opacity .42s var(--ease),
+             transform .5s var(--ease),
+             visibility 0s linear 0s;
+}
+
+/* 页头 */
+.phead{flex:0 0 auto;margin-bottom:14px}
+.ptitle{
+  font-family:var(--font-title);
+  font-size:30px;font-weight:800;letter-spacing:-.01em;
+  color:var(--green-deep);display:flex;align-items:center;gap:12px;
+}
+.ptitle .tag{
+  font-size:12px;font-weight:700;letter-spacing:.06em;
+  color:var(--green-deep);background:var(--green-lite);
+  padding:4px 10px;border-radius:8px;
+}
+.ptitle .tag.b{color:#2A5C8C;background:var(--blue-lite)}
+.ptitle .tag.y{color:#8A6A10;background:var(--yellow-lite)}
+.ptitle .tag.o{color:#9A5412;background:var(--orange-lite)}
+.prule{
+  width:64px;height:4px;border-radius:3px;margin-top:9px;
+  background:linear-gradient(90deg,var(--yellow) 0%,var(--green) 60%,transparent 100%);
+}
+.pbody{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:16px}
+
+/* 入场动画工具类 */
+.anim{animation:fadeUp .6s var(--ease) both}
+.anim.l{animation-name:fadeLeft}
+.anim.p{animation-name:popIn}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes pulseRing{0%{transform:scale(.55);opacity:.75}100%{transform:scale(2.1);opacity:0}}
+
+/* ============================================================
+   第 1 页 · 封面
+   ============================================================ */
+#s1{align-items:center;justify-content:center;text-align:center}
+.cover-stage{position:relative;display:grid;place-items:center;gap:0}
+.emit{position:relative;width:190px;height:190px;display:grid;place-items:center;margin-bottom:6px}
+.emit .ring{
+  position:absolute;width:130px;height:130px;border-radius:50%;
+  border:2.5px solid rgba(78,158,99,.5);
+  animation:pulseRing 2.6s ease-out infinite;
+}
+.emit .ring:nth-child(2){animation-delay:.85s;border-color:rgba(63,127,190,.45)}
+.emit .ring:nth-child(3){animation-delay:1.7s;border-color:rgba(242,206,74,.6)}
+.emit .core{
+  position:relative;z-index:2;width:96px;height:96px;border-radius:30px;
+  background:linear-gradient(140deg,#5AAE70,#3F8F55);
+  display:grid;place-items:center;font-size:44px;
+  box-shadow:0 16px 40px rgba(78,158,99,.36),inset 0 -4px 12px rgba(0,0,0,.10);
+  animation:floaty 3.4s ease-in-out infinite;
+}
+.cover-title{
+  font-family:var(--font-title);
+  font-size:56px;font-weight:900;letter-spacing:.01em;
+  color:var(--ink);line-height:1.14;margin-top:6px;
+}
+.cover-title em{
+  font-style:normal;position:relative;color:var(--green-deep);
+  background:linear-gradient(180deg,transparent 62%,rgba(242,206,74,.55) 62%);
+}
+.cover-sub{font-size:18px;color:var(--blue);font-weight:600;margin-top:16px;letter-spacing:.03em}
+.cover-chips{display:flex;gap:9px;margin-top:20px;flex-wrap:wrap;justify-content:center}
+.chip{
+  font-size:13.5px;font-weight:600;color:var(--ink-soft);
+  background:#fff;border:1px solid var(--line);
+  padding:7px 15px;border-radius:999px;box-shadow:var(--shadow);
+}
+
+/* ============================================================
+   第 2 页 · 学习目标
+   ============================================================ */
+.goal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.goal{
+  position:relative;background:var(--card);border-radius:var(--r);
+  padding:26px 24px 24px;box-shadow:var(--shadow);
+  border:1px solid var(--line);overflow:hidden;
+}
+.goal::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--green)}
+.goal.b::before{background:var(--blue)}
+.goal.y::before{background:var(--yellow)}
+.goal .gn{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  font-size:17px;font-weight:800;color:#fff;background:var(--green);margin-bottom:14px;
+  box-shadow:0 6px 16px rgba(44,58,50,.14);
+}
+.goal.b .gn{background:var(--blue)}
+.goal.y .gn{background:var(--yellow);color:#6B5208}
+.goal h3{font-size:18.5px;font-weight:800;margin-bottom:9px;color:var(--ink)}
+.goal p{font-size:14.5px;line-height:1.85;color:var(--ink-soft)}
+
+/* ============================================================
+   第 3 页 · 听一听（可点击试听）
+   ============================================================ */
+.sound-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.snd{
+  position:relative;background:var(--card);border-radius:var(--r);
+  border:1px solid var(--line);box-shadow:var(--shadow);
+  padding:22px 16px 18px;text-align:center;
+  transition:transform .26s var(--ease),box-shadow .3s,border-color .3s;
+  overflow:hidden;
+}
+.snd:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:rgba(78,158,99,.35)}
+.snd:active{transform:translateY(-1px) scale(.985)}
+.snd .sicon{
+  width:62px;height:62px;margin:0 auto 12px;border-radius:20px;
+  display:grid;place-items:center;font-size:31px;
+  background:var(--green-lite);transition:transform .26s var(--ease);
+}
+.snd:hover .sicon{transform:scale(1.07)}
+.snd .sname{font-size:15.5px;font-weight:700;color:var(--ink)}
+.snd .swave{display:flex;align-items:flex-end;justify-content:center;gap:3px;height:22px;margin-top:11px}
+.snd .swave i{
+  width:3.5px;height:5px;border-radius:2px;background:var(--ink-faint);
+  transition:height .18s ease,background .2s;
+}
+.snd.playing .swave i{background:var(--green);animation:eqb .62s ease-in-out infinite}
+.snd.playing .swave i:nth-child(1){animation-delay:0s}
+.snd.playing .swave i:nth-child(2){animation-delay:.09s}
+.snd.playing .swave i:nth-child(3){animation-delay:.18s}
+.snd.playing .swave i:nth-child(4){animation-delay:.27s}
+.snd.playing .swave i:nth-child(5){animation-delay:.36s}
+.snd.playing .swave i:nth-child(6){animation-delay:.45s}
+@keyframes eqb{0%,100%{height:5px}50%{height:20px}}
+.snd .stip{
+  position:absolute;right:12px;top:12px;font-size:11px;font-weight:700;
+  color:var(--green-deep);background:var(--green-lite);
+  padding:3px 8px;border-radius:7px;opacity:0;transition:opacity .25s;
+}
+.snd:hover .stip{opacity:1}
+.qbox{
+  background:linear-gradient(120deg,var(--yellow-lite),rgba(252,244,216,.4));
+  border:1px solid rgba(242,206,74,.5);
+  border-radius:var(--r);padding:18px 26px;
+  font-size:17px;font-weight:600;color:#7A5D0E;text-align:center;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+
+/* ============================================================
+   第 4 页 · 猜想
+   ============================================================ */
+.guess-list{display:flex;flex-direction:column;gap:13px}
+.guess{
+  display:flex;align-items:center;gap:15px;
+  background:var(--card);border:1.5px solid var(--line);border-radius:15px;
+  padding:17px 22px;cursor:pointer;
+  transition:transform .22s var(--ease),border-color .28s,box-shadow .28s,background .28s;
+}
+.guess:hover{transform:translateX(4px);border-color:rgba(63,127,190,.4);box-shadow:var(--shadow)}
+.guess .gk{
+  width:32px;height:32px;flex:0 0 auto;border-radius:10px;
+  display:grid;place-items:center;font-weight:800;font-size:15px;
+  background:var(--blue-lite);color:#2A5C8C;transition:all .28s;
+}
+.guess .gt{font-size:17.5px;font-weight:600;color:var(--ink)}
+.guess .gt b{color:var(--blue);font-weight:800}
+.guess.sel{background:var(--blue-lite);border-color:var(--blue);box-shadow:0 10px 26px rgba(63,127,190,.18)}
+.guess.sel .gk{background:var(--blue);color:#fff}
+.guess .gmark{margin-left:auto;font-size:13px;font-weight:700;color:var(--blue);opacity:0;transition:opacity .3s}
+.guess.sel .gmark{opacity:1}
+
+/* ============================================================
+   第 5 / 6 页 · 实验台
+   ============================================================ */
+.lab{
+  display:grid;grid-template-columns:1.32fr .88fr;gap:20px;
+  flex:1 1 auto;min-height:0;align-items:center;
+}
+.bench{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);box-shadow:var(--shadow);
+  overflow:hidden;display:flex;flex-direction:column;max-height:100%;
+}
+.bench .bhead{
+  flex:0 0 auto;display:flex;align-items:center;gap:10px;
+  padding:13px 18px;border-bottom:1px dashed var(--line-2);
+  font-size:14px;font-weight:700;color:var(--ink-soft);
+}
+.bench .bhead .bdot2{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(78,158,99,.15)}
+.scene{
+  position:relative;flex:0 0 auto;height:clamp(190px,37vh,320px);
+  overflow:hidden;
+  background:
+    linear-gradient(180deg,rgba(231,243,234,.5),rgba(255,255,255,0) 46%),
+    repeating-linear-gradient(90deg,rgba(44,58,50,.035) 0 1px,transparent 1px 42px);
+}
+/* —— 桌面 —— */
+.tabletop{
+  position:absolute;left:0;right:0;bottom:0;height:26px;
+  background:linear-gradient(180deg,#D9C8A4,#C3B08A);
+  border-top:2px solid #B8A47C;
+}
+/* —— 尺子 —— */
+/* 支点在左端（手压住的那一头），自由端才会真正上下摆动 */
+.ruler-root{position:absolute;left:10%;bottom:34px;transform-origin:6px 100%}
+.ruler{
+  position:relative;width:400px;height:18px;border-radius:5px;
+  background:linear-gradient(180deg,#F5BC72,#D98F33);
+  box-shadow:0 4px 11px rgba(160,110,40,.32),inset 0 -2px 0 rgba(0,0,0,.13);
+}
+.ruler::before{
+  content:'';position:absolute;inset:4px 7px auto 7px;height:5px;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.78) 0 1.5px,transparent 1.5px 18px);
+}
+.ruler .grip{
+  position:absolute;left:-15px;top:-11px;width:28px;height:40px;border-radius:9px;
+  background:linear-gradient(180deg,#93A0A7,#6C787E);
+  box-shadow:0 4px 10px rgba(60,70,75,.38),inset 0 -3px 6px rgba(0,0,0,.18);
+}
+.ruler .hand{
+  position:absolute;left:-27px;top:-50px;font-size:32px;
+  transform-origin:60% 90%;transition:transform .3s var(--ease);
+}
+.ruler .hand.press{transform:rotate(-17deg) translateY(7px)}
+/* —— 橡皮筋 —— */
+.band-root{position:absolute;left:14%;bottom:26px;width:400px;height:86px}
+.band-post{position:absolute;bottom:0;width:16px;height:86px;border-radius:5px;background:linear-gradient(180deg,#B6A98C,#948669)}
+.band-post.l{left:0}
+.band-post.r{right:0}
+.band{
+  position:absolute;left:8px;right:8px;bottom:38px;height:8px;border-radius:5px;
+  background:linear-gradient(180deg,#F0A88A,#D9754E);
+  box-shadow:0 3px 8px rgba(170,90,60,.28);
+  transform-origin:50% 50%;
+}
+.band .pluck{
+  position:absolute;left:50%;top:-19px;font-size:18px;transform:translateX(-50%);
+  transition:transform .3s var(--ease),opacity .3s;opacity:.85;
+}
+.band .pluck.go{transform:translateX(-50%) translateY(15px);opacity:1}
+/* —— 音叉 + 水槽 —— */
+.fork-root{position:absolute;left:50%;top:16px;transform:translateX(-50%);z-index:3}
+.fork{width:96px;height:120px;position:relative}
+.fork .prong{position:absolute;bottom:26px;width:12px;border-radius:7px 7px 0 0;background:linear-gradient(180deg,#CFD8DE,#8FA0AB)}
+.fork .prong.l{left:18px;height:78px}
+.fork .prong.r{right:18px;height:78px}
+.fork .stem{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:13px;height:34px;border-radius:0 0 7px 7px;background:linear-gradient(180deg,#9AAAB4,#7D8E99)}
+.fork .loop{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);width:44px;height:30px;border:10px solid #A9B8C1;border-bottom:none;border-radius:24px 24px 0 0}
+.tank{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  width:330px;height:112px;border-radius:6px 6px 16px 16px;
+  border:3.5px solid var(--blue);border-top:3.5px solid rgba(63,127,190,.45);
+  background:linear-gradient(180deg,rgba(63,127,190,.18),rgba(63,127,190,.36));
+  overflow:hidden;
+}
+.tank .surf{
+  position:absolute;left:0;right:0;top:0;height:7px;
+  background:linear-gradient(180deg,rgba(160,205,240,.95),rgba(100,165,215,.6));
+}
+.tank .ripple{
+  position:absolute;top:-9px;left:50%;width:18px;height:18px;margin-left:-9px;
+  border:2px solid rgba(255,255,255,.85);border-radius:50%;
+  animation:tankRipple 1.5s ease-out infinite;
+}
+.tank .ripple:nth-child(3){animation-delay:.5s}
+.tank .ripple:nth-child(4){animation-delay:1s}
+@keyframes tankRipple{0%{width:14px;height:14px;margin-left:-7px;opacity:.9}100%{width:150px;height:26px;margin-left:-75px;opacity:0}}
+.drop{
+  position:absolute;width:9px;height:12px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  background:linear-gradient(180deg,rgba(190,220,250,.98),rgba(90,160,215,.9));
+  opacity:0;
+}
+.drop.fly{animation:dropFly .78s cubic-bezier(.3,.1,.7,.9) forwards}
+@keyframes dropFly{
+  0%{opacity:1;transform:translate(0,0) scale(.6)}
+  60%{opacity:1}
+  100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.15)}
+}
+/* 波形条 */
+.wave{display:flex;align-items:center;justify-content:center;gap:3px;height:50px;padding:0 18px 12px;flex:0 0 auto}
+.wave i{
+  width:4px;height:8px;border-radius:3px;background:var(--ink-faint);
+  opacity:.38;transition:background .2s,opacity .2s;
+}
+.wave.live i{opacity:1;background:var(--green)}
+.wave.gone i{background:var(--ink-faint);opacity:.26;height:8px!important}
+/* 右侧观察栏 */
+.side{display:flex;flex-direction:column;gap:14px;min-height:0;justify-content:center}
+.sidecard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);padding:18px 20px;flex:0 0 auto;
+}
+.sidecard h4{
+  font-size:14px;font-weight:800;color:var(--ink-soft);
+  letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.sidecard h4::before{content:'';width:5px;height:14px;border-radius:3px;background:var(--green)}
+.obs{list-style:none;display:flex;flex-direction:column;gap:9px}
+.obs li{
+  display:flex;gap:10px;font-size:15px;line-height:1.7;color:var(--ink);
+  opacity:.32;transform:translateX(-12px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+.obs li.on{opacity:1;transform:none}
+.obs li .ok{
+  flex:0 0 auto;width:19px;height:19px;margin-top:2px;border-radius:50%;
+  background:var(--green-lite);color:var(--green-deep);
+  display:grid;place-items:center;font-size:11px;font-weight:900;
+}
+.obs li b{color:var(--green-deep);font-weight:800;background:linear-gradient(180deg,transparent 62%,rgba(78,158,99,.22) 62%)}
+.concl{
+  background:linear-gradient(120deg,var(--green-lite),rgba(231,243,234,.35));
+  border:1px solid rgba(78,158,99,.3);border-radius:var(--r);
+  padding:16px 20px;font-size:15.5px;line-height:1.75;color:var(--green-deep);font-weight:600;
+}
+.concl b{font-weight:900}
+/* 大按钮 */
+.act{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  height:46px;padding:0 24px;border-radius:13px;
+  font-size:15.5px;font-weight:700;
+  background:linear-gradient(135deg,#59A96E,#3F8F55);color:#fff;
+  box-shadow:0 8px 22px rgba(78,158,99,.32);
+  transition:transform .2s var(--ease),box-shadow .28s,filter .28s;
+  position:relative;overflow:hidden;
+}
+.act:hover{transform:translateY(-2px);box-shadow:0 13px 30px rgba(78,158,99,.42)}
+.act:active{transform:translateY(0) scale(.97)}
+.act.ghost{
+  background:#fff;color:var(--ink-soft);border:1px solid var(--line-2);box-shadow:var(--shadow);
+}
+.act.ghost:hover{color:var(--green-deep);border-color:rgba(78,158,99,.42);box-shadow:var(--shadow-md)}
+.act.blue{background:linear-gradient(135deg,#4C90CC,#356EAA);box-shadow:0 8px 22px rgba(63,127,190,.32)}
+.act.blue:hover{box-shadow:0 13px 30px rgba(63,127,190,.42)}
+.actrow{display:flex;gap:11px;flex-wrap:wrap;align-items:center}
+
+/* ============================================================
+   第 8 页 · 结论
+   ============================================================ */
+.evid{display:flex;flex-direction:column;gap:11px}
+.evrow{
+  display:flex;align-items:center;gap:14px;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:13px 18px;box-shadow:var(--shadow);
+}
+.evrow .eico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:var(--green-lite);flex:0 0 auto}
+.evrow:nth-child(2) .eico{background:var(--blue-lite)}
+.evrow:nth-child(3) .eico{background:var(--orange-lite)}
+.evrow .etx{font-size:16px;font-weight:600;color:var(--ink)}
+.evrow .earr{margin-left:auto;font-size:19px;color:var(--ink-faint)}
+.evrow .eout{font-size:16px;font-weight:800;color:var(--green-deep);white-space:nowrap}
+.bigconcl{
+  position:relative;border-radius:22px;padding:26px 34px;text-align:center;
+  background:linear-gradient(135deg,rgba(78,158,99,.16),rgba(63,127,190,.12));
+  border:2px solid rgba(78,158,99,.35);overflow:hidden;
+}
+.bigconcl .bc-k{font-size:13px;font-weight:800;letter-spacing:.24em;color:var(--ink-faint);margin-bottom:9px}
+.bigconcl .bc-t{font-size:31px;font-weight:900;color:var(--green-deep);line-height:1.35}
+.bigconcl .bc-t em{font-style:normal;color:var(--orange);background:linear-gradient(180deg,transparent 60%,rgba(242,206,74,.5) 60%)}
+.gnote{
+  display:flex;align-items:center;gap:10px;justify-content:center;
+  font-size:14px;color:var(--ink-soft);
+  background:var(--blue-lite);border-radius:12px;padding:11px 18px;
+}
+.gnote b{color:#2A5C8C}
+
+/* ============================================================
+   第 9 页 · 反证
+   ============================================================ */
+.cmp{display:grid;grid-template-columns:1fr 62px 1fr;gap:16px;align-items:stretch}
+.cmpcard{
+  background:var(--card);border-radius:var(--r);padding:22px;text-align:center;
+  border:2px solid var(--line);box-shadow:var(--shadow);
+  transition:border-color .35s,box-shadow .35s,transform .35s var(--ease),background .35s,opacity .35s;
+}
+.cmpcard.on{
+  border-color:var(--green);
+  background:linear-gradient(180deg,#F1FAF3,#FFFFFF 58%);
+  box-shadow:0 14px 34px rgba(78,158,99,.20);
+}
+.cmpcard.off{border-color:rgba(44,58,50,.13);background:#FAFBFA;opacity:.72}
+.cmpcard h3{font-size:17px;font-weight:800;margin-bottom:12px}
+.cmpcard.on h3{color:var(--green-deep)}
+.cmpcard.off h3{color:var(--ink-faint)}
+.cmpviz{height:96px;display:grid;place-items:center;margin-bottom:12px}
+.cmpviz .viz{font-size:52px;display:block}
+.cmpcard.on .viz{animation:shiver .18s linear infinite}
+@keyframes shiver{0%{transform:translate(-2px,0) rotate(-1.5deg)}100%{transform:translate(2px,0) rotate(1.5deg)}}
+.cmpcard p{font-size:14.5px;line-height:1.75;color:var(--ink-soft)}
+.cmparrow{display:grid;place-items:center;font-size:26px;color:var(--ink-faint)}
+/* 声波可视化 */
+.rings{position:relative;width:96px;height:96px;display:grid;place-items:center}
+.rings i{position:absolute;width:26px;height:26px;border-radius:50%;border:2px solid var(--green);opacity:0}
+.cmpcard.on .rings i{animation:pulseRing 1.6s ease-out infinite}
+.cmpcard.on .rings i:nth-child(2){animation-delay:.53s}
+.cmpcard.on .rings i:nth-child(3){animation-delay:1.06s}
+.stopmark{font-size:52px;opacity:.32}
+
+/* ============================================================
+   第 10 页 · 生活中的振动
+   ============================================================ */
+.life-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.life{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:15px;padding:17px 18px;box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:13px;cursor:pointer;
+  transition:transform .24s var(--ease),box-shadow .3s,border-color .3s;
+  overflow:hidden;
+}
+.life:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:rgba(63,127,190,.35)}
+.life .lico{
+  width:46px;height:46px;border-radius:14px;flex:0 0 auto;
+  display:grid;place-items:center;font-size:23px;background:var(--blue-lite);
+}
+.life:nth-child(3n+1) .lico{background:var(--green-lite)}
+.life:nth-child(3n) .lico{background:var(--orange-lite)}
+.life .ltx{min-width:0}
+.life .ltx b{display:block;font-size:15.5px;font-weight:700;color:var(--ink)}
+.life .ltx span{font-size:13px;color:var(--ink-faint)}
+.life .lvib{
+  margin-left:auto;display:flex;align-items:center;gap:2.5px;height:26px;
+}
+.life .lvib i{width:3px;height:8px;border-radius:2px;background:var(--ink-faint);opacity:.42;transition:all .2s}
+.life.playing .lvib i{background:var(--blue);opacity:1;animation:eqb .55s ease-in-out infinite}
+.life.playing .lvib i:nth-child(1){animation-delay:0s}
+.life.playing .lvib i:nth-child(2){animation-delay:.08s}
+.life.playing .lvib i:nth-child(3){animation-delay:.16s}
+.life.playing .lvib i:nth-child(4){animation-delay:.24s}
+.life .lplay{
+  position:absolute;right:12px;bottom:9px;font-size:10.5px;font-weight:700;
+  color:var(--blue);opacity:0;transition:opacity .25s;
+}
+.life:hover .lplay{opacity:.85}
+
+/* ============================================================
+   第 11 页 · 声带体验
+   ============================================================ */
+.voice-wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+.voice-left{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:24px 26px}
+.voice-left h3{font-size:19px;font-weight:800;margin-bottom:11px;color:var(--ink)}
+.voice-left p{font-size:15px;line-height:1.95;color:var(--ink-soft)}
+.voice-left p b{color:var(--green-deep);font-weight:800}
+.throat{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);padding:20px;display:grid;place-items:center;gap:12px;
+}
+.throatviz{position:relative;width:min(100%,270px);aspect-ratio:240/250;display:grid;place-items:center}
+.throatviz .tw{width:100%;height:100%;display:block;overflow:visible}
+/* 声波：只在发声时出现 */
+.throatviz .twave{opacity:0;transition:opacity .28s}
+.throatviz.on .twave{opacity:1;animation:twPulse .85s ease-in-out infinite}
+.throatviz.on .twave path:nth-child(2),
+.throatviz.on .twave path:nth-child(4){animation-delay:.2s}
+@keyframes twPulse{0%,100%{stroke-opacity:.35;transform:translateY(0)}50%{stroke-opacity:1;transform:translateY(-4px)}}
+/* 声带：发声时高频开合 */
+.throatviz .tw-fold{transform-box:fill-box;transform-origin:center;opacity:.6;transition:opacity .28s}
+.throatviz.on .tw-fold{opacity:1;animation:foldV .085s linear infinite}
+@keyframes foldV{0%{transform:scaleX(1) scaleY(1)}50%{transform:scaleX(.5) scaleY(1.2)}100%{transform:scaleX(1) scaleY(1)}}
+.throatviz .tw-mouth{transition:all .28s}
+.throatviz.on .tw-mouth{ry:19}
+.throatviz .tw-lung{opacity:0;transition:opacity .28s}
+.throatviz.on .tw-lung{opacity:.5}
+.tw-hand{
+  position:absolute;left:-6px;top:52%;font-size:26px;transform:rotate(-12deg);
+  filter:drop-shadow(0 3px 6px rgba(0,0,0,.18));
+}
+.tw-label{
+  position:absolute;right:0;top:66%;font-size:12px;font-weight:800;color:var(--green-deep);
+  background:var(--green-lite);padding:3px 9px;border-radius:7px;
+}
+.voicestat{font-size:13.5px;font-weight:700;color:var(--ink-faint);letter-spacing:.05em;transition:color .3s}
+.voicestat.on{color:var(--green-deep)}
+
+/* ============================================================
+   第 12 页 · 练习
+   ============================================================ */
+.quiz{display:flex;flex-direction:column;gap:13px;overflow:auto;padding-right:4px}
+.quiz::-webkit-scrollbar{width:7px}
+.quiz::-webkit-scrollbar-thumb{background:rgba(44,58,50,.16);border-radius:4px}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px 20px;box-shadow:var(--shadow)}
+.qcard h4{font-size:14px;font-weight:800;color:var(--green-deep);margin-bottom:10px;letter-spacing:.04em}
+.qline{font-size:16px;line-height:1.95;color:var(--ink)}
+.blank{
+  display:inline-grid;place-items:center;min-width:84px;height:32px;
+  margin:0 5px;padding:0 12px;border-radius:9px;vertical-align:middle;
+  border:1.5px dashed rgba(63,127,190,.55);background:var(--blue-lite);
+  font-size:15.5px;font-weight:700;color:#2A5C8C;cursor:pointer;
+  transition:all .25s var(--ease);
+}
+.blank:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(63,127,190,.2)}
+.blank.right{border-style:solid;border-color:var(--green);background:var(--green-lite);color:var(--green-deep)}
+.blank.bad{border-style:solid;border-color:var(--red);background:#FBEAE7;color:var(--red)}
+.tf{display:flex;flex-direction:column;gap:10px}
+.tfrow{display:flex;align-items:center;gap:12px;font-size:15.5px;color:var(--ink);line-height:1.7}
+.tfrow .tfq{flex:1 1 auto}
+.judge{display:flex;gap:7px;flex:0 0 auto}
+.jbtn{
+  width:40px;height:34px;border-radius:10px;font-size:15px;font-weight:800;
+  background:rgba(44,58,50,.05);color:var(--ink-soft);
+  transition:transform .2s var(--ease),background .25s,color .25s;
+}
+.jbtn:hover{background:rgba(44,58,50,.11);transform:translateY(-1px)}
+.jbtn.right{background:var(--green);color:#fff}
+.jbtn.bad{background:var(--red);color:#fff}
+.opts{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.opt{
+  padding:10px 18px;border-radius:11px;font-size:15.5px;font-weight:600;
+  background:rgba(44,58,50,.05);color:var(--ink-soft);
+  transition:transform .2s var(--ease),background .25s,color .25s,box-shadow .25s;
+}
+.opt:hover{background:rgba(44,58,50,.1);transform:translateY(-2px)}
+.opt.right{background:var(--green);color:#fff;box-shadow:0 8px 20px rgba(78,158,99,.3)}
+.opt.bad{background:var(--red);color:#fff}
+.fb{
+  margin-top:11px;font-size:14px;line-height:1.7;padding:10px 14px;border-radius:10px;
+  background:var(--green-lite);color:var(--green-deep);display:none;
+}
+.fb.show{display:block;animation:fadeUp .38s var(--ease) both}
+.fb.err{background:#FBEAE7;color:#A83B2C}
+.rack{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  background:var(--card);border:1px solid var(--line);border-radius:15px;
+  padding:12px 18px;box-shadow:var(--shadow);
+}
+.rack input{
+  height:34px;border-radius:10px;border:1px solid var(--line-2);
+  padding:0 12px;font-size:14px;width:130px;outline:none;background:#fff;color:var(--ink);
+  transition:border-color .25s,box-shadow .25s;
+}
+.rack input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(78,158,99,.15)}
+.rack .rtx{font-size:13.5px;font-weight:700;color:var(--ink-faint);margin-left:auto}
+
+/* ============================================================
+   第 13 页 · 小结
+   ============================================================ */
+.sumline{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.sumbox{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px 26px;text-align:center;box-shadow:var(--shadow);min-width:168px;
+}
+.sumbox .si{font-size:32px;margin-bottom:8px}
+.sumbox b{display:block;font-size:15.5px;font-weight:800;color:var(--ink)}
+.sumbox span{font-size:13.5px;color:var(--ink-faint)}
+.sumlink{font-size:22px;color:var(--ink-faint)}
+.sumfinal{
+  background:linear-gradient(135deg,var(--green),#3F8F55);color:#fff;
+  border-radius:20px;padding:24px 32px;text-align:center;
+  font-size:23px;font-weight:800;line-height:1.6;
+  box-shadow:0 18px 44px rgba(78,158,99,.34);
+}
+.sumfinal em{font-style:normal;color:var(--yellow)}
+
+/* ============================================================
+   第 14 页 · 板书
+   ============================================================ */
+.board{
+  flex:0 1 auto;width:100%;max-width:1080px;margin:0 auto;
+  background:#FFFDF8;border:1px solid #DCCBA6;
+  border-radius:14px;box-shadow:inset 0 0 0 8px #FBF6EA,var(--shadow-md);
+  padding:28px 38px;display:flex;flex-direction:column;gap:15px;
+}
+.board h2{
+  text-align:center;font-family:var(--font-title);
+  font-size:29px;font-weight:900;color:var(--ink);letter-spacing:.05em;
+}
+.board .bline{width:180px;height:3px;border-radius:2px;background:var(--green);margin:0 auto}
+.bcols{display:grid;grid-template-columns:1.08fr .92fr;gap:30px}
+.bcol h5{font-size:13.5px;font-weight:800;color:var(--ink-faint);letter-spacing:.14em;margin-bottom:12px}
+.bcol .bitem{
+  display:flex;align-items:center;gap:10px;font-size:16.5px;line-height:2.05;color:var(--ink);
+}
+.bcol .bitem .bk{
+  flex:0 0 auto;width:27px;height:27px;border-radius:8px;display:grid;place-items:center;
+  font-size:13px;font-weight:800;background:var(--green-lite);color:var(--green-deep);
+}
+.bcol .bitem .arr{color:var(--ink-faint)}
+.bcol .bitem b{color:var(--orange);font-weight:800}
+.bcol .bitem .res{font-weight:800;color:var(--green-deep)}
+.bbcore{
+  margin-top:14px;background:var(--green-lite);border-left:4px solid var(--green);
+  border-radius:10px;padding:13px 17px;font-size:15.5px;font-weight:800;
+  color:var(--green-deep);line-height:1.72;
+}
+.bband{
+  background:var(--yellow-lite);border:1px dashed rgba(242,206,74,.85);
+  border-radius:12px;padding:13px 20px;font-size:15.5px;font-weight:700;
+  color:#7A5D0E;text-align:center;
+}
+
+/* ============================================================
+   第 15 页 · 作业
+   ============================================================ */
+.hw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.hw{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px 22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:11px;
+  position:relative;overflow:hidden;
+}
+.hw::after{content:'';position:absolute;right:-26px;top:-26px;width:78px;height:78px;border-radius:50%;background:var(--green-lite);opacity:.6}
+.hw.b::after{background:var(--blue-lite)}
+.hw.y::after{background:var(--yellow-lite)}
+.hw .hlv{
+  position:relative;z-index:1;font-size:12px;font-weight:800;letter-spacing:.1em;
+  color:var(--green-deep);background:var(--green-lite);padding:5px 11px;border-radius:8px;
+  align-self:flex-start;
+}
+.hw.b .hlv{color:#2A5C8C;background:var(--blue-lite)}
+.hw.y .hlv{color:#8A6A10;background:var(--yellow-lite)}
+.hw .hico{font-size:30px;position:relative;z-index:1}
+.hw p{font-size:15px;line-height:1.85;color:var(--ink-soft);position:relative;z-index:1}
+.hw p b{color:var(--ink);font-weight:700}
+
+/* ============================================================
+   底部导航
+   ============================================================ */
+.navbar{
+  position:relative;z-index:6;flex:0 0 auto;
+  padding:11px 22px 13px;
+  background:rgba(255,255,255,.76);
+  backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);
+}
+.pbar{position:relative;height:4px;border-radius:3px;background:rgba(44,58,50,.09);overflow:hidden;margin-bottom:11px}
+.pfill{
+  position:absolute;left:0;top:0;bottom:0;width:6.7%;border-radius:3px;
+  background:linear-gradient(90deg,var(--yellow),var(--green));
+  transition:width .5s var(--ease);
+}
+.navrow{display:flex;align-items:center;gap:14px}
+.nbtn{
+  position:relative;overflow:hidden;
+  display:inline-flex;align-items:center;gap:9px;
+  height:42px;padding:0 20px;border-radius:999px;
+  font-size:14.5px;font-weight:700;color:var(--ink-soft);
+  background:#fff;border:1px solid var(--line-2);
+  box-shadow:0 2px 10px rgba(44,58,50,.06);
+  transition:transform .22s var(--ease),box-shadow .3s,background .3s,color .3s,border-color .3s,opacity .3s;
+}
+.nbtn .ico{display:inline-block;line-height:1;transition:transform .3s var(--ease)}
+.nbtn:hover:not(:disabled){transform:translateY(-2px);color:var(--green-deep);border-color:rgba(78,158,99,.45);box-shadow:0 10px 24px rgba(78,158,99,.2)}
+.nbtn:hover:not(:disabled) .i-next{transform:translateX(4px)}
+.nbtn:hover:not(:disabled) .i-prev{transform:translateX(-4px)}
+.nbtn:hover:not(:disabled) .i-first{transform:translateX(-3px)}
+.nbtn:hover:not(:disabled) .i-last{transform:translateX(3px)}
+.nbtn:active:not(:disabled){transform:translateY(0) scale(.955);box-shadow:0 3px 10px rgba(44,58,50,.14)}
+.nbtn:disabled{opacity:.32;cursor:not-allowed;box-shadow:none}
+.nbtn.primary{
+  background:linear-gradient(135deg,#59A96E,#3F8F55);color:#fff;border-color:transparent;
+  box-shadow:0 7px 20px rgba(78,158,99,.34);
+}
+.nbtn.primary:hover:not(:disabled){color:#fff;box-shadow:0 13px 30px rgba(78,158,99,.46)}
+.nbtn.icon-only{padding:0 15px}
+.nbtn.nudge-a .ico{animation:nudgeR .46s var(--ease)}
+.nbtn.nudge-b .ico{animation:nudgeL .46s var(--ease)}
+@keyframes nudgeR{0%{transform:translateX(0)}38%{transform:translateX(6px)}100%{transform:translateX(0)}}
+@keyframes nudgeL{0%{transform:translateX(0)}38%{transform:translateX(-6px)}100%{transform:translateX(0)}}
+.rip{position:absolute;border-radius:50%;transform:scale(0);background:rgba(78,158,99,.3);pointer-events:none;animation:ripOut .62s ease-out forwards}
+@keyframes ripOut{to{transform:scale(1);opacity:0}}
+
+.pageind{
+  display:flex;align-items:baseline;gap:4px;
+  font-variant-numeric:tabular-nums;padding:0 4px;
+}
+.pageind .n1{font-size:19px;font-weight:900;color:var(--green-deep)}
+.pageind .sl{font-size:13px;color:var(--ink-faint);font-weight:600}
+.pageind .n2{font-size:13px;color:var(--ink-faint);font-weight:700}
+.pageind.flip{animation:indFlip .44s var(--ease)}
+@keyframes indFlip{0%{opacity:0;transform:translateY(9px)}100%{opacity:1;transform:none}}
+
+.dots{display:flex;align-items:center;gap:6px;margin-left:auto}
+.dt{
+  width:8px;height:8px;border-radius:50%;background:rgba(44,58,50,.18);cursor:pointer;
+  transition:all .3s var(--ease);
+}
+.dt:hover{background:rgba(78,158,99,.55);transform:scale(1.3)}
+.dt.on{width:22px;border-radius:5px;background:var(--green)}
+.jump{
+  height:36px;border-radius:11px;border:1px solid var(--line-2);background:#fff;
+  padding:0 11px;font-size:13.5px;font-weight:600;color:var(--ink-soft);
+  max-width:190px;outline:none;cursor:pointer;
+  transition:border-color .25s,box-shadow .25s,color .25s;
+}
+.jump:hover{border-color:rgba(78,158,99,.45);color:var(--green-deep)}
+.jump:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(78,158,99,.15)}
+
+/* ============================================================
+   字幕 / 提示
+   ============================================================ */
+.subtitle{
+  position:fixed;left:50%;bottom:86px;transform:translate(-50%,14px);
+  z-index:60;max-width:min(880px,84vw);
+  background:rgba(28,38,32,.88);color:#fff;
+  padding:12px 24px;border-radius:14px;
+  font-size:15.5px;line-height:1.72;text-align:center;
+  box-shadow:0 16px 40px rgba(0,0,0,.3);
+  backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;
+  transition:opacity .32s var(--ease),transform .32s var(--ease);
+}
+.subtitle.show{opacity:1;transform:translate(-50%,0)}
+
+/* ============================================================
+   开始遮罩
+   ============================================================ */
+.gate{
+  position:fixed;inset:0;z-index:200;
+  display:grid;place-items:center;text-align:center;
+  background:linear-gradient(160deg,#EAF4EC 0%,#F4F8F5 46%,#E8F0F8 100%);
+  transition:opacity .55s var(--ease),visibility 0s linear .55s;
+}
+.gate.hide{opacity:0;visibility:hidden;pointer-events:none}
+.gatebox{display:grid;place-items:center;gap:16px;padding:40px}
+.gate .gring{position:relative;width:150px;height:150px;display:grid;place-items:center}
+.gate .gring i{position:absolute;width:120px;height:120px;border-radius:50%;border:2.5px solid rgba(78,158,99,.42);animation:pulseRing 2.4s ease-out infinite}
+.gate .gring i:nth-child(2){animation-delay:.8s;border-color:rgba(63,127,190,.4)}
+.gate .gring i:nth-child(3){animation-delay:1.6s;border-color:rgba(242,206,74,.55)}
+.gate .gcore{
+  width:88px;height:88px;border-radius:28px;display:grid;place-items:center;font-size:40px;
+  background:linear-gradient(140deg,#5AAE70,#3F8F55);
+  box-shadow:0 16px 40px rgba(78,158,99,.36);
+}
+.gate h1{font-family:var(--font-title);font-size:34px;font-weight:900;color:var(--ink)}
+.gate p{font-size:15px;color:var(--ink-soft);line-height:1.8}
+.gatebtn{
+  margin-top:6px;height:52px;padding:0 42px;border-radius:15px;
+  font-size:17px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,#59A96E,#3F8F55);
+  box-shadow:0 12px 30px rgba(78,158,99,.4);
+  display:inline-flex;align-items:center;gap:10px;
+  transition:transform .22s var(--ease),box-shadow .3s;
+  animation:gateBreath 2.6s ease-in-out infinite;
+}
+.gatebtn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 40px rgba(78,158,99,.5)}
+.gatebtn:active{transform:scale(.97)}
+@keyframes gateBreath{0%,100%{box-shadow:0 12px 30px rgba(78,158,99,.4)}50%{box-shadow:0 12px 40px rgba(78,158,99,.62)}}
+.gatetip{font-size:12.5px;color:var(--ink-faint)}
+
+/* ============================================================
+   自适应
+   ============================================================ */
+@media (max-width:1180px){
+  .slide{padding:20px 26px 16px}
+  .cover-title{font-size:44px}
+  .ptitle{font-size:25px}
+  .goal-grid,.hw-grid{grid-template-columns:1fr 1fr;gap:14px}
+  .sound-grid{grid-template-columns:1fr 1fr}
+  .life-grid{grid-template-columns:1fr 1fr}
+  .lab{grid-template-columns:1fr}
+  .bench{min-height:230px}
+  .cmp{grid-template-columns:1fr}
+  .cmparrow{transform:rotate(90deg)}
+  .voice-wrap{grid-template-columns:1fr}
+  .bcols{grid-template-columns:1fr}
+}
+@media (max-height:720px){
+  .topbar{height:50px}
+  .slide{padding:16px 30px 12px}
+  .ptitle{font-size:25px}
+  .cover-title{font-size:42px}
+  .cover-chips{margin-top:12px}
+  .subtitle{bottom:78px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="bgwash"></div>
+
+  <!-- ============ 顶栏 ============ -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="bdot">🔊</span>
+      <span class="btxt">声音是怎样产生的<small>教科版 · 四年级科学</small></span>
+    </div>
+    <span class="spacer"></span>
+    <div class="tools">
+      <button class="tbtn on" id="btnNarr" title="开关教师配音"><span class="dot"></span>配音</button>
+      <button class="tbtn on" id="btnSfx" title="开关音效"><span class="dot"></span>音效</button>
+      <button class="tbtn" id="btnFull" title="全屏演示">⛶ 全屏</button>
+      <a class="tbtn" href="../../" title="返回课件作品集" style="text-decoration:none">🏠 主页</a>
+    </div>
+  </header>
+
+  <!-- ============ 舞台 ============ -->
+  <main class="stage" id="stage">
+
+    <!-- 1 封面 -->
+    <section class="slide active" id="s1" data-narr="n01">
+      <div class="pbody">
+        <div class="cover-stage">
+          <div class="emit">
+            <i class="ring"></i><i class="ring"></i><i class="ring"></i>
+            <div class="core">🔊</div>
+          </div>
+          <h1 class="cover-title anim" style="animation-delay:.15s">声音是<em>怎样产生</em>的</h1>
+          <p class="cover-sub anim" style="animation-delay:.4s">教科版 · 四年级科学上册</p>
+          <div class="cover-chips anim" style="animation-delay:.62s">
+            <span class="chip">📏 尺子振动</span>
+            <span class="chip">🎻 橡皮筋振动</span>
+            <span class="chip">🎵 音叉水花</span>
+            <span class="chip">🗣️ 声带振动</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 学习目标 -->
+    <section class="slide" id="s2" data-narr="n02">
+      <div class="phead">
+        <div class="ptitle"><span class="tag">学习目标</span>这节课，我们要做到</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="goal-grid">
+          <div class="goal anim" style="animation-delay:.08s">
+            <div class="gn">①</div>
+            <h3>科学探究</h3>
+            <p>通过实验观察尺子、橡皮筋、音叉的振动现象，能准确描述自己看到的事实。</p>
+          </div>
+          <div class="goal b anim" style="animation-delay:.22s">
+            <div class="gn">②</div>
+            <h3>科学概念</h3>
+            <p>知道声音是由物体振动产生的；并且理解：振动停止，声音也停止。</p>
+          </div>
+          <div class="goal y anim" style="animation-delay:.36s">
+            <div class="gn">③</div>
+            <h3>科学态度</h3>
+            <p>乐于观察实验现象，能从多个实验中归纳出共同结论，并联系生活中的振动。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 导入 -->
+    <section class="slide" id="s3" data-narr="n03">
+      <div class="phead">
+        <div class="ptitle"><span class="tag b">导入</span>听一听：这些是什么声音？</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="sound-grid" id="soundGrid">
+          <button class="snd anim" data-snd="clap" style="animation-delay:.06s">
+            <span class="stip">点击试听</span>
+            <div class="sicon">👏</div>
+            <div class="sname">拍手声</div>
+            <div class="swave"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </button>
+          <button class="snd anim" data-snd="drum" style="animation-delay:.18s">
+            <span class="stip">点击试听</span>
+            <div class="sicon">🥁</div>
+            <div class="sname">敲鼓声</div>
+            <div class="swave"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </button>
+          <button class="snd anim" data-snd="bell" style="animation-delay:.3s">
+            <span class="stip">点击试听</span>
+            <div class="sicon">🔔</div>
+            <div class="sname">铃铛声</div>
+            <div class="swave"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </button>
+          <button class="snd anim" data-snd="piano" style="animation-delay:.42s">
+            <span class="stip">点击试听</span>
+            <div class="sicon">🎹</div>
+            <div class="sname">钢琴声</div>
+            <div class="swave"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </button>
+        </div>
+        <div class="qbox anim" style="animation-delay:.55s">💡 想一想：这些声音听起来完全不同，它们是怎么产生的呢？</div>
+      </div>
+    </section>
+
+    <!-- 4 猜想 -->
+    <section class="slide" id="s4" data-narr="n04">
+      <div class="phead">
+        <div class="ptitle"><span class="tag b">猜想</span>先猜一猜：声音是怎样产生的？</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="guess-list" id="guessList">
+          <div class="guess anim l" data-gk="A" style="animation-delay:.08s">
+            <span class="gk">A</span>
+            <span class="gt">声音是由物体<b>被敲打</b>产生的</span>
+            <span class="gmark">已记录 · 待验证</span>
+          </div>
+          <div class="guess anim l" data-gk="B" style="animation-delay:.2s">
+            <span class="gk">B</span>
+            <span class="gt">声音是由物体<b>摩擦</b>产生的</span>
+            <span class="gmark">已记录 · 待验证</span>
+          </div>
+          <div class="guess anim l" data-gk="C" style="animation-delay:.32s">
+            <span class="gk">C</span>
+            <span class="gt">声音是由物体<b>振动</b>产生的</span>
+            <span class="gmark">已记录 · 待验证</span>
+          </div>
+        </div>
+        <div class="gnote anim" style="animation-delay:.48s">
+          ✍️ <span>点一下，把你的猜想记下来 —— 做完三个实验后，我们回来验证它。</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 实验一 -->
+    <section class="slide" id="s5" data-narr="n05">
+      <div class="phead">
+        <div class="ptitle"><span class="tag">实验一</span>把尺子伸出桌面，用力拨动</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="lab">
+          <div class="bench">
+            <div class="bhead"><span class="bdot2"></span>实验台 · 一把塑料尺</div>
+            <div class="scene" id="rulerScene">
+              <div class="tabletop"></div>
+              <div class="ruler-root" id="rulerRoot">
+                <div class="hand" id="rulerHand">👆</div>
+                <div class="ruler"><span class="grip"></span></div>
+              </div>
+            </div>
+            <div class="wave" id="rulerWave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="side">
+            <div class="actrow">
+              <button class="act" id="btnRuler">▶ 拨动尺子</button>
+              <button class="act ghost" id="btnRulerHum">🔊 只听声音</button>
+            </div>
+            <div class="sidecard">
+              <h4>你观察到了什么</h4>
+              <ul class="obs" id="obsRuler">
+                <li data-i="0"><span class="ok">✓</span><span>尺子在快速地<b>上下抖动</b></span></li>
+                <li data-i="1"><span class="ok">✓</span><span>同时发出了<b>嗡嗡</b>的声音</span></li>
+                <li data-i="2"><span class="ok">✓</span><span>抖动<b>越来越小</b>，声音也<b>越来越轻</b></span></li>
+                <li data-i="3"><span class="ok">✓</span><span>抖动停下，声音<b>立刻消失</b></span></li>
+              </ul>
+            </div>
+            <div class="concl" id="conclRuler">👉 尺子<b>发声时</b>在振动，<b>停止振动</b>就不再发声。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 实验二 -->
+    <section class="slide" id="s6" data-narr="n06">
+      <div class="phead">
+        <div class="ptitle"><span class="tag">实验二</span>把橡皮筋绷紧，用手拨动</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="lab">
+          <div class="bench">
+            <div class="bhead"><span class="bdot2"></span>实验台 · 一根橡皮筋</div>
+            <div class="scene" id="bandScene">
+              <div class="tabletop"></div>
+              <div class="band-root" id="bandRoot">
+                <span class="band-post l"></span>
+                <span class="band-post r"></span>
+                <div class="band" id="bandEl"><span class="pluck" id="bandPluck">👆</span></div>
+              </div>
+            </div>
+            <div class="wave" id="bandWave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="side">
+            <div class="actrow">
+              <button class="act" id="btnBand">▶ 拨动橡皮筋</button>
+              <button class="act ghost" id="btnBandHum">🔊 只听声音</button>
+            </div>
+            <div class="sidecard">
+              <h4>你观察到了什么</h4>
+              <ul class="obs" id="obsBand">
+                <li data-i="0"><span class="ok">✓</span><span>橡皮筋在飞快地<b>来回抖动</b></span></li>
+                <li data-i="1"><span class="ok">✓</span><span>同样发出了<b>嗡嗡</b>的声音</span></li>
+                <li data-i="2"><span class="ok">✓</span><span>用手按住，抖动<b>马上停止</b></span></li>
+                <li data-i="3"><span class="ok">✓</span><span>声音也<b>立刻消失</b></span></li>
+              </ul>
+            </div>
+            <div class="concl" id="conclBand">👉 和尺子一样：<b>振动</b>才发声，<b>不振动</b>就不发声。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 实验三 -->
+    <section class="slide" id="s7" data-narr="n07">
+      <div class="phead">
+        <div class="ptitle"><span class="tag">实验三</span>敲击音叉，快速轻触水面</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="lab">
+          <div class="bench">
+            <div class="bhead"><span class="bdot2"></span>实验台 · 音叉 + 水槽</div>
+            <div class="scene" id="forkScene">
+              <div class="tabletop"></div>
+              <div class="tank">
+                <span class="surf"></span>
+                <i class="ripple"></i><i class="ripple"></i><i class="ripple"></i>
+              </div>
+              <div class="fork-root" id="forkRoot">
+                <div class="fork">
+                  <span class="prong l"></span><span class="prong r"></span>
+                  <span class="loop"></span><span class="stem"></span>
+                </div>
+              </div>
+            </div>
+            <div class="wave" id="forkWave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="side">
+            <div class="actrow">
+              <button class="act blue" id="btnFork">🔨 敲击音叉</button>
+              <button class="act ghost" id="btnDip">💧 轻触水面</button>
+            </div>
+            <div class="sidecard">
+              <h4>你观察到了什么</h4>
+              <ul class="obs" id="obsFork">
+                <li data-i="0"><span class="ok">✓</span><span>敲响的音叉发出<b>清脆</b>的声音</span></li>
+                <li data-i="1"><span class="ok">✓</span><span>触及水面时<b>水花四溅</b></span></li>
+                <li data-i="2"><span class="ok">✓</span><span>水花说明音叉确实在<b>振动</b></span></li>
+              </ul>
+            </div>
+            <div class="concl" id="conclFork">👉 把看不见的振动，用<b>水花</b>变成了看得见的现象。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8 结论 -->
+    <section class="slide" id="s8" data-narr="n08">
+      <div class="phead">
+        <div class="ptitle"><span class="tag">结论</span>三个实验，一个共同点</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody" style="gap:14px">
+        <div class="evid">
+          <div class="evrow anim" style="animation-delay:.06s">
+            <span class="eico">📏</span><span class="etx">尺子发声</span>
+            <span class="earr">→</span><span class="eout">上下振动</span>
+          </div>
+          <div class="evrow anim" style="animation-delay:.18s">
+            <span class="eico">🎻</span><span class="etx">橡皮筋发声</span>
+            <span class="earr">→</span><span class="eout">来回振动</span>
+          </div>
+          <div class="evrow anim" style="animation-delay:.3s">
+            <span class="eico">🎵</span><span class="etx">音叉发声</span>
+            <span class="earr">→</span><span class="eout">溅起水花（振动）</span>
+          </div>
+        </div>
+        <div class="bigconcl anim p" style="animation-delay:.42s">
+          <div class="bc-k">我们 的 发 现</div>
+          <div class="bc-t">声音是由物体 <em>振动</em> 产生的</div>
+        </div>
+        <div class="gnote anim" id="guessBack" style="animation-delay:.56s">
+          ✍️ <span id="guessBackTx">回想一下：你在第 4 页的猜想，选对了吗？</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 反证 -->
+    <section class="slide" id="s9" data-narr="n09">
+      <div class="phead">
+        <div class="ptitle"><span class="tag o">反证</span>振动停止，声音会怎样？</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="cmp">
+          <div class="cmpcard on anim" id="cmpOn" style="animation-delay:.06s">
+            <h3>物体正在振动</h3>
+            <div class="cmpviz">
+              <div class="rings"><i></i><i></i><i></i><span class="viz">📏</span></div>
+            </div>
+            <p>尺子快速抖动<br>发出「嗡嗡」的声音</p>
+          </div>
+          <div class="cmparrow">⟷</div>
+          <div class="cmpcard off anim" id="cmpOff" style="animation-delay:.2s">
+            <h3>用手按住，振动停止</h3>
+            <div class="cmpviz"><span class="stopmark">✋</span></div>
+            <p>尺子不动了<br>声音也立刻消失</p>
+          </div>
+        </div>
+        <div class="actrow" style="justify-content:center;margin-top:4px">
+          <button class="act" id="btnCmp">▶ 现在按住它！</button>
+        </div>
+        <div class="qbox anim" style="animation-delay:.4s">🔎 结论：振动停止，声音也停止！</div>
+      </div>
+    </section>
+
+    <!-- 10 生活中的振动 -->
+    <section class="slide" id="s10" data-narr="n10">
+      <div class="phead">
+        <div class="ptitle"><span class="tag b">拓展</span>生活中，哪些东西在振动发声？</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="life-grid" id="lifeGrid">
+          <button class="life anim" data-snd="voice" style="animation-delay:.04s">
+            <span class="lico">🗣️</span>
+            <span class="ltx"><b>说话</b><span>声带振动</span></span>
+            <span class="lvib"><i></i><i></i><i></i><i></i></span>
+            <span class="lplay">点击试听</span>
+          </button>
+          <button class="life anim" data-snd="string" style="animation-delay:.11s">
+            <span class="lico">🎸</span>
+            <span class="ltx"><b>吉他</b><span>琴弦振动</span></span>
+            <span class="lvib"><i></i><i></i><i></i><i></i></span>
+            <span class="lplay">点击试听</span>
+          </button>
+          <button class="life anim" data-snd="drum" style="animation-delay:.18s">
+            <span class="lico">🥁</span>
+            <span class="ltx"><b>敲鼓</b><span>鼓面振动</span></span>
+            <span class="lvib"><i></i><i></i><i></i><i></i></span>
+            <span class="lplay">点击试听</span>
+          </button>
+          <button class="life anim" data-snd="bell" style="animation-delay:.25s">
+            <span class="lico">🔔</span>
+            <span class="ltx"><b>铃铛</b><span>铃身振动</span></span>
+            <span class="lvib"><i></i><i></i><i></i><i></i></span>
+            <span class="lplay">点击试听</span>
+          </button>
+          <button class="life anim" data-snd="bird" style="animation-delay:.32s">
+            <span class="lico">🐦</span>
+            <span class="ltx"><b>鸟叫</b><span>鸣膜振动</span></span>
+            <span class="lvib"><i></i><i></i><i></i><i></i></span>
+            <span class="lplay">点击试听</span>
+          </button>
+          <button class="life anim" data-snd="water" style="animation-delay:.39s">
+            <span class="lico">💧</span>
+            <span class="ltx"><b>流水</b><span>水面振动</span></span>
+            <span class="lvib"><i></i><i></i><i></i><i></i></span>
+            <span class="lplay">点击试听</span>
+          </button>
+        </div>
+        <div class="gnote anim" style="animation-delay:.5s">🔈 <span>点一点每个卡片，听一听 —— 有声音的地方，就一定有振动。</span></div>
+      </div>
+    </section>
+
+    <!-- 11 声带体验 -->
+    <section class="slide" id="s11" data-narr="n11">
+      <div class="phead">
+        <div class="ptitle"><span class="tag o">小体验</span>把手指放在喉咙上，说「啊——」</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="voice-wrap">
+          <div class="voice-left anim l" style="animation-delay:.06s">
+            <h3>👐 试一试</h3>
+            <p>
+              把手指轻轻放在喉咙上，发出「<b>啊——</b>」的声音。<br><br>
+              你会感觉到喉咙里<b>麻麻地、细细地振动</b>。<br><br>
+              这就是我们的<b>声带</b>在振动 —— 人说话的声音，就是由声带振动产生的。
+            </p>
+            <div class="actrow" style="margin-top:16px">
+              <button class="act" id="btnVoice">🎤 发出「啊——」</button>
+            </div>
+          </div>
+          <div class="throat anim p" style="animation-delay:.2s">
+            <div class="throatviz" id="throatViz">
+              <svg class="tw" viewBox="0 0 240 250" aria-hidden="true">
+                <defs>
+                  <linearGradient id="skinG" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#FEEBDE"/><stop offset="1" stop-color="#EFC7A3"/>
+                  </linearGradient>
+                  <radialGradient id="foldG" cx=".5" cy=".35" r=".75">
+                    <stop offset="0" stop-color="#F6ACA0"/><stop offset="1" stop-color="#D65F4E"/>
+                  </radialGradient>
+                </defs>
+                <g class="twave" fill="none" stroke="#E4892F" stroke-width="3.4" stroke-linecap="round">
+                  <path d="M58 100 q-17 -20 0 -40"/>
+                  <path d="M36 108 q-28 -34 0 -66"/>
+                  <path d="M182 100 q17 -20 0 -40"/>
+                  <path d="M204 108 q28 -34 0 -66"/>
+                </g>
+                <path d="M50 250 q0 -48 46 -56 l48 0 q46 8 46 56 z" fill="url(#skinG)"/>
+                <rect x="96" y="136" width="48" height="68" rx="13" fill="url(#skinG)"/>
+                <ellipse class="tw-lung" cx="120" cy="212" rx="26" ry="20" fill="#7FBFEA"/>
+                <ellipse cx="120" cy="86" rx="54" ry="60" fill="url(#skinG)"/>
+                <circle cx="102" cy="72" r="5" fill="#9A7A64" opacity=".5"/>
+                <circle cx="138" cy="72" r="5" fill="#9A7A64" opacity=".5"/>
+                <ellipse class="tw-mouth" cx="120" cy="112" rx="12" ry="14" fill="#C4635A"/>
+                <circle cx="120" cy="176" r="28" fill="#FFFFFF" stroke="#4E9E63" stroke-width="2.4" stroke-dasharray="5 4"/>
+                <g class="tw-fold">
+                  <ellipse cx="107" cy="176" rx="10" ry="6.5" fill="url(#foldG)"/>
+                  <ellipse cx="133" cy="176" rx="10" ry="6.5" fill="url(#foldG)"/>
+                </g>
+                <path d="M120 148 l0 6 M120 204 l0 6" stroke="#4E9E63" stroke-width="2.4" stroke-linecap="round" opacity=".55"/>
+              </svg>
+              <span class="tw-hand">👆</span>
+              <span class="tw-label">声带</span>
+            </div>
+            <div class="voicestat" id="throatStat">声带：放松状态</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12 练习 -->
+    <section class="slide" id="s12" data-narr="n12">
+      <div class="phead">
+        <div class="ptitle"><span class="tag">课堂练习</span>检验一下学习成果</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody" style="justify-content:flex-start;gap:12px">
+        <div class="quiz" id="quiz">
+
+          <div class="qcard">
+            <h4>一、填空（点空格选词）</h4>
+            <div class="qline">
+              声音是由物体<span class="blank" data-q="b1" data-open="1">？</span>产生的。振动停止，声音<span class="blank" data-q="b2" data-open="1">？</span>。
+            </div>
+            <div class="fb" id="fbB"></div>
+          </div>
+
+          <div class="qcard">
+            <h4>二、判断（对的点 √，错的点 ×）</h4>
+            <div class="tf">
+              <div class="tfrow">
+                <span class="tfq">1. 只要物体振动，人就一定能听到声音。</span>
+                <span class="judge" data-q="t1" data-ans="0"><button class="jbtn" data-v="1">√</button><button class="jbtn" data-v="0">×</button></span>
+              </div>
+              <div class="tfrow">
+                <span class="tfq">2. 不振动的物体也能发出声音。</span>
+                <span class="judge" data-q="t2" data-ans="0"><button class="jbtn" data-v="1">√</button><button class="jbtn" data-v="0">×</button></span>
+              </div>
+              <div class="tfrow">
+                <span class="tfq">3. 人说话的时候，声带在振动。</span>
+                <span class="judge" data-q="t3" data-ans="1"><button class="jbtn" data-v="1">√</button><button class="jbtn" data-v="0">×</button></span>
+              </div>
+            </div>
+            <div class="fb" id="fbT"></div>
+          </div>
+
+          <div class="qcard">
+            <h4>三、选择</h4>
+            <div class="qline">用敲响的音叉接触水面，水花溅起，这说明（　　）</div>
+            <div class="opts" data-q="c1">
+              <button class="opt" data-v="A">A. 音叉在振动</button>
+              <button class="opt" data-v="B">B. 水面在振动</button>
+              <button class="opt" data-v="C">C. 水被音叉敲碎了</button>
+            </div>
+            <div class="fb" id="fbC"></div>
+          </div>
+
+        </div>
+
+        <div class="rack">
+          <span style="font-size:13.5px;font-weight:700;color:var(--ink-soft)">👤 姓名</span>
+          <input id="stuName" placeholder="填写后可留存作答" maxlength="12">
+          <button class="act ghost" id="btnRevealAll" style="height:36px;font-size:14px;padding:0 16px">📋 全部答案</button>
+          <button class="act ghost" id="btnReset" style="height:36px;font-size:14px;padding:0 16px">↻ 重做</button>
+          <span class="rtx" id="stuTip">答完会自动记录本题作答情况</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 小结 -->
+    <section class="slide" id="s13" data-narr="n13">
+      <div class="phead">
+        <div class="ptitle"><span class="tag">小结</span>这节课，我们这样得出结论</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="sumline">
+          <div class="sumbox anim" style="animation-delay:.06s"><div class="si">📏</div><b>尺子实验</b><span>振动 → 发声</span></div>
+          <span class="sumlink">＋</span>
+          <div class="sumbox anim" style="animation-delay:.18s"><div class="si">🎻</div><b>橡皮筋实验</b><span>振动 → 发声</span></div>
+          <span class="sumlink">＋</span>
+          <div class="sumbox anim" style="animation-delay:.3s"><div class="si">🎵</div><b>音叉实验</b><span>振动 → 水花</span></div>
+        </div>
+        <div class="sumfinal anim p" style="animation-delay:.44s">
+          核心结论：声音由物体 <em>振动</em> 产生<br>振动停止 → 声音 <em>也停止</em>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14 板书 -->
+    <section class="slide" id="s14" data-narr="n14">
+      <div class="phead">
+        <div class="ptitle"><span class="tag y">板书</span>声音是怎样产生的</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="board">
+          <h2>声 音 是 怎 样 产 生 的</h2>
+          <div class="bline"></div>
+          <div class="bcols">
+            <div class="bcol">
+              <h5>实 验 与 现 象</h5>
+              <div class="bitem"><span class="bk">一</span>尺子<span class="arr">→</span><span class="res">上下振动</span><span class="arr">→</span>发嗡嗡声</div>
+              <div class="bitem"><span class="bk">二</span>橡皮筋<span class="arr">→</span><span class="res">来回振动</span><span class="arr">→</span>发嗡嗡声</div>
+              <div class="bitem"><span class="bk">三</span>音叉<span class="arr">→</span><span class="res">振动</span><span class="arr">→</span>溅起水花</div>
+              <div class="bitem"><span class="bk">四</span>人说话<span class="arr">→</span><span class="res">声带振动</span><span class="arr">→</span>发出声音</div>
+            </div>
+            <div class="bcol">
+              <h5>结 论</h5>
+              <div class="bitem"><b>①</b>声音由物体<b>振动</b>产生</div>
+              <div class="bitem"><b>②</b>振动<b>停止</b> → 声音<b>停止</b></div>
+              <div class="bitem"><b>③</b>有声音，就有振动</div>
+              <div class="bbcore">声音是由物体振动产生的<br>振动停止，声音也停止</div>
+            </div>
+          </div>
+          <div class="bband">生活举例：琴弦 · 鼓面 · 铃身 · 鸣膜 · 水面 · 声带</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15 作业 -->
+    <section class="slide" id="s15" data-narr="n15">
+      <div class="phead">
+        <div class="ptitle"><span class="tag o">课后作业</span>把科学带回家</div>
+        <div class="prule"></div>
+      </div>
+      <div class="pbody">
+        <div class="hw-grid">
+          <div class="hw anim" style="animation-delay:.06s">
+            <span class="hlv">基 础 · 必做</span>
+            <div class="hico">⭐</div>
+            <p><b>记住本课结论。</b><br>声音是由物体振动产生的；振动停止，声音也停止。</p>
+          </div>
+          <div class="hw b anim" style="animation-delay:.2s">
+            <span class="hlv">提 高 · 选做</span>
+            <div class="hico">🔍</div>
+            <p><b>找一找家里的振动。</b><br>找出 3 样能发声的物品，观察它们发声时哪里在振动。</p>
+          </div>
+          <div class="hw y anim" style="animation-delay:.34s">
+            <span class="hlv">拓 展 · 亲子</span>
+            <div class="hico">🌱</div>
+            <p><b>做一把小吉他。</b><br>用橡皮筋和纸盒做一把「小吉他」，拨动琴弦观察振动。</p>
+          </div>
+        </div>
+        <div class="qbox anim" style="animation-delay:.48s">🎓 下课啦 —— 有声音的地方，就有振动。</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ 底部导航 ============ -->
+  <footer class="navbar">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <div class="navrow">
+      <button class="nbtn icon-only" id="btnFirst" title="回到首页">⏮</button>
+      <button class="nbtn" id="btnPrev"><span class="ico i-prev">◀</span><span>上一页</span></button>
+      <button class="nbtn primary" id="btnNext"><span>下一页</span><span class="ico i-next">▶</span></button>
+      <button class="nbtn icon-only" id="btnLast" title="跳到尾页">⏭</button>
+      <div class="pageind" id="pageInd"><span class="n1">1</span><span class="sl">/</span><span class="n2">15</span></div>
+      <div class="dots" id="dots"></div>
+      <select class="jump" id="jumpSel" title="快速跳转"></select>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ 字幕 ============ -->
+<div class="subtitle" id="subtitle"><span id="subText"></span></div>
+
+<!-- ============ 开始遮罩 ============ -->
+<div class="gate" id="gate">
+  <div class="gatebox">
+    <div class="gring"><i></i><i></i><i></i><div class="gcore">🔊</div></div>
+    <h1>声音是怎样产生的</h1>
+    <p>教科版 · 四年级科学上册<br>配音动画课件 · 15 页 · 含实验演示与试听音效</p>
+    <button class="gatebtn" id="gateBtn">▶ 开始上课</button>
+    <div class="gatetip">建议使用耳机或音箱 · 点击后开启声音</div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   逻辑区
+   —— 与下方数据区必须分属两个 script 块，且数据块位于文件最末尾。
+      这样即便大文件在弱网下被截断，也只会丢声音，页面交互完全不受影响。
+   ============================================================ */
+var AUDIO = {}, TEXT = {}, REMOTE_AUDIO = false;
+var VOICE = "diana";
+
+/* ============================================================
+   1. 音效合成（Web Audio）
+   —— 全部现场合成，不依赖任何音频文件；离线可用、坏一条不影响别的。
+   ============================================================ */
+var AC = null, sfxOn = true, narrOn = true;
+var curAudio = null, curClipId = null, subTimer = null, liveNodes = [];
+
+function ac(){
+  try{
+    if (!AC){
+      var C = window.AudioContext || window.webkitAudioContext;
+      if (C) AC = new C();
+    }
+    if (AC && AC.state === 'suspended') AC.resume();
+  }catch(e){ AC = null; }
+  return AC;
+}
+function env(g, t, a, d, peak){
+  try{
+    g.gain.cancelScheduledValues(t);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(Math.max(peak, 0.0002), t + a);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + a + d);
+  }catch(e){}
+}
+function tone(freq, t, dur, type, peak){
+  var c = ac(); if (!c) return null;
+  try{
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine'; o.frequency.value = freq;
+    o.connect(g); g.connect(c.destination);
+    env(g, t, 0.012, dur, peak || 0.16);
+    o.start(t); o.stop(t + dur + 0.08);
+    return { o: o, g: g };
+  }catch(e){ return null; }
+}
+function noiseBuf(c, dur){
+  var n = Math.max(1, Math.floor(c.sampleRate * dur));
+  var buf = c.createBuffer(1, n, c.sampleRate);
+  var d = buf.getChannelData(0);
+  for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+  return buf;
+}
+function noiseHit(dur, f0, f1, peak, t0, q){
+  var c = ac(); if (!c) return;
+  var t = (t0 == null ? c.currentTime : t0);
+  try{
+    var src = c.createBufferSource(); src.buffer = noiseBuf(c, dur);
+    var flt = c.createBiquadFilter(); flt.type = 'bandpass'; flt.Q.value = q || 0.9;
+    flt.frequency.setValueAtTime(f0, t);
+    flt.frequency.exponentialRampToValueAtTime(Math.max(f1, 40), t + dur);
+    var g = c.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak, t + Math.min(0.012, dur * 0.2));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(flt); flt.connect(g); g.connect(c.destination);
+    src.start(t); src.stop(t + dur + 0.05);
+  }catch(e){}
+}
+
+/* —— 为「声音」这节课专门合成的 8 种可辨识音色 —— */
+function sndClap(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  noiseHit(0.09, 1300, 3400, 0.24, t, 1.2);
+  noiseHit(0.11, 900, 2400, 0.17, t + 0.042, 1.0);
+}
+function sndDrum(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  try{
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(178, t);
+    o.frequency.exponentialRampToValueAtTime(58, t + 0.24);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.42, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.52);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + 0.6);
+  }catch(e){}
+  noiseHit(0.07, 1100, 500, 0.13, t, 0.8);
+}
+function sndBell(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  [[1568, 0.15, 1.5], [2093, 0.10, 1.1], [2637, 0.055, 0.8], [3136, 0.03, 0.55]].forEach(function(p){
+    tone(p[0], t, p[2], 'sine', p[1]);
+  });
+  tone(784, t, 1.7, 'sine', 0.07);
+}
+function sndPiano(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  var f = 261.63;
+  [[1, 0.20, 1.7], [2, 0.10, 1.3], [3, 0.055, 0.9], [4, 0.032, 0.65], [6, 0.016, 0.45]].forEach(function(p){
+    tone(f * p[0], t, p[2], 'triangle', p[1]);
+  });
+}
+function sndString(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  var f = 196.00;
+  [[1, 0.20, 1.6], [2, 0.09, 1.1], [3, 0.05, 0.8], [4.02, 0.028, 0.55], [5, 0.014, 0.4]].forEach(function(p){
+    tone(f * p[0], t, p[2], 'triangle', p[1]);
+  });
+  noiseHit(0.035, 2400, 900, 0.12, t, 1.4);
+}
+function sndBird(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  [0, 0.15, 0.31].forEach(function(off, i){
+    try{
+      var o = c.createOscillator(), g = c.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(2100 + i * 160, t + off);
+      o.frequency.exponentialRampToValueAtTime(3250 + i * 130, t + off + 0.055);
+      o.frequency.exponentialRampToValueAtTime(2250, t + off + 0.1);
+      g.gain.setValueAtTime(0.0001, t + off);
+      g.gain.exponentialRampToValueAtTime(0.13, t + off + 0.014);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + off + 0.12);
+      o.connect(g); g.connect(c.destination);
+      o.start(t + off); o.stop(t + off + 0.15);
+    }catch(e){}
+  });
+}
+function sndWater(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  for (var i = 0; i < 6; i++){
+    noiseHit(0.14, 700 + i * 260, 1500 + i * 400, 0.055, t + i * 0.055, 2.2);
+  }
+}
+function sndVoice(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  try{
+    var o = c.createOscillator(), g = c.createGain(), flt = c.createBiquadFilter();
+    var lfo = c.createOscillator(), lg = c.createGain();
+    o.type = 'sawtooth'; o.frequency.value = 132;
+    lfo.type = 'sine'; lfo.frequency.value = 7.4; lg.gain.value = 9;
+    lfo.connect(lg); lg.connect(o.frequency);
+    flt.type = 'lowpass'; flt.frequency.value = 900;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.15, t + 0.09);
+    g.gain.setValueAtTime(0.15, t + 0.62);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.05);
+    o.connect(flt); flt.connect(g); g.connect(c.destination);
+    lfo.start(t); o.start(t); o.stop(t + 1.15); lfo.stop(t + 1.15);
+  }catch(e){}
+}
+/* 振动嗡嗡声（尺子 / 橡皮筋）—— 可指定时长与频点，随振幅一起衰减 */
+function sndHum(freq, dur, peak){
+  var c = ac(); if (!c) return null;
+  try{
+    var t = c.currentTime;
+    var o = c.createOscillator(), g = c.createGain(), flt = c.createBiquadFilter();
+    var lfo = c.createOscillator(), lg = c.createGain();
+    o.type = 'sawtooth'; o.frequency.value = freq || 128;
+    lfo.type = 'sine'; lfo.frequency.value = (freq || 128) * 0.13;
+    lg.gain.value = 4;
+    lfo.connect(lg); lg.connect(o.frequency);
+    flt.type = 'lowpass'; flt.frequency.value = 1150; flt.Q.value = 3.2;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak || 0.17, t + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + (dur || 1.6));
+    o.connect(flt); flt.connect(g); g.connect(c.destination);
+    lfo.start(t); o.start(t);
+    o.stop(t + (dur || 1.6) + 0.1); lfo.stop(t + (dur || 1.6) + 0.1);
+    return { stop: function(){ try{ g.gain.cancelScheduledValues(c.currentTime); g.gain.setValueAtTime(Math.max(g.gain.value, 0.0002), c.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.16); o.stop(c.currentTime + 0.24); lfo.stop(c.currentTime + 0.24); }catch(e){} } };
+  }catch(e){ return null; }
+}
+function sndFork(){
+  tone(440, ac() ? ac().currentTime : 0, 2.4, 'sine', 0.20);
+  var t = ac() ? ac().currentTime : 0;
+  tone(880, t, 1.7, 'sine', 0.075);
+  tone(1320, t, 1.15, 'sine', 0.03);
+}
+function sndSplash(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  noiseHit(0.16, 500, 2600, 0.16, t, 1.6);
+  noiseHit(0.30, 2200, 700, 0.10, t + 0.08, 1.1);
+}
+function sndCorrect(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  tone(659.25, t, 0.14, 'sine', 0.15);
+  tone(987.77, t + 0.1, 0.24, 'sine', 0.13);
+}
+function sndWrong(){
+  var c = ac(); if (!c) return; var t = c.currentTime;
+  tone(233.08, t, 0.19, 'sawtooth', 0.10);
+  tone(185.00, t + 0.13, 0.25, 'sawtooth', 0.09);
+}
+var SFX = {
+  page:   function(){ noiseHit(0.24, 1500, 380, 0.075); },
+  click:  function(){ var t = ac() ? ac().currentTime : 0; tone(880, t, 0.06, 'triangle', 0.085); },
+  pop:    function(){ var t = ac() ? ac().currentTime : 0; tone(1046.5, t, 0.08, 'sine', 0.10); },
+  tick:   function(){ var t = ac() ? ac().currentTime : 0; tone(1568, t, 0.045, 'sine', 0.06); },
+  clap: sndClap, drum: sndDrum, bell: sndBell, piano: sndPiano,
+  string: sndString, bird: sndBird, water: sndWater, voice: sndVoice,
+  fork: sndFork, splash: sndSplash,
+  correct: sndCorrect, wrong: sndWrong
+};
+function sfx(kind){
+  if (!sfxOn) return;
+  if (!ac()) return;
+  try{ (SFX[kind] || SFX.click)(); }catch(e){}
+}
+
+/* ============================================================
+   2. 配音播放引擎
+   ============================================================ */
+function showSub(text){
+  var el = document.getElementById('subtitle');
+  document.getElementById('subText').textContent = text || '';
+  el.classList.add('show');
+  clearTimeout(subTimer);
+}
+function hideSub(){
+  clearTimeout(subTimer);
+  subTimer = setTimeout(function(){ document.getElementById('subtitle').classList.remove('show'); }, 2400);
+}
+function stopClip(){
+  if (curAudio){ try{ curAudio.pause(); }catch(e){} curAudio = null; }
+  document.querySelectorAll('.playing,.speaking').forEach(function(n){ n.classList.remove('playing','speaking'); });
+  curClipId = null;
+}
+function playClip(id, opt){
+  opt = opt || {};
+  var src = REMOTE_AUDIO ? ('audio/' + id + '.mp3') : AUDIO[id];
+  if (!src){ if (!opt.silent) console.warn('missing clip', id); return; }
+  stopClip();
+  curClipId = id;
+  var a = new Audio();
+  curAudio = a;
+  a.preload = 'auto';
+  a.volume = (opt.volume != null) ? opt.volume : 1;
+  var clear = function(){
+    curAudio = null; curClipId = null; hideSub();
+  };
+  a.onended = function(){ clear(); if (opt.then) opt.then(); };
+  a.onerror = function(){ clear(); if (!opt.silent) console.warn('clip load failed:', String(src).slice(0, 60)); };
+  if (TEXT[id]) showSub(TEXT[id]);
+  a.src = src;
+  var p = a.play();
+  if (p && p.catch) p.catch(function(){ clear(); });
+  return a;
+}
+
+/* ============================================================
+   3. 振幅衰减振动动画（尺子 / 橡皮筋 / 音叉）
+   ============================================================ */
+function vibrate(el, o){
+  o = o || {};
+  var axis = o.axis || 'rotate';       // rotate | y
+  var amp0 = o.amp || 9;
+  var freq = o.freq || 17;             // Hz
+  var dur = o.dur || 1900;             // ms
+  var decay = o.decay || 1.9;          // 越大衰减越快
+  var wave = o.wave || null;           // 波形条容器
+  var bars = wave ? Array.prototype.slice.call(wave.children) : [];
+  if (wave){ wave.classList.add('live'); wave.classList.remove('gone'); }
+  var t0 = performance.now();
+  var raf = 0;
+  function frame(now){
+    var t = (now - t0) / 1000;
+    var k = t / (dur / 1000);
+    if (k >= 1){
+      el.style.transform = '';
+      if (wave){ wave.classList.remove('live'); wave.classList.add('gone'); }
+      o.onEnd && o.onEnd();
+      return;
+    }
+    var amp = amp0 * Math.exp(-t * decay) * Math.cos(2 * Math.PI * freq * t);
+    if (axis === 'rotate') el.style.transform = 'rotate(' + amp.toFixed(2) + 'deg)';
+    else el.style.transform = 'translateY(' + amp.toFixed(2) + 'px)';
+    if (bars.length){
+      var e = Math.exp(-t * decay);
+      for (var i = 0; i < bars.length; i++){
+        var ph = Math.sin(2 * Math.PI * (freq * 1.6) * t - i * 0.42);
+        bars[i].style.height = (5 + Math.abs(ph) * 40 * e).toFixed(1) + 'px';
+      }
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  raf = requestAnimationFrame(frame);
+  return { stop: function(){ cancelAnimationFrame(raf); } };
+}
+function revealObs(listId, step){
+  var ul = document.getElementById(listId);
+  if (!ul) return;
+  var items = ul.querySelectorAll('li');
+  var n = (step == null) ? items.length : step;
+  for (var i = 0; i < Math.min(n, items.length); i++){
+    (function(i){ setTimeout(function(){ items[i].classList.add('on'); }, 130 * i); })(i);
+  }
+}
+function resetObs(listId){
+  var ul = document.getElementById(listId);
+  if (!ul) return;
+  ul.querySelectorAll('li').forEach(function(li){ li.classList.remove('on'); });
+  var w = { obsRuler:'rulerWave', obsBand:'bandWave', obsFork:'forkWave' }[listId];
+  if (w){ var e = document.getElementById(w); if (e){ e.classList.remove('live'); e.classList.add('gone'); } }
+}
+
+/* ============================================================
+   4. 幻灯片导航（方向感知动画 + 按钮反馈）
+   ============================================================ */
+var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+var cur = 0, TOTAL = slides.length, booted = false;
+var TITLES = ['封面', '学习目标', '导入 · 听一听', '我们的猜想', '实验一 · 拨动尺子',
+              '实验二 · 拨动橡皮筋', '实验三 · 音叉与水花', '实验结论', '反证 · 振动停止',
+              '生活中的振动', '小体验 · 声带振动', '课堂练习', '课堂小结', '板书设计', '课后作业'];
+
+function setInd(){
+  var box = document.getElementById('pageInd');
+  box.innerHTML = '<span class="n1">' + (cur + 1) + '</span><span class="sl">/</span><span class="n2">' + TOTAL + '</span>';
+  box.classList.remove('flip'); void box.offsetWidth; box.classList.add('flip');
+}
+function buildDots(){
+  var box = document.getElementById('dots');
+  box.innerHTML = '';
+  slides.forEach(function(s, i){
+    var d = document.createElement('span');
+    d.className = 'dt' + (i === 0 ? ' on' : '');
+    d.title = '第 ' + (i + 1) + ' 页 · ' + (TITLES[i] || '');
+    d.onclick = function(){ go(i); };
+    box.appendChild(d);
+  });
+}
+function buildJump(){
+  var sel = document.getElementById('jumpSel');
+  sel.innerHTML = '';
+  slides.forEach(function(s, i){
+    var o = document.createElement('option');
+    o.value = i;
+    o.textContent = (i + 1) + '. ' + (TITLES[i] || ('第 ' + (i + 1) + ' 页'));
+    sel.appendChild(o);
+  });
+  sel.value = cur;
+  sel.onchange = function(){ go(parseInt(sel.value, 10)); };
+}
+function syncUI(){
+  document.getElementById('pfill').style.width = ((cur + 1) / TOTAL * 100) + '%';
+  document.querySelectorAll('#dots .dt').forEach(function(d, i){ d.classList.toggle('on', i === cur); });
+  document.getElementById('btnPrev').disabled = (cur === 0);
+  document.getElementById('btnFirst').disabled = (cur === 0);
+  document.getElementById('btnNext').disabled = (cur === TOTAL - 1);
+  document.getElementById('btnLast').disabled = (cur === TOTAL - 1);
+  var sel = document.getElementById('jumpSel');
+  if (sel) sel.value = cur;
+  setInd();
+}
+function go(i, opt){
+  opt = opt || {};
+  if (i < 0 || i >= TOTAL || i === cur) return;
+  var dir = i > cur ? 1 : -1;
+  stopClip();
+  if (!opt.silent) sfx('page');
+  var from = slides[cur], to = slides[i];
+
+  /* ① 旧页往反方向退场 */
+  from.classList.remove('active');
+  from.style.opacity = '0';
+  from.style.transform = 'translateX(' + (-dir * 58) + 'px) scale(.982)';
+
+  /* ② 新页先落位到起点（关掉过渡、强制回流），再放开 —— 得到真正的「滑入」 */
+  to.style.transition = 'none';
+  to.classList.remove('active');
+  to.style.opacity = '0';
+  to.style.transform = 'translateX(' + (dir * 58) + 'px) scale(.982)';
+  void to.offsetWidth;
+  to.classList.add('active');          /* 目标状态交给 CSS 的 .slide.active */
+  to.style.transition = '';
+  to.style.opacity = '';
+  to.style.transform = '';
+
+  cur = i;
+  /* ③ 重放本页出场动画 */
+  to.querySelectorAll('.anim').forEach(function(n){
+    var d = n.style.animationDelay;
+    n.style.animation = 'none'; void n.offsetWidth; n.style.animation = '';
+    n.style.animationDelay = d;
+  });
+  /* ④ 掠光 + 按钮方向反馈 */
+  var st = document.getElementById('stage');
+  st.classList.remove('sweep'); void st.offsetWidth; st.classList.add('sweep');
+  var b = dir > 0 ? document.getElementById('btnNext') : document.getElementById('btnPrev');
+  if (b){ var cls = dir > 0 ? 'nudge-a' : 'nudge-b'; b.classList.remove(cls); void b.offsetWidth; b.classList.add(cls); }
+
+  syncUI();
+
+  /* ⑤ 自动旁白 + 本页观察项重置 */
+  resetObs('obsRuler'); resetObs('obsBand'); resetObs('obsFork');
+  var nid = to.dataset.narr;
+  if (narrOn && nid && booted){
+    setTimeout(function(){ if (cur === i) playClip(nid); }, 400);
+  }
+}
+function next(){ go(cur + 1); }
+function prev(){ go(cur - 1); }
+
+/* 按钮涟漪 */
+function ripple(btn, ev){
+  try{
+    var r = btn.getBoundingClientRect();
+    var d = Math.max(r.width, r.height) * 2;
+    var s = document.createElement('span');
+    s.className = 'rip';
+    s.style.width = d + 'px'; s.style.height = d + 'px';
+    s.style.left = ((ev ? ev.clientX - r.left : r.width / 2) - d / 2) + 'px';
+    s.style.top = ((ev ? ev.clientY - r.top : r.height / 2) - d / 2) + 'px';
+    btn.appendChild(s);
+    setTimeout(function(){ s.remove(); }, 680);
+  }catch(e){}
+}
+['btnNext','btnPrev','btnFirst','btnLast'].forEach(function(id){
+  var b = document.getElementById(id);
+  b.addEventListener('click', function(ev){ ripple(b, ev); });
+});
+document.getElementById('btnNext').onclick = next;
+document.getElementById('btnPrev').onclick = prev;
+document.getElementById('btnFirst').onclick = function(){ go(0); };
+document.getElementById('btnLast').onclick = function(){ go(TOTAL - 1); };
+
+document.addEventListener('keydown', function(e){
+  if (['ArrowRight','ArrowDown',' ','PageDown'].indexOf(e.key) >= 0){ e.preventDefault(); next(); }
+  else if (['ArrowLeft','ArrowUp','PageUp'].indexOf(e.key) >= 0){ e.preventDefault(); prev(); }
+  else if (e.key === 'Home'){ go(0); }
+  else if (e.key === 'End'){ go(TOTAL - 1); }
+});
+
+/* ============================================================
+   5. 工具栏
+   ============================================================ */
+function chip(el, on){ el.classList.toggle('on', on); el.classList.toggle('off', !on); }
+document.getElementById('btnNarr').onclick = function(){
+  narrOn = !narrOn; chip(this, narrOn); sfx('click');
+  if (!narrOn) stopClip();
+  else { var nid = slides[cur].dataset.narr; if (nid) playClip(nid); }
+};
+document.getElementById('btnSfx').onclick = function(){
+  sfxOn = !sfxOn; chip(this, sfxOn);
+  if (sfxOn) sfx('click');
+};
+document.getElementById('btnFull').onclick = function(){
+  sfx('click');
+  var d = document.documentElement;
+  if (!document.fullscreenElement){ (d.requestFullscreen || d.webkitRequestFullscreen || function(){}).call(d); }
+  else { (document.exitFullscreen || document.webkitExitFullscreen || function(){}).call(document); }
+};
+
+/* ============================================================
+   6. 互动：试听音效
+   ============================================================ */
+function bindSoundTiles(sel){
+  document.querySelectorAll(sel).forEach(function(el){
+    el.addEventListener('click', function(){
+      var k = el.dataset.snd;
+      sfx(k);
+      el.classList.add('playing');
+      clearTimeout(el.__t);
+      el.__t = setTimeout(function(){ el.classList.remove('playing'); }, 1400);
+    });
+  });
+}
+bindSoundTiles('#soundGrid .snd');
+bindSoundTiles('#lifeGrid .life');
+
+/* ============================================================
+   7. 互动：三个实验台
+   ============================================================ */
+var rulerTimer = null, bandTimer = null, forkTimer = null;
+
+/* 实验一 · 尺子 */
+document.getElementById('btnRuler').onclick = function(){
+  sfx('click');
+  resetObs('obsRuler');
+  var root = document.getElementById('rulerRoot');
+  var hand = document.getElementById('rulerHand');
+  var wave = document.getElementById('rulerWave');
+  hand.classList.add('press');
+  setTimeout(function(){ hand.classList.remove('press'); }, 420);
+  setTimeout(function(){
+    revealObs('obsRuler');
+    if (rulerTimer) rulerTimer.stop();
+    var hum = sfxOn ? sndHum(126, 2.1, 0.17) : null;
+    rulerTimer = vibrate(root, { axis:'rotate', amp:11.5, freq:16, dur:2100, decay:1.85, wave:wave });
+    setTimeout(function(){ if (hum) hum.stop(); }, 2100);
+  }, 380);
+};
+document.getElementById('btnRulerHum').onclick = function(){
+  sfx('click');
+  if (sfxOn) { var h = sndHum(126, 1.5, 0.16); setTimeout(function(){ if (h) h.stop(); }, 1500); }
+};
+
+/* 实验二 · 橡皮筋 */
+document.getElementById('btnBand').onclick = function(){
+  sfx('click');
+  resetObs('obsBand');
+  var band = document.getElementById('bandEl');
+  var pluck = document.getElementById('bandPluck');
+  var wave = document.getElementById('bandWave');
+  pluck.classList.add('go');
+  setTimeout(function(){ pluck.classList.remove('go'); }, 340);
+  setTimeout(function(){
+    revealObs('obsBand');
+    if (bandTimer) bandTimer.stop();
+    var hum = sfxOn ? sndHum(168, 2.0, 0.15) : null;
+    bandTimer = vibrate(band, { axis:'y', amp:15, freq:19, dur:2000, decay:1.9, wave:wave });
+    setTimeout(function(){ if (hum) hum.stop(); }, 2000);
+  }, 300);
+};
+document.getElementById('btnBandHum').onclick = function(){
+  sfx('click');
+  if (sfxOn) { var h = sndHum(168, 1.4, 0.14); setTimeout(function(){ if (h) h.stop(); }, 1400); }
+};
+
+/* 实验三 · 音叉 */
+function forkVib(dur){
+  var root = document.getElementById('forkRoot');
+  var wave = document.getElementById('forkWave');
+  if (forkTimer) forkTimer.stop();
+  forkTimer = vibrate(root, { axis:'y', amp:3.2, freq:34, dur:dur || 1700, decay:1.5, wave:wave });
+}
+document.getElementById('btnFork').onclick = function(){
+  sfx('fork');
+  resetObs('obsFork');
+  revealObs('obsFork', 1);
+  forkVib(1900);
+  var wave = document.getElementById('forkWave');
+  setTimeout(function(){ wave.classList.remove('live'); wave.classList.add('gone'); }, 1500);
+};
+document.getElementById('btnDip').onclick = function(){
+  sfx('splash');
+  revealObs('obsFork');
+  forkVib(1200);
+  var scene = document.getElementById('forkScene');
+  var tank = scene.querySelector('.tank');
+  var tr = tank.getBoundingClientRect(), sr = scene.getBoundingClientRect();
+  for (var i = 0; i < 16; i++){
+    (function(i){
+      var d = document.createElement('span');
+      d.className = 'drop';
+      d.style.left = (46 + Math.random() * 8) + '%';
+      d.style.top = ((tr.top - sr.top) - 2) + 'px';
+      d.style.setProperty('--dx', ((Math.random() - .5) * 190).toFixed(0) + 'px');
+      d.style.setProperty('--dy', (-(50 + Math.random() * 78)).toFixed(0) + 'px');
+      d.style.animationDelay = (Math.random() * 0.1) + 's';
+      scene.appendChild(d);
+      requestAnimationFrame(function(){ d.classList.add('fly'); });
+      setTimeout(function(){ d.remove(); }, 1100);
+    })(i);
+  }
+};
+
+/* ============================================================
+   8. 互动：猜想 / 反证 / 声带
+   ============================================================ */
+var myGuess = null;
+document.querySelectorAll('#guessList .guess').forEach(function(g){
+  g.addEventListener('click', function(){
+    document.querySelectorAll('#guessList .guess').forEach(function(x){ x.classList.remove('sel'); x.querySelector('.gmark').textContent = '已记录 · 待验证'; });
+    g.classList.add('sel');
+    g.querySelector('.gmark').textContent = '✓ 我的猜想';
+    myGuess = g.dataset.gk;
+    sfx('click');
+    recordAnswer('guess', myGuess, myGuess === 'C');
+  });
+});
+document.getElementById('btnCmp').onclick = function(){
+  var on = document.getElementById('cmpOn'), off = document.getElementById('cmpOff');
+  var isOn = on.classList.contains('on');
+  if (isOn){
+    on.classList.remove('on'); on.classList.add('off');
+    off.classList.remove('off'); off.classList.add('on');
+    this.textContent = '▶ 松开，让它继续振动';
+    sfx('wrong');
+  } else {
+    on.classList.remove('off'); on.classList.add('on');
+    off.classList.remove('on'); off.classList.add('off');
+    this.textContent = '▶ 现在按住它！';
+    sfx('pop');
+  }
+};
+document.getElementById('btnVoice').onclick = function(){
+  sfx('voice');
+  var viz = document.getElementById('throatViz'), st = document.getElementById('throatStat');
+  viz.classList.add('on');
+  st.classList.add('on');
+  st.textContent = '声带：正在振动（发出「啊——」）';
+  clearTimeout(this.__t);
+  this.__t = setTimeout(function(){
+    viz.classList.remove('on'); st.classList.remove('on');
+    st.textContent = '声带：放松状态';
+  }, 1150);
+};
+
+/* ============================================================
+   9. 练习：作答 + 数据回收
+   ============================================================ */
+async function saveRecords(key, value){
+  try{
+    if (window.coursewareData && window.coursewareData.enabled){
+      var ok = await window.coursewareData.save(key, value);
+      if (ok) return true;
+    }
+  }catch(e){}
+  try{ localStorage.setItem('cw:' + key, JSON.stringify(value)); return true; }catch(e){ return false; }
+}
+async function loadRecords(key, fallback){
+  try{
+    if (window.coursewareData && window.coursewareData.enabled){
+      var v = await window.coursewareData.load(key, undefined);
+      if (v !== undefined && v !== null) return v;
+    }
+  }catch(e){}
+  try{ var raw = localStorage.getItem('cw:' + key); if (raw) return JSON.parse(raw); }catch(e){}
+  return fallback;
+}
+function stuName(){
+  var el = document.getElementById('stuName');
+  var v = el ? el.value.trim() : '';
+  return v || '未填写';
+}
+async function recordAnswer(qid, selected, correct){
+  var list = (await loadRecords('quiz-records', [])) || [];
+  list.push({ studentName: stuName(), questionId: qid, selected: selected, correct: !!correct, page: 'sound', at: Date.now() });
+  var ok = await saveRecords('quiz-records', list);
+  var tip = document.getElementById('stuTip');
+  if (tip){
+    tip.textContent = ok ? ('已记录 · 共 ' + list.length + ' 题作答') : '本地记录失败（不影响作答）';
+  }
+}
+function fb(id, text, ok){
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.classList.toggle('err', !ok);
+  el.classList.add('show');
+}
+
+/* 一、填空（词库选择） */
+var BLANK = {
+  b1: { ans: '振动', opts: ['振动','敲打','摩擦'] },
+  b2: { ans: '也停止', opts: ['也停止','继续响','变得更响'] }
+};
+var blankState = {}, blankPalette = null;
+document.querySelectorAll('.blank').forEach(function(b){
+  b.addEventListener('click', function(){
+    sfx('click');
+    if (b.classList.contains('right')) return;
+    var q = b.dataset.q, cfg = BLANK[q];
+    openPalette(b, cfg);
+  });
+});
+function openPalette(anchor, cfg){
+  closePalette();
+  var r = anchor.getBoundingClientRect();
+  var box = document.createElement('div');
+  box.id = 'blankPalette';
+  box.className = 'palette';
+  box.style.cssText = 'position:fixed;z-index:120;background:#fff;border:1px solid rgba(44,58,50,.16);'
+    + 'border-radius:12px;box-shadow:0 16px 40px rgba(44,58,50,.2);padding:7px;display:flex;gap:6px;'
+    + 'left:' + Math.round(r.left + r.width/2 - 130) + 'px;top:' + Math.round(r.bottom + 8) + 'px;';
+  cfg.opts.forEach(function(t){
+    var btn = document.createElement('button');
+    btn.className = 'popt';
+    btn.textContent = t;
+    btn.style.cssText = 'padding:8px 13px;border-radius:9px;font-size:14.5px;font-weight:700;'
+      + 'background:rgba(44,58,50,.05);color:#2C3A32;transition:.2s;white-space:nowrap';
+    btn.onmouseenter = function(){ btn.style.background = 'rgba(63,127,190,.14)'; };
+    btn.onmouseleave = function(){ btn.style.background = 'rgba(44,58,50,.05)'; };
+    btn.onclick = function(){
+      anchor.textContent = t;
+      var ok = (t === cfg.ans);
+      anchor.classList.toggle('right', ok);
+      anchor.classList.toggle('bad', !ok);
+      blankState[anchor.dataset.q] = ok;
+      ok ? sfx('correct') : sfx('wrong');
+      recordAnswer(anchor.dataset.q, t, ok);
+      closePalette();
+      checkBlanks();
+    };
+    box.appendChild(btn);
+  });
+  document.body.appendChild(box);
+  blankPalette = box;
+}
+function closePalette(){ if (blankPalette){ blankPalette.remove(); blankPalette = null; } }
+document.addEventListener('click', function(e){
+  if (blankPalette && !blankPalette.contains(e.target) && !e.target.classList.contains('blank')) closePalette();
+});
+function checkBlanks(){
+  if (blankState.b1 === undefined || blankState.b2 === undefined) return;
+  if (blankState.b1 && blankState.b2) fb('fbB', '✅ 完全正确！声音由物体「振动」产生，振动停止，声音「也停止」。', true);
+  else fb('fbB', '⚠️ 再看一看：发声的共同点是什么？振动停止后声音会怎样？', false);
+}
+
+/* 二、判断 */
+var tfDone = {};
+document.querySelectorAll('.judge').forEach(function(grp){
+  var q = grp.dataset.q, ans = grp.dataset.ans;
+  grp.querySelectorAll('.jbtn').forEach(function(b){
+    b.addEventListener('click', function(){
+      if (tfDone[q]) return;
+      var v = b.dataset.v, ok = (v === ans);
+      var right = grp.querySelector('.jbtn[data-v="' + ans + '"]');
+      if (ok){ b.classList.add('right'); sfx('correct'); }
+      else { b.classList.add('bad'); right.classList.add('right'); sfx('wrong'); }
+      tfDone[q] = true;
+      recordAnswer(q, v, ok);
+      var n = Object.keys(tfDone).length;
+      if (n === 3) fb('fbT', '✅ 判断题完成。要点：人耳的听觉有范围，振动但频率过低或过高我们都听不到，所以第 1 题是错的；不振动不可能发声，第 2 题也错。', true);
+      else if (!ok) fb('fbT', '❌ 再想一想，正确答案已经用绿色标出来了。', false);
+    });
+  });
+});
+
+/* 三、选择 */
+var c1done = false;
+document.querySelectorAll('.opts .opt').forEach(function(b){
+  b.addEventListener('click', function(){
+    if (c1done) return;
+    var v = b.dataset.v, ok = (v === 'A');
+    if (ok){ b.classList.add('right'); c1done = true; sfx('correct'); fb('fbC', '✅ 答对了！水花是音叉振动带动水面形成的，说明音叉在振动。', true); }
+    else { b.classList.add('bad'); sfx('wrong'); fb('fbC', '❌ 再想想：水花是被什么带起来的？正确答案是 A。', false);
+           document.querySelector('.opts .opt[data-v="A"]').classList.add('right'); }
+    recordAnswer('c1', v, ok);
+  });
+});
+
+/* 全部答案 / 重做 */
+document.getElementById('btnRevealAll').onclick = function(){
+  sfx('click');
+  ['b1','b2'].forEach(function(q){
+    var el = document.querySelector('.blank[data-q="' + q + '"]');
+    if (el && !el.classList.contains('right')){
+      el.textContent = BLANK[q].ans; el.classList.add('right'); blankState[q] = true;
+    }
+  });
+  document.querySelectorAll('.judge').forEach(function(grp){
+    var ans = grp.dataset.ans;
+    grp.querySelector('.jbtn[data-v="' + ans + '"]').classList.add('right');
+    tfDone[grp.dataset.q] = true;
+  });
+  document.querySelector('.opts .opt[data-v="A"]').classList.add('right');
+  c1done = true;
+  fb('fbB', '📋 答案：振动 / 也停止', true);
+  fb('fbT', '📋 答案：1.×  2.×  3.√', true);
+  fb('fbC', '📋 答案：A. 音叉在振动', true);
+};
+document.getElementById('btnReset').onclick = function(){
+  sfx('click');
+  ['b1','b2'].forEach(function(q){
+    var el = document.querySelector('.blank[data-q="' + q + '"]');
+    el.textContent = '？'; el.classList.remove('right','bad'); blankState[q] = undefined;
+  });
+  document.querySelectorAll('.judge .jbtn').forEach(function(b){ b.classList.remove('right','bad'); });
+  tfDone = {};
+  document.querySelectorAll('.opts .opt').forEach(function(b){ b.classList.remove('right','bad'); });
+  c1done = false;
+  ['fbB','fbT','fbC'].forEach(function(id){ document.getElementById(id).classList.remove('show','err'); });
+};
+
+/* ============================================================
+   10. 启动
+   ============================================================ */
+var started = false;
+function start(){
+  if (started) return;
+  started = true;
+  booted = true;                     /* 供 go() 判断「可以自动播旁白了」，必须与 window.__booted 分开设置 */
+  var gate = document.getElementById('gate');
+  if (gate) gate.classList.add('hide');
+  try { ac(); } catch(e){}
+  try { sfx('pop'); } catch(e){}
+  setTimeout(function(){ try { playClip(slides[cur].dataset.narr); } catch(e){} }, 520);
+}
+window.__booted = true;
+document.getElementById('gateBtn').onclick = start;
+
+buildDots();
+buildJump();
+syncUI();
+</script>
+
+<!-- ============================================================
+     数据块（构建时注入）—— 必须留在文件最末尾。
+     与上方逻辑分属两个 script 块：网络传输若在此处被截断，
+     只损失音频，页面交互完全不受影响。
+     ============================================================ -->
+<script>
+AUDIO = null || {};
+TEXT  = {"n01": "同学们好，欢迎来到科学课堂。今天我们要研究一个每天都能听到、却很少认真想过的问题——声音，究竟是怎样产生的？", "n02": "这节课我们有三个目标。第一，通过实验观察尺子、橡皮筋和音叉的振动现象，能说清楚自己看到了什么；第二，知道声音是由物体振动产生的，振动停止，声音也就停止；第三，乐于观察、善于归纳，把课堂上学到的知识用到生活当中去。", "n03": "先来听一听。拍手的声音、敲鼓的声音、摇铃铛的声音，还有钢琴的声音。它们听起来很不一样，可是你有没有想过，这些声音，都是怎样产生的呢？点一点下面的图标，我们一边听，一边猜。", "n04": "先大胆猜一猜。有的同学说，声音是被敲打出来的；有的同学说，是摩擦出来的；还有的同学说，是振动产生的。到底哪一个对呢？光靠猜可不行，我们要用实验来验证。", "n05": "第一个实验。把尺子的一端紧紧压在桌面上，另一端伸出桌沿，用手用力向下拨动，然后松开。请仔细观察：尺子在上下快速地抖动，同时发出了嗡嗡的声音。再多看一会儿，尺子的抖动越来越小，声音也越来越轻，最后抖动停下了，声音也完全消失了。", "n06": "第二个实验。把橡皮筋绷紧，用手指拨动它。橡皮筋在飞快地来回抖动，同样发出了嗡嗡的声音。这时用手轻轻按住橡皮筋，抖动停止了，声音也立刻消失了。", "n07": "第三个实验。敲击音叉，让它发出声音，然后迅速把音叉尖端轻触水面。看，水花溅起来了！这个现象告诉我们：正在发声的音叉，它的叉臂确实在振动，振动带动了水面。", "n08": "把三个实验放在一起看：尺子振动，发出声音；橡皮筋振动，发出声音；音叉振动，溅起水花。它们的共同点是——都在振动。所以我们可以得出结论：声音是由物体振动产生的。", "n09": "再反过来想一想。物体在振动的时候，我们在听声音；一旦用手按住它，振动停止了，声音也立刻消失。这就从反面再一次证明：振动停止，声音停止。", "n10": "其实生活中这样的例子还有很多。我们说话，是声带在振动；弹吉他，是琴弦在振动；敲鼓，是鼓面在振动；摇铃铛，是铃身在振动；小鸟鸣叫，是鸣膜在振动；就连流水的声音，也是水面在振动。有声音的地方，就一定有振动。", "n11": "现在请你把手指轻轻放在喉咙上，发出啊的声音。感觉到了吗？喉咙那里在麻麻地振动。这就是我们的声带在振动。人说话的声音，就是由声带振动产生的。", "n12": "我们来做几道课堂小练习，检验一下今天的学习成果。请先自己想一想、写一写，再点开答案对照。", "n13": "这节课我们做了三个实验：拨尺子、拨橡皮筋、敲音叉。它们都指向同一个结论——声音是由物体振动产生的，振动停止，声音也就停止了。", "n14": "这是本节课的板书，请你对照着整理笔记，把实验、现象和结论连成一条完整的线。声音是由物体振动产生的，振动停止，声音也就停止。", "n15": "课后有三项作业。必做题：记住本课的结论。选做题：找一找家里三样能发声的物品，观察它们发声的时候，哪里在振动。亲子任务：用橡皮筋和纸盒做一把小吉他，拨一拨琴弦，看看它是怎样发声的。今天的课就上到这里，下课！"} || {};
+REMOTE_AUDIO = true;
+window.__audioReady = true;
+</script>
+</body>
+</html>
